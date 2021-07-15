@@ -15,7 +15,9 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/orm": "^2.8",
         "symfony/validator": "^5",
-        "symfony/http-kernel": "^5"
+        "symfony/http-kernel": "^5",
+        "donatj/phpuseragentparser": "^1.4",
+        "svc/util-bundle": "^1|dev-main"
     },
     "autoload": {
         "psr-4": {

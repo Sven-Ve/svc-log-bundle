@@ -1,0 +1,211 @@
+<?php
+
+namespace Svc\LogBundle\Entity;
+
+use Svc\LogBundle\Repository\SvcLogRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=SvcLogRepository::class)
+ */
+class SvcLog
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sourceType;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $sourceID;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $logDate;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $ip;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $userAgent;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $platform;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $browser;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $browserVersion;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $referer;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSourceType(): ?int
+    {
+        return $this->sourceType;
+    }
+
+    public function setSourceType(int $sourceType): self
+    {
+        $this->sourceType = $sourceType;
+
+        return $this;
+    }
+
+    public function getSourceID(): ?int
+    {
+        return $this->sourceID;
+    }
+
+    public function setSourceID(int $sourceID): self
+    {
+        $this->sourceID = $sourceID;
+
+        return $this;
+    }
+
+    public function getLogDate(): ?\DateTimeInterface
+    {
+        return $this->logDate;
+    }
+
+    public function setLogDate(\DateTimeInterface $logDate): self
+    {
+        $this->logDate = $logDate;
+
+        return $this;
+    }
+
+    public function getIp(): ?string
+    {
+        return $this->ip;
+    }
+
+    public function setIp(?string $ip): self
+    {
+        $this->ip = $ip;
+
+        return $this;
+    }
+
+    public function getUserAgent(): ?string
+    {
+        return $this->userAgent;
+    }
+
+    public function setUserAgent(?string $userAgent): self
+    {
+        $this->userAgent = $userAgent;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(?string $platform): self
+    {
+        $this->platform = $platform;
+
+        return $this;
+    }
+
+    public function getBrowser(): ?string
+    {
+        return $this->browser;
+    }
+
+    public function setBrowser(?string $browser): self
+    {
+        $this->browser = $browser;
+
+        return $this;
+    }
+
+    public function getBrowserVersion(): ?string
+    {
+        return $this->browserVersion;
+    }
+
+    public function setBrowserVersion(?string $browserVersion): self
+    {
+        $this->browserVersion = $browserVersion;
+
+        return $this;
+    }
+
+    public function getReferer(): ?string
+    {
+        return $this->referer;
+    }
+
+    public function setReferer(?string $referer): self
+    {
+        $this->referer = $referer;
+
+        return $this;
+    }
+}

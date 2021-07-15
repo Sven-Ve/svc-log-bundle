@@ -5,16 +5,7 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-      <service id="svc_param.controller" class="Svc\ParamBundle\Controller\ParamsController" public="true" autowire="true" >
-        <call method="setContainer">
-            <argument type="service" id="Psr\Container\ContainerInterface"/>
-        </call>
-        <tag name="container.service_subscriber"/>
-        <tag name="controller.service_arguments"/>
-      </service>
-
-      <service id="Svc\ParamBundle\Repository\ParamsRepository" class="Svc\ParamBundle\Repository\ParamsRepository" public="true" autowire="true" autoconfigure="true" >
-        <tag name="doctrine.repository_service"/>
+      <service id="Svc\LogBundle\Service\EventLog" class="Svc\LogBundle\Service\EventLog" public="true" autowire="true" autoconfigure="true" >
       </service>
 
     </services>

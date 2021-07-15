@@ -4,7 +4,7 @@ namespace Svc\LogBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SvcParamBundle extends Bundle {
+class SvcLogBundle extends Bundle {
 
   public function getPath(): string
   {
