@@ -77,7 +77,7 @@ class EventLog
   private function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([
-      'level'    => self::LEVEL_INFO,
+      'level'    => self::LEVEL_DATA,
       'message'  => null,
     ]);
 

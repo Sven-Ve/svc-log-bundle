@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.1.0";
-$message = "first test version";
+$version = "0.1.1";
+$message = "first statistics delopment";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
