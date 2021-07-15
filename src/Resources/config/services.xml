@@ -6,6 +6,15 @@
     <services>
 
       <service id="Svc\LogBundle\Service\EventLog" class="Svc\LogBundle\Service\EventLog" public="true" autowire="true" autoconfigure="true" >
+        <tag name="controller.service_arguments"/>
+      </service>
+
+      <service id="Svc\LogBundle\Command\BatchFillLocationCommand" class="Svc\LogBundle\Command\BatchFillLocationCommand" public="true" autowire="true" autoconfigure="false" >
+        <tag name="console.command" />
+      </service>
+
+      <service id="Svc\LogBundle\Repository\SvcLogRepository" class="Svc\LogBundle\Repository\SvcLogRepository" public="false" autowire="true" autoconfigure="true" >
+        <tag name="doctrine.repository_service"/>
       </service>
 
     </services>

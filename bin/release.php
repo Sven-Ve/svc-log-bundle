@@ -2,7 +2,7 @@
 <?php
 
 $version = "0.1.0";
-$message = "first test";
+$message = "first test version";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

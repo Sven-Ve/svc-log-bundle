@@ -1,6 +1,6 @@
 {
     "name": "svc/log-bundle",
-    "description": "Package to log events in a database table",
+    "description": "Package to log events and statistics in a database table",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -16,6 +16,7 @@
         "doctrine/orm": "^2.8",
         "symfony/validator": "^5",
         "symfony/http-kernel": "^5",
+        "symfony/options-resolver": "^5",
         "donatj/phpuseragentparser": "^1.4",
         "svc/util-bundle": "^1|dev-main"
     },

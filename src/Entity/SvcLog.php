@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Entity;
 
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Svc\LogBundle\Service\EventLog;
 
 /**
  * @ORM\Entity(repositoryClass=SvcLogRepository::class)
@@ -31,6 +32,16 @@ class SvcLog
      * @ORM\Column(type="datetime")
      */
     private $logDate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $logLevel = EventLog::LEVEL_DATA;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $message;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -101,6 +112,18 @@ class SvcLog
         return $this;
     }
 
+    public function getLogLevel(): ?int
+    {
+        return $this->logLevel;
+    }
+
+    public function setLogLevel(int $logLevel): self
+    {
+        $this->logLevel = $logLevel;
+
+        return $this;
+    }
+
     public function getLogDate(): ?\DateTimeInterface
     {
         return $this->logDate;
@@ -109,6 +132,18 @@ class SvcLog
     public function setLogDate(\DateTimeInterface $logDate): self
     {
         $this->logDate = $logDate;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }
