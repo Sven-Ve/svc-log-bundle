@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+      <service id="svc_param.controller" class="Svc\ParamBundle\Controller\ParamsController" public="true" autowire="true" >
+        <call method="setContainer">
+            <argument type="service" id="Psr\Container\ContainerInterface"/>
+        </call>
+        <tag name="container.service_subscriber"/>
+        <tag name="controller.service_arguments"/>
+      </service>
+
+      <service id="Svc\ParamBundle\Repository\ParamsRepository" class="Svc\ParamBundle\Repository\ParamsRepository" public="true" autowire="true" autoconfigure="true" >
+        <tag name="doctrine.repository_service"/>
+      </service>
+
+    </services>
+</container>
