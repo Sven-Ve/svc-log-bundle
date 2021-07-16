@@ -17,9 +17,19 @@ class LogStatistics
   private $svcLogRep;
   private $requestStack;
   private $router;
+  private $enableSourceType;
+  private $offsetParamName;
 
-  public function __construct(SvcLogRepository $svcLogRep, RequestStack $requestStack, UrlGeneratorInterface $router)
+  public function __construct(
+    bool $enableSourceType,
+    string $offsetParamName,
+    SvcLogRepository $svcLogRep, 
+    RequestStack $requestStack, 
+    UrlGeneratorInterface $router
+  )
   {
+    $this->enableSourceType = $enableSourceType;
+    $this->offsetParamName = $offsetParamName;
     $this->svcLogRep = $svcLogRep;
     $this->requestStack = $requestStack;
     $this->router = $router;
@@ -28,7 +38,7 @@ class LogStatistics
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
     $request = $this->requestStack->getCurrentRequest();
-    $offset = $request->query->get('offset') ?? 0;
+    $offset = $request->query->get($this->offsetParamName) ?? 0;
 
     $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
     if ($offset >= count($logEntries)) {
@@ -42,15 +52,15 @@ class LogStatistics
     $firstUrl = $this->router->generate($routeName, $defRouteParam);
 
     $prevRoutParam = $defRouteParam;
-    $prevRoutParam['offset'] = max($offset - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
+    $prevRoutParam[$this->offsetParamName] = max($offset - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
     $prevUrl = $this->router->generate($routeName, $prevRoutParam);
 
     $nextRoutParam = $defRouteParam;
-    $nextRoutParam['offset'] = min(count($logEntries), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
+    $nextRoutParam[$this->offsetParamName] = min(count($logEntries), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
     $nextUrl = $this->router->generate($routeName, $nextRoutParam);
 
     $lastRoutParam = $defRouteParam;
-    $lastRoutParam['offset'] = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $lastRoutParam[$this->offsetParamName] = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $lastUrl = $this->router->generate($routeName, $lastRoutParam);
 
     $data = [];

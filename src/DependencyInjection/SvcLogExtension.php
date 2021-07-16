@@ -18,8 +18,9 @@ class SvcLogExtension extends Extension
     $configuration = $this->getConfiguration($configs, $container);
     $config = $this->processConfiguration($configuration, $configs);
 
-//    $definition = $container->getDefinition('svc_param.controller');
-//    $definition->setArgument(0, $config['debug']);
+    $definition = $container->getDefinition('Svc\LogBundle\Service\LogStatistics');
+    $definition->setArgument(0, $config['enable_source_type']);
+    $definition->setArgument(1, $config['offset_param_name']);
   }
 
 }

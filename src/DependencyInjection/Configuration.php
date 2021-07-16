@@ -14,7 +14,8 @@ class Configuration implements ConfigurationInterface
  
     $rootNode
       ->children()
-        ->booleanNode('enableSourceType')->defaultTrue()->info('Do you like different source types?')->end()
+        ->booleanNode('enable_source_type')->defaultTrue()->info('Do you like different source types?')->end()
+        ->scalarNode('offset_param_name')->cannotBeEmpty()->defaultValue('offset')->info('We use offset as url parameter. If this in use, you can choose another name')->end()      
       ->end();
     return $treeBuilder;
 
