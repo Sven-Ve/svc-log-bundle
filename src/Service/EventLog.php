@@ -7,6 +7,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use donatj\UserAgent\UserAgentParser;
 use Exception;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Exception\IpSavingNotEnabledException;
+use Svc\LogBundle\Exception\LogExceptionInterface;
+use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -32,15 +35,18 @@ class EventLog
   private $entityManager;
   private $enableSourceType;
   private $enableIPSaving;
+  private $logRepo;
 
   public function __construct(
     bool $enableSourceType,
     bool $enableIPSaving,
-    EntityManagerInterface $entityManager
+    EntityManagerInterface $entityManager,
+    SvcLogRepository $logRepo
   ) {
     $this->enableSourceType = $enableSourceType;
     $this->enableIPSaving = $enableIPSaving;
     $this->entityManager = $entityManager;
+    $this->logRepo = $logRepo;
   }
 
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
@@ -82,6 +88,12 @@ class EventLog
     return true;
   }
 
+  /**
+   * configure options for log entries
+   *
+   * @param OptionsResolver $resolver
+   * @return void
+   */
   private function configureOptions(OptionsResolver $resolver)
   {
     $resolver->setDefaults([
@@ -91,5 +103,37 @@ class EventLog
 
     $resolver->setAllowedTypes('level', ['int', 'null']);
     $resolver->setAllowedTypes('message', ['string', 'null']);
+  }
+
+  /**
+   * fill the location info, called in batch because timing
+   *
+   * @return integer count of successful locations set
+   * @throws LogExceptionInterface
+   */
+  public function batchFillLocation(): int
+  {
+    if (!$this->enableIPSaving) {
+      throw new IpSavingNotEnabledException();
+    }
+
+    $successCnt = 0;
+    foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
+      if (!$entry->getIp()) {
+        $entry->setCountry("-");
+        continue;
+      }
+
+      $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
+      if ($location['country']) {
+        $entry->setCountry($location['country']);
+        $entry->setCity($location['city']);
+        $successCnt++;
+      } else {
+        $entry->setCountry("-");
+      }
+    }
+    $this->entityManager->flush();
+    return $successCnt;
   }
 }

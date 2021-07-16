@@ -2,9 +2,10 @@
 
 namespace Svc\LogBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Svc\LogBundle\Repository\SvcLogRepository;
-use Svc\UtilBundle\Service\NetworkHelper;
+use Exception;
+use Svc\LogBundle\Exception\ExceptionInterface;
+use Svc\LogBundle\Exception\LogExceptionInterface;
+use Svc\LogBundle\Service\EventLog;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,14 +16,12 @@ class BatchFillLocationCommand extends Command
   protected static $defaultName = 'svc_log:fill-location';
   protected static $defaultDescription = 'Fill country and city (in batch because timing)';
 
-  private $logRepo;
-  private $entityManager;
+  private $eventLog;
 
-  public function __construct(SvcLogRepository $logRepo, EntityManagerInterface $entityManager)
+  public function __construct(EventLog $eventLog)
   {
     parent::__construct();
-    $this->logRepo = $logRepo;
-    $this->entityManager = $entityManager;
+    $this->eventLog = $eventLog;
   }
 
   protected function configure()
@@ -33,25 +32,16 @@ class BatchFillLocationCommand extends Command
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
-    $successCnt = 0;
 
-    foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
-      if (!$entry->getIp()) {
-        $entry->setCountry("-");
-        continue;
-      }
-
-      $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
-      if ($location['country']) {
-        $entry->setCountry($location['country']);
-        $entry->setCity($location['city']);
-        $successCnt++;
-      } else {
-        $entry->setCountry("-");
-      }
-
+    try {
+      $successCnt = $this->eventLog->batchFillLocation();
+    } catch (LogExceptionInterface $e) {
+      $io->error($e->getReason());
+      return Command::FAILURE;
+    } catch (Exception $e) {
+      $io->error($e->getMessage());
+      return Command::FAILURE;
     }
-    $this->entityManager->flush();
 
     $io->success("$successCnt locations set");
     return Command::SUCCESS;
