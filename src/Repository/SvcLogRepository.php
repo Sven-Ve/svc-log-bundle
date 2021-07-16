@@ -22,7 +22,7 @@ class SvcLogRepository extends ServiceEntityRepository
 
   public const PAGINATOR_PER_PAGE = 2;
 
-  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0): Paginator
+  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): Paginator
   {
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')

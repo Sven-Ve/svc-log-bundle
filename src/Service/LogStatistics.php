@@ -25,21 +25,47 @@ class LogStatistics
     $this->router = $router;
   }
 
-  public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array {
+  public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
+  {
     $request = $this->requestStack->getCurrentRequest();
     $offset = $request->query->get('offset') ?? 0;
 
-    $routeName = $request->attributes->get('_route');
-    $routeParameters = $request->attributes->get('_route_params');
-    $routeParameters['offset'] = $offset+1;
+    $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
+    if ($offset >= count($logEntries)) {
+      $offset = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+      $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
+    }
 
-    $url = $this->router->generate($routeName, $routeParameters);
+    $routeName = $request->attributes->get('_route');
+    $defRouteParam = $request->attributes->get('_route_params');
+
+    $firstUrl = $this->router->generate($routeName, $defRouteParam);
+
+    $prevRoutParam = $defRouteParam;
+    $prevRoutParam['offset'] = max($offset - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
+    $prevUrl = $this->router->generate($routeName, $prevRoutParam);
+
+    $nextRoutParam = $defRouteParam;
+    $nextRoutParam['offset'] = min(count($logEntries), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
+    $nextUrl = $this->router->generate($routeName, $nextRoutParam);
+
+    $lastRoutParam = $defRouteParam;
+    $lastRoutParam['offset'] = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $lastUrl = $this->router->generate($routeName, $lastRoutParam);
 
     $data = [];
 
-    $logEntries = $this->svcLogRep->getLogPaginator($offset,$sourceID, $sourceType);
     $data['records'] = $logEntries;
-    $data['next'] = $url;
+    $data['nextUrl'] = $nextUrl;
+    $data['prevUrl'] = $prevUrl;
+    $data['firstUrl'] = $firstUrl;
+    $data['lastUrl'] = $lastUrl;
+    $data['offset'] = $offset;
+    $data['count'] = count($logEntries);
+    $data['hidePrev'] = $offset <= 0;
+    $data['hideNext'] = $offset >= count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $data['from'] = $offset + 1;
+    $data['to'] = $offset + SvcLogRepository::PAGINATOR_PER_PAGE;
     return $data;
   }
 }
