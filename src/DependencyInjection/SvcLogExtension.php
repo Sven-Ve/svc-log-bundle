@@ -20,7 +20,12 @@ class SvcLogExtension extends Extension
 
     $definition = $container->getDefinition('Svc\LogBundle\Service\LogStatistics');
     $definition->setArgument(0, $config['enable_source_type']);
-    $definition->setArgument(1, $config['offset_param_name']);
+    $definition->setArgument(1, $config['enable_ip_saving']);
+    $definition->setArgument(2, $config['offset_param_name']);
+
+    $definition = $container->getDefinition('Svc\LogBundle\Service\EventLog');
+    $definition->setArgument(0, $config['enable_source_type']);
+    $definition->setArgument(1, $config['enable_ip_saving']);
   }
 
 }

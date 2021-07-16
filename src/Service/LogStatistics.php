@@ -18,10 +18,12 @@ class LogStatistics
   private $requestStack;
   private $router;
   private $enableSourceType;
+  private $enableIPSaving;
   private $offsetParamName;
 
   public function __construct(
     bool $enableSourceType,
+    bool $enableIPSaving,
     string $offsetParamName,
     SvcLogRepository $svcLogRep, 
     RequestStack $requestStack, 
@@ -29,6 +31,7 @@ class LogStatistics
   )
   {
     $this->enableSourceType = $enableSourceType;
+    $this->enableIPSaving = $enableIPSaving;
     $this->offsetParamName = $offsetParamName;
     $this->svcLogRep = $svcLogRep;
     $this->requestStack = $requestStack;

@@ -14,6 +14,7 @@ class Configuration implements ConfigurationInterface
  
     $rootNode
       ->children()
+        ->booleanNode('enable_ip_saving')->defaultFalse()->info('Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)')->end()
         ->booleanNode('enable_source_type')->defaultTrue()->info('Do you like different source types?')->end()
         ->scalarNode('offset_param_name')->cannotBeEmpty()->defaultValue('offset')->info('We use offset as url parameter. If this in use, you can choose another name')->end()      
       ->end();

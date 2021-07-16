@@ -37,6 +37,7 @@ class BatchFillLocationCommand extends Command
 
     foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
       if (!$entry->getIp()) {
+        $entry->setCountry("-");
         continue;
       }
 
@@ -49,8 +50,8 @@ class BatchFillLocationCommand extends Command
         $entry->setCountry("-");
       }
 
-      $this->entityManager->flush();
     }
+    $this->entityManager->flush();
 
     $io->success("$successCnt locations set");
     return Command::SUCCESS;

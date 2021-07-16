@@ -30,9 +30,16 @@ class EventLog
   public const LEVEL_FATAL = 6;
 
   private $entityManager;
+  private $enableSourceType;
+  private $enableIPSaving;
 
-  public function __construct(EntityManagerInterface $entityManager)
-  {
+  public function __construct(
+    bool $enableSourceType,
+    bool $enableIPSaving,
+    EntityManagerInterface $entityManager
+  ) {
+    $this->enableSourceType = $enableSourceType;
+    $this->enableIPSaving = $enableIPSaving;
     $this->entityManager = $entityManager;
   }
 
@@ -54,8 +61,9 @@ class EventLog
       $log->setLogLevel($options['level']);
     }
 
-
-    $log->setIp(NetworkHelper::getIP());
+    if ($this->enableIPSaving) {
+      $log->setIp(NetworkHelper::getIP());
+    }
 
     try {
       $parser = new UserAgentParser();
