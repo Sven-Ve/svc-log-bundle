@@ -21,7 +21,7 @@ class SvcLog
     /**
      * @ORM\Column(type="integer")
      */
-    private $sourceType;
+    private $sourceType = 0;
 
     /**
      * @ORM\Column(type="integer")

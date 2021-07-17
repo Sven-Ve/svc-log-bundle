@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.2.0";
-$message = "first version integrated in sv-video prod";
+$version = "0.2.1";
+$message = "added creation of monthly statistics";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

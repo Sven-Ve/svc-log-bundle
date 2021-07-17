@@ -15,3 +15,8 @@
 ## Version 0.2.0
 *Sat, 17 Jul 2021 16:51:02 +0000*
 - first version integrated in sv-video prod
+
+
+## Version 0.2.1
+*Sat, 17 Jul 2021 20:45:07 +0000*
+- added creation of monthly statistics

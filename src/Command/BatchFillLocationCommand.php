@@ -3,7 +3,6 @@
 namespace Svc\LogBundle\Command;
 
 use Exception;
-use Svc\LogBundle\Exception\ExceptionInterface;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Service\EventLog;
 use Symfony\Component\Console\Command\Command;
