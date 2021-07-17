@@ -6,6 +6,7 @@ use Svc\LogBundle\Entity\SvcLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Svc\LogBundle\Service\EventLog;
 
 /**
  * @method SvcLog|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,9 +29,20 @@ class SvcLogRepository extends ServiceEntityRepository
       ->orderBy('s.id', 'DESC')
       ->setMaxResults(self::PAGINATOR_PER_PAGE)
       ->setFirstResult($offset)
-              ->where('s.sourceID = :sourceID')
-              ->setParameter('sourceID', $sourceID)
-      ->getQuery();
+      ->where('s.sourceID = :sourceID')
+      ->andWhere('s.sourceType = :sourceType')
+      ->setParameter('sourceID', $sourceID)
+      ->setParameter('sourceType', $sourceType)
+    ;
+
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->andWhere('s.logLevel = :logLevel')
+        ->setParameter('logLevel', $logLevel)
+      ;
+    }
+    
+    $query->getQuery();
     return new Paginator($query);
   }
 }

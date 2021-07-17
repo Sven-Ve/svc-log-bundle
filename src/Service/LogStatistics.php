@@ -78,7 +78,7 @@ class LogStatistics
     $data['hidePrev'] = $offset <= 0;
     $data['hideNext'] = $offset >= count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $data['from'] = $offset + 1;
-    $data['to'] = $offset + SvcLogRepository::PAGINATOR_PER_PAGE;
+    $data['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, count($logEntries));
     return $data;
   }
 }
