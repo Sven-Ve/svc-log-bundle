@@ -8,4 +8,5 @@ Package to log events and statistics in a database table
 
 * [installation](docs/installation.md)
 * [Usage](docs/usage.md)
+* [Reports](docs/report.md)
 * [Changelog](CHANGELOG.md)

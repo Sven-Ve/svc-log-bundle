@@ -49,6 +49,16 @@ class EventLog
     $this->logRepo = $logRepo;
   }
 
+  /**
+   * write a log record
+   *
+   * @param integer $sourceID the ID of the source object
+   * @param integer|null $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param array|null $options
+   *  - int level
+   *  - string message
+   * @return boolean true if successfull
+   */
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
   {
     $resolver = new OptionsResolver();
@@ -82,8 +92,12 @@ class EventLog
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
-    $this->entityManager->persist($log);
-    $this->entityManager->flush();
+    try {
+      $this->entityManager->persist($log);
+      $this->entityManager->flush();  
+    } catch (Exception $e) {
+      return false;
+    }
 
     return true;
   }
