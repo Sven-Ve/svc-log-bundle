@@ -110,9 +110,9 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       ->where('s.sourceType = :sourceType')
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel!==null and $logLevel !== EventLog::LEVEL_ALL) {
       $query
-        ->where('s.logLevel = :logLevel')
+        ->andwhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);
     }
 
