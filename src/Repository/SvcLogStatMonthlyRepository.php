@@ -87,34 +87,28 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
     }
   }
 
+
   /**
    * fetch and pivot the statistic data
    *
-   * @param array $months
-   * @param User $user
-   * @return array|null
+   * @param array $months array with month like ['2021-06', ...]
+   * @param [type] $sourceType
+   * @return array
    */
-  public function pivotData(array $months, $user): ?array
+  public function pivotData(array $months, $sourceType): array
   {
-    $conn = $this->getEntityManager()->getConnection();
-
-    $sql = "SELECT s.redirect_id, r.short_name, r.description, r.active, ";
-    $sql .= " SUM(CASE WHEN s.month='$months[0]' THEN s.calls ELSE 0 END) AS month0,";
-    $sql .= " SUM(CASE WHEN s.month='$months[1]' THEN s.calls ELSE 0 END) AS month1,";
-    $sql .= " SUM(CASE WHEN s.month='$months[2]' THEN s.calls ELSE 0 END) AS month2,";
-    $sql .= " SUM(CASE WHEN s.month='$months[3]' THEN s.calls ELSE 0 END) AS month3,";
-    $sql .= " SUM(CASE WHEN s.month='$months[4]' THEN s.calls ELSE 0 END) AS month4";
-    $sql .= " FROM `stat_monthly` s LEFT JOIN redirects r on s.redirect_id = r.id";
-    $sql .= " where r.user_id=:user_id";
-    $sql .= " group by s.redirect_id";
-
-    try {
-      $stmt = $conn->prepare($sql);
-      $stmt->bindValue('user_id', $user->getId());
-      $result = $stmt->executeQuery();
-      return $result->fetchAllAssociative();
-    } catch (Exception $e) {
-      return null;
-    }
+    return $this->createQueryBuilder('s')
+      ->select("s.sourceID,
+        SUM(CASE WHEN s.month='$months[0]' THEN s.logCount ELSE 0 END) AS month0,
+        SUM(CASE WHEN s.month='$months[1]' THEN s.logCount ELSE 0 END) AS month1,
+        SUM(CASE WHEN s.month='$months[2]' THEN s.logCount ELSE 0 END) AS month2,
+        SUM(CASE WHEN s.month='$months[3]' THEN s.logCount ELSE 0 END) AS month3,
+        SUM(CASE WHEN s.month='$months[4]' THEN s.logCount ELSE 0 END) AS month4
+        ")
+      ->where('s.sourceType = :sourceType')
+      ->setParameter('sourceType', $sourceType)
+      ->groupBy('s.sourceID')
+      ->getQuery()
+      ->getResult();
   }
 }

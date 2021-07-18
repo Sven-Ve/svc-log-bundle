@@ -29,3 +29,21 @@ include in the your twig template the table:
    {{ include('@SvcLog/stats/_stats.html.twig') }}
 ...
 ```
+
+## Direct access on log data
+
+you can direct query the logdata for a specific ID within a sourceType and (optional) a specific logLevel
+
+```php
+use Svc\LogBundle\Service\LogStatistics;
+
+  /**
+   * give an array with log entries for one sourceID
+   *
+   * @param integer $sourceID
+   * @param integer|null $sourceType
+   * @param integer|null $logLevel
+   * @return array
+   */
+  public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array 
+```

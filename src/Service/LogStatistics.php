@@ -2,7 +2,10 @@
 
 namespace Svc\LogBundle\Service;
 
+use DateInterval;
+use DateTime;
 use Svc\LogBundle\Repository\SvcLogRepository;
+use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,24 +23,34 @@ class LogStatistics
   private $enableSourceType;
   private $enableIPSaving;
   private $offsetParamName;
+  private $statMonRep;
 
   public function __construct(
     bool $enableSourceType,
     bool $enableIPSaving,
     string $offsetParamName,
-    SvcLogRepository $svcLogRep, 
-    RequestStack $requestStack, 
+    SvcLogRepository $svcLogRep,
+    SvcLogStatMonthlyRepository $statMonRep,
+    RequestStack $requestStack,
     UrlGeneratorInterface $router
-  )
-  {
+  ) {
     $this->enableSourceType = $enableSourceType;
     $this->enableIPSaving = $enableIPSaving;
     $this->offsetParamName = $offsetParamName;
     $this->svcLogRep = $svcLogRep;
+    $this->statMonRep = $statMonRep;
     $this->requestStack = $requestStack;
     $this->router = $router;
   }
 
+  /**
+   * give an array with log entries for one sourceID
+   *
+   * @param integer $sourceID
+   * @param integer|null $sourceType
+   * @param integer|null $logLevel
+   * @return array
+   */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
     $request = $this->requestStack->getCurrentRequest();
@@ -79,6 +92,28 @@ class LogStatistics
     $data['hideNext'] = $offset >= count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $data['from'] = $offset + 1;
     $data['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, count($logEntries));
+    return $data;
+  }
+
+  /**
+   * pivot the data for a specific sourceType for the last 5 month
+   *
+   * @param integer $sourceType
+   * @return array
+   */
+  public function pivotMonthly(int $sourceType): array
+  {
+    $today = new DateTime();
+    $firstDay = new DateTime($today->format('Y-m-01'));
+
+    $oneMonth = new DateInterval("P1M");
+    for ($i = 1; $i <= 5; $i++) {
+      $monthList[] = $firstDay->format('Y-m');
+      $firstDay = $firstDay->sub($oneMonth);
+    }
+
+    $data['header'] = $monthList;
+    $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType);
     return $data;
   }
 }
