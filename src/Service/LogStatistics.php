@@ -95,13 +95,15 @@ class LogStatistics
     return $data;
   }
 
+
   /**
    * pivot the data for a specific sourceType for the last 5 month
    *
    * @param integer $sourceType
+   * @param integer|null $logLevel
    * @return array
    */
-  public function pivotMonthly(int $sourceType): array
+  public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
     $today = new DateTime();
     $firstDay = new DateTime($today->format('Y-m-01'));
@@ -113,7 +115,7 @@ class LogStatistics
     }
 
     $data['header'] = $monthList;
-    $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType);
+    $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
     return $data;
   }
 }

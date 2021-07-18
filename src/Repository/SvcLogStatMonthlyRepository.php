@@ -7,6 +7,7 @@ use Svc\LogBundle\Entity\SvcLogStatMonthly;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Svc\LogBundle\Service\EventLog;
 
 /**
  * @method SvcLogStatMonthly|null find($id, $lockMode = null, $lockVersion = null)
@@ -93,11 +94,12 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
    *
    * @param array $months array with month like ['2021-06', ...]
    * @param [type] $sourceType
+   * @param integer|null $logLevel
    * @return array
    */
-  public function pivotData(array $months, $sourceType): array
+  public function pivotData(array $months, $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
-    return $this->createQueryBuilder('s')
+    $query = $this->createQueryBuilder('s')
       ->select("s.sourceID,
         SUM(CASE WHEN s.month='$months[0]' THEN s.logCount ELSE 0 END) AS month0,
         SUM(CASE WHEN s.month='$months[1]' THEN s.logCount ELSE 0 END) AS month1,
@@ -106,7 +108,15 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
         SUM(CASE WHEN s.month='$months[4]' THEN s.logCount ELSE 0 END) AS month4
         ")
       ->where('s.sourceType = :sourceType')
-      ->setParameter('sourceType', $sourceType)
+      ->setParameter('sourceType', $sourceType);
+
+    if ($logLevel and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->where('s.logLevel = :logLevel')
+        ->setParameter('logLevel', $logLevel);
+    }
+
+    return $query
       ->groupBy('s.sourceID')
       ->getQuery()
       ->getResult();

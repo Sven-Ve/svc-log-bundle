@@ -25,3 +25,8 @@
 ## Version 0.2.2
 *Sun, 18 Jul 2021 20:06:25 +0000*
 - added pivot data
+
+
+## Version 0.2.3
+*Sun, 18 Jul 2021 20:38:37 +0000*
+- added logLevel to pivotMonthly
