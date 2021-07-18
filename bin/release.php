@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.2.1";
-$message = "added creation of monthly statistics";
+$version = "0.2.2";
+$message = "added pivot data";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

@@ -20,3 +20,8 @@
 ## Version 0.2.1
 *Sat, 17 Jul 2021 20:45:07 +0000*
 - added creation of monthly statistics
+
+
+## Version 0.2.2
+*Sun, 18 Jul 2021 20:06:25 +0000*
+- added pivot data
