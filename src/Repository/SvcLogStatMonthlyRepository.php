@@ -93,11 +93,11 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
    * fetch and pivot the statistic data
    *
    * @param array $months array with month like ['2021-06', ...]
-   * @param [type] $sourceType
+   * @param int $sourceType
    * @param integer|null $logLevel
    * @return array
    */
-  public function pivotData(array $months, $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
+  public function pivotData(array $months, int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
     $query = $this->createQueryBuilder('s')
       ->select("s.sourceID,

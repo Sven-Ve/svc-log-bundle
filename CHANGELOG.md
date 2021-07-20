@@ -30,3 +30,8 @@
 ## Version 0.2.3
 *Sun, 18 Jul 2021 20:38:37 +0000*
 - added logLevel to pivotMonthly
+
+
+## Version 0.2.4
+*Tue, 20 Jul 2021 20:26:22 +0000*
+- added aggregation by country

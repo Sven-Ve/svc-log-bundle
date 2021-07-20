@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Service;
 
 use DateInterval;
 use DateTime;
+use Svc\LogBundle\Exception\IpSavingNotEnabledException;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -105,6 +106,7 @@ class LogStatistics
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
+
     $today = new DateTime();
     $firstDay = new DateTime($today->format('Y-m-01'));
 
@@ -118,4 +120,55 @@ class LogStatistics
     $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
     return $data;
   }
+
+  /**
+   * get an array with countries and counts/country for an specific sourceID
+   *
+   * @param integer $sourceID
+   * @param integer|null $sourceType
+   * @param integer|null $logLevel
+   * @return array
+   * @throws LogExceptionInterface
+   */
+  public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array {
+    if (!$this->enableIPSaving) {
+      throw new IpSavingNotEnabledException();
+    }
+    return $this->svcLogRep->aggrLogsByCountry($sourceID, $sourceType, $logLevel);
+  }
+
+
+  /**
+   * format counts/country for ChartJS
+   *
+   * @param integer $sourceID
+   * @param integer|null $sourceType
+   * @param integer|null $logLevel
+   * @param integer|null $maxEntries
+   * @return array
+   * @throws LogExceptionInterface
+   */
+  public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array {
+    if ($this->enableIPSaving) {
+      throw new IpSavingNotEnabledException();
+    }
+    $chartLabels = "";
+    $chartData = "";
+
+      $counter = 0;
+      foreach ($this->getCountriesForOneId($sourceID, $sourceType, $logLevel) as $values) {
+        if ($counter > 0) {
+          $chartLabels .= '|';
+          $chartData .= '|';
+        }
+        $chartLabels .= $values['country'];
+        $chartData .=  $values['cntCountry'];
+        $counter++;
+        if ($counter == $maxEntries) {
+          break;
+        }
+      }
+      return ['labels' => $chartLabels, 'data' => $chartData];
+  }
+
 }
