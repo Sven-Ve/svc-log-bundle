@@ -2,54 +2,59 @@
 
 <hr/>
 
+{% if logData.records is defined %}
+  <table class="table table-responsive table-sm ">
+    <thead>
+      <tr>
+        <th scope="col">{% trans %}Date{% endtrans %}</th>
+        <th scope="col">{% trans %}Country{% endtrans %}</th>
+        <th scope="col">{% trans %}City{% endtrans %}</th>
+        <th scope="col">{% trans %}Platform{% endtrans %}</th>
+        <th scope="col">{% trans %}Browser{% endtrans %}</th>
+        <th scope="col">{% trans %}Referer{% endtrans %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logData.records %}
+        <tr>
+          <td>{{ log.logDate ? log.logDate|date('d.m.Y H:i:s') : '' }}</td>
+          <td>{{ log.country }}</td>
+          <td>{{ log.city }}</td>
+          <td>{{ log.platform }}</td>
+          <td>{{ log.browser }}</td>
+          <td>{{ log.referer }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="5">{% trans %}no log records found.{% endtrans %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<table class="table table-responsive table-sm ">
-	<thead>
-		<tr>
-			<th scope="col">{% trans %}Date{% endtrans %}</th>
-			<th scope="col">{% trans %}Country{% endtrans %}</th>
-			<th scope="col">{% trans %}City{% endtrans %}</th>
-			<th scope="col">{% trans %}Platform{% endtrans %}</th>
-			<th scope="col">{% trans %}Browser{% endtrans %}</th>
-			<th scope="col">{% trans %}Referer{% endtrans %}</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for log in logData.records %}
-			<tr>
-				<td>{{ log.logDate ? log.logDate|date('d.m.Y H:i:s') : '' }}</td>
-				<td>{{ log.country }}</td>
-				<td>{{ log.city }}</td>
-				<td>{{ log.platform }}</td>
-				<td>{{ log.browser }}</td>
-				<td>{{ log.referer }}</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="5">{% trans %}no log records found.{% endtrans %}</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
+  {% set displFrom = logData.from %}
+  {% set displTo = logData.to %}
+  {% set displCount = logData.count %}
+  {% trans %}Row %displFrom% to %displTo% from a total of %displCount%{% endtrans %}
 
-{% set displFrom = logData.from %}
-{% set displTo = logData.to %}
-{% set displCount = logData.count %}
-{% trans %}Row %displFrom% to %displTo% from a total of %displCount%{% endtrans %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item {{ logData.hidePrev ? 'disabled' }}">
+        <a href='{{ logData.firstUrl }}' class="page-link" title='{% trans %}First{% endtrans %}'>&laquo;</a>
+      </li>
+      <li class="page-item {{ logData.hidePrev ? 'disabled' }}">
+        <a href='{{ logData.prevUrl }}' class='page-link' title='{% trans %}Previous{% endtrans %}'>&lsaquo;</a>
+      </li>
+      <li class="page-item {{ logData.hideNext ? 'disabled' }}">
+        <a href='{{ logData.nextUrl }}' class='page-link' title='{% trans %}Next{% endtrans %}'>&rsaquo;</a>
+      </li>
+      <li class="page-item {{ logData.hideNext ? 'disabled' }}">
+        <a href='{{ logData.lastUrl }}' class='page-link' title='{% trans %}Last{% endtrans %}'>&raquo;</a>
+      </li>
+    </ul>
+  </nav>
 
-<nav aria-label="Page navigation">
-	<ul class="pagination">
-		<li class="page-item {{ logData.hidePrev ? 'disabled' }}">
-			<a href='{{ logData.firstUrl }}' class="page-link" title='{% trans %}First{% endtrans %}'>&laquo;</a>
-		</li>
-		<li class="page-item {{ logData.hidePrev ? 'disabled' }}">
-			<a href='{{ logData.prevUrl }}' class='page-link' title='{% trans %}Previous{% endtrans %}'>&lsaquo;</a>
-		</li>
-		<li class="page-item {{ logData.hideNext ? 'disabled' }}">
-			<a href='{{ logData.nextUrl }}' class='page-link' title='{% trans %}Next{% endtrans %}'>&rsaquo;</a>
-		</li>
-		<li class="page-item {{ logData.hideNext ? 'disabled' }}">
-			<a href='{{ logData.lastUrl }}' class='page-link' title='{% trans %}Last{% endtrans %}'>&raquo;</a>
-		</li>
-	</ul>
-</nav>
+{% else %}
+  {% trans %}no log records found.{% endtrans %}
+  <br />
+{% endif %}

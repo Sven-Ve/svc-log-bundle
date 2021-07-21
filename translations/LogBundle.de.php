@@ -12,6 +12,6 @@ return array (
   'Previous' => 'Vorherige',
   'Next' => 'Nächste',
   'Last' => 'Letzte',
-  '' => '',
+  'no log records found.' => 'Es existieren keine Log-Daten.',
   '' => '',
 );

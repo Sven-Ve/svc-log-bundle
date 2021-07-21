@@ -35,3 +35,8 @@
 ## Version 0.2.4
 *Tue, 20 Jul 2021 20:26:22 +0000*
 - added aggregation by country
+
+
+## Version 0.2.5
+*Wed, 21 Jul 2021 08:14:27 +0000*
+- fixed error if no log data exists

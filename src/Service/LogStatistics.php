@@ -58,6 +58,10 @@ class LogStatistics
     $offset = $request->query->get($this->offsetParamName) ?? 0;
 
     $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
+    if (count($logEntries) == 0) {
+      return [];
+    }
+
     if ($offset >= count($logEntries)) {
       $offset = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
       $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
