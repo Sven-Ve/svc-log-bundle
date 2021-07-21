@@ -134,7 +134,8 @@ class LogStatistics
    * @return array
    * @throws LogExceptionInterface
    */
-  public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array {
+  public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
+  {
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
@@ -152,27 +153,29 @@ class LogStatistics
    * @return array
    * @throws LogExceptionInterface
    */
-  public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array {
-    if ($this->enableIPSaving) {
+  public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
+  {
+    if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
-    $chartLabels = "";
-    $chartData = "";
+    $chartLabels = [];
+    $chartData = [];
 
-      $counter = 0;
-      foreach ($this->getCountriesForOneId($sourceID, $sourceType, $logLevel) as $values) {
-        if ($counter > 0) {
-          $chartLabels .= '|';
-          $chartData .= '|';
-        }
-        $chartLabels .= $values['country'];
-        $chartData .=  $values['cntCountry'];
-        $counter++;
-        if ($counter == $maxEntries) {
-          break;
-        }
+    $counter = 0;
+    foreach ($this->getCountriesForOneId($sourceID, $sourceType, $logLevel) as $values) {
+      $chartLabels[] = $values['country'] ?? "?";
+      $chartData[] =  $values['cntCountry'];
+      $counter++;
+      if ($counter == $maxEntries) {
+        break;
       }
-      return ['labels' => $chartLabels, 'data' => $chartData];
-  }
+    }
 
+    $result["labels"] = $chartLabels;
+    $result["datasets"][0]["label"] = "Countries";
+    $result["datasets"][0]["data"] = $chartData;
+    return $result;
+
+    return ['labels' => $chartLabels, 'data' => $chartData];
+  }
 }

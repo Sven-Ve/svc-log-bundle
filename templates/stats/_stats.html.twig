@@ -24,10 +24,6 @@
           <td>{{ log.browser }}</td>
           <td>{{ log.referer }}</td>
         </tr>
-      {% else %}
-        <tr>
-          <td colspan="5">{% trans %}no log records found.{% endtrans %}</td>
-        </tr>
       {% endfor %}
     </tbody>
   </table>
