@@ -172,10 +172,7 @@ class LogStatistics
     }
 
     $result["labels"] = $chartLabels;
-    $result["datasets"][0]["label"] = "Countries";
     $result["datasets"][0]["data"] = $chartData;
     return $result;
-
-    return ['labels' => $chartLabels, 'data' => $chartData];
   }
 }
