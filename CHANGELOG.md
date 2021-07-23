@@ -40,3 +40,8 @@
 ## Version 0.2.5
 *Wed, 21 Jul 2021 08:14:27 +0000*
 - fixed error if no log data exists
+
+
+## Version 0.2.6
+*Fri, 23 Jul 2021 20:58:11 +0000*
+- go prod in sv-video
