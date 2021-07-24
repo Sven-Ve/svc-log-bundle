@@ -1,0 +1,3 @@
+svc_log:
+    # Minimal log level, see documentation for values - set to 3 (LEVEL_DATA) in production
+    min_log_level:        3 # Required

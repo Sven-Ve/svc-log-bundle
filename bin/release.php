@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.2.6";
-$message = "go prod in sv-video";
+$version = "0.3.0";
+$message = "added parameter min_log_level and creation of prod config file";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

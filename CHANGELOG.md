@@ -45,3 +45,8 @@
 ## Version 0.2.6
 *Fri, 23 Jul 2021 20:58:11 +0000*
 - go prod in sv-video
+
+
+## Version 0.3.0
+*Sat, 24 Jul 2021 20:43:19 +0000*
+- added parameter min_log_level and creation of prod config file

@@ -1,0 +1,9 @@
+svc_log:
+    # Minimal log level, see documentation for values
+    min_log_level:        1 # Required
+
+    # Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)
+    enable_ip_saving:     false
+
+    # Do you like different source types?
+    enable_source_type:   true

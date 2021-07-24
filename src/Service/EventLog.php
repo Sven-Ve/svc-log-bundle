@@ -36,15 +36,18 @@ class EventLog
   private $enableSourceType;
   private $enableIPSaving;
   private $logRepo;
+  private $minLogLevel;
 
   public function __construct(
     bool $enableSourceType,
     bool $enableIPSaving,
+    bool $minLogLevel,
     EntityManagerInterface $entityManager,
     SvcLogRepository $logRepo
   ) {
     $this->enableSourceType = $enableSourceType;
     $this->enableIPSaving = $enableIPSaving;
+    $this->minLogLevel = $minLogLevel;
     $this->entityManager = $entityManager;
     $this->logRepo = $logRepo;
   }
@@ -64,6 +67,10 @@ class EventLog
     $resolver = new OptionsResolver();
     $this->configureOptions($resolver);
     $options = $resolver->resolve($options);
+
+    if ($options['level'] < $this->minLogLevel) {
+      return true;
+    }
 
     $log = new SvcLog();
     $log->setLogDate(new DateTime());
