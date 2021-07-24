@@ -3,11 +3,16 @@
 ## Entities
 Create tables (run `bin/console doctrine:schema:update --force`) or create a migration
 
-
 ## Enable/disable feature
+
+### general
+
 ```yaml
 # /config/packages/svc_log.yaml
 svc_log:
+
+    # Minimal log level, see documentation for values
+    min_log_level:        1 # Required
 
     # Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)
     enable_ip_saving:     false
@@ -17,6 +22,36 @@ svc_log:
 
     # We use offset as url parameter. If this in use, you can choose another name
     offset_param_name:    offset
+```
+
+### prod
+
+```yaml
+# /config/packages/prod/svc_log.yaml
+svc_log:
+    # Minimal log level, see documentation for values - set to 3 (LEVEL_DATA) in production
+    min_log_level:        3 # Required
+```
+
+## Log level
+
+```php
+namespace Svc\LogBundle\Service;
+class EventLog
+{
+  public const LEVEL_ALL = 0;
+  public const LEVEL_DEBUG = 1;
+  public const LEVEL_INFO = 2;
+  /**
+   * data is a special log level to store access data (page views, ...)
+   */
+  public const LEVEL_DATA = 3;
+  public const LEVEL_WARN = 4;
+  public const LEVEL_ERROR = 5;
+  public const LEVEL_FATAL = 6;
+
+  ...
+}
 ```
 
 ## Write log info
