@@ -144,12 +144,12 @@ class LogStatistics
 
 
   /**
-   * format counts/country for ChartJS
+   * format counts/country for symfony/ux-chartjs
    *
    * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
-   * @param integer|null $maxEntries
+   * @param integer|null $sourceType (Default 0)
+   * @param integer|null $logLevel (Default DATA)
+   * @param integer|null $maxEntries (Default 5)
    * @return array
    * @throws LogExceptionInterface
    */
@@ -175,4 +175,26 @@ class LogStatistics
     $result["datasets"][0]["data"] = $chartData;
     return $result;
   }
+
+  /**
+   * format counts/country as array for direct chart.js integration per yarn
+   * 
+   * @param integer $sourceID
+   * @param integer|null $sourceType
+   * @param integer|null $logLevel
+   * @param integer|null $maxEntries
+   * @return array
+   * @throws LogExceptionInterface
+   */
+  public function getCountriesForChartJS1(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
+  {
+    if (!$this->enableIPSaving) {
+      throw new IpSavingNotEnabledException();
+    }
+    $chartArray = $this->getCountriesForChartJS($sourceID, $sourceType, $logLevel, $maxEntries);
+    $results["labels"] = implode("|", $chartArray["labels"]);
+    $results["data"] = implode("|", $chartArray["datasets"][0]["data"]);
+    return $results;
+  }
+
 }

@@ -50,3 +50,8 @@
 ## Version 0.3.0
 *Sat, 24 Jul 2021 20:43:19 +0000*
 - added parameter min_log_level and creation of prod config file
+
+
+## Version 0.3.1
+*Sun, 25 Jul 2021 16:45:28 +0000*
+- added getCountriesForChartJS1 for direct yarn chart.js integration
