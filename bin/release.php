@@ -1,9 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.3.1";
-$message = "added getCountriesForChartJS1 for direct yarn chart.js integration";
-
+$version = "0.3.2";
+$message = "fixed min_log_level error, added documentation for getCountriesForChartJS1*";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

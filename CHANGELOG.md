@@ -55,3 +55,8 @@
 ## Version 0.3.1
 *Sun, 25 Jul 2021 16:45:28 +0000*
 - added getCountriesForChartJS1 for direct yarn chart.js integration
+
+
+## Version 0.3.2
+*Sun, 25 Jul 2021 20:25:22 +0000*
+- fixed min_log_level error, added documentation for getCountriesForChartJS1*

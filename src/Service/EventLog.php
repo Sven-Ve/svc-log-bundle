@@ -41,7 +41,7 @@ class EventLog
   public function __construct(
     bool $enableSourceType,
     bool $enableIPSaving,
-    bool $minLogLevel,
+    int $minLogLevel,
     EntityManagerInterface $entityManager,
     SvcLogRepository $logRepo
   ) {
