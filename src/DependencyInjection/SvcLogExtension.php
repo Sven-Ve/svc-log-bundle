@@ -16,6 +16,7 @@ class SvcLogExtension extends Extension
   {
     $this->rootPath = $container->getParameter("kernel.project_dir");
     $this->createAssetFiles("config/packages/svc_log.yaml");
+    $this->createAssetFiles("config/routes/svc_log.yaml");
     $this->createAssetFiles("config/packages/prod/svc_log.yaml");
 
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

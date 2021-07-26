@@ -1,0 +1,3 @@
+_svc_log:
+    resource: '@SvcLogBundle/src/Resources/config/routes.xml'
+    prefix: /admin/svc_log/{_locale}

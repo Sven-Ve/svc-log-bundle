@@ -1,0 +1,66 @@
+{% trans_default_domain 'LogBundle' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% trans %}Log viewer{% endtrans %}
+{% endblock %}
+
+{% block body %}
+	<h1>
+		<i class="fas fa-binoculars"></i>
+		{% trans %}Log viewer{% endtrans %}
+	</h1>
+
+  <form>
+	<div class='table-responsive'>
+		<table class="table table-hover table-sm">
+			<thead>
+        <tr>
+          <td>
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" name="sourceID" placeholder="ID">
+              </div>
+              <div class="col">
+                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDComp"}) }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" name="sourceType" placeholder="type">
+              </div>
+              <div class="col">
+                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceTypeComp"}) }}
+              </div>
+            </div>
+          </td>
+        </tr>
+				<tr>
+					<th>Source ID</th>
+					<th>Source type</th>
+					<th>Level</th>
+					<th>Date</th>
+					<th>Message</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for log in logs %}
+					<tr>
+						<td>{{ log.sourceID }}</td>
+						<td>{{ log.sourceType }}</td>
+						<td>{{ log.logLevelText }}</td>
+						<td>{{ log.logDate | format_datetime() }}</td>
+						<td>{{ log.message }}</td>
+				{% else %}
+					<tr>
+						<td colspan="4">{% trans %}no records found{% endtrans %}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+  </form>
+
+{% endblock %}

@@ -17,7 +17,7 @@
     <tbody>
       {% for log in logData.records %}
         <tr>
-          <td>{{ log.logDate ? log.logDate|date('d.m.Y H:i:s') : '' }}</td>
+          <td>{{ log.logDate ? log.logDate| format_datetime() : '' }}</td>
           <td>{{ log.country }}</td>
           <td>{{ log.city }}</td>
           <td>{{ log.platform }}</td>

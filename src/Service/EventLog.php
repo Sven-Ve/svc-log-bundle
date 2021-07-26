@@ -32,6 +32,16 @@ class EventLog
   public const LEVEL_ERROR = 5;
   public const LEVEL_FATAL = 6;
 
+  public const ARR_LEVEL_TEXT = [
+    self::LEVEL_ALL => 'all',
+    self::LEVEL_DEBUG => 'debug',
+    self::LEVEL_INFO => 'info',
+    self::LEVEL_DATA => 'data',
+    self::LEVEL_WARN => 'warn',
+    self::LEVEL_ERROR => 'error',
+    self::LEVEL_FATAL => 'fatal'
+  ];
+
   private $entityManager;
   private $enableSourceType;
   private $enableIPSaving;

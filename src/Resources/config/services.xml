@@ -33,5 +33,13 @@
         <tag name="doctrine.repository_service"/>
       </service>
 
+      <service id="svc_log.controller.logviewer" class="Svc\LogBundle\Controller\LogViewer" public="true" autowire="true" >
+        <call method="setContainer">
+            <argument type="service" id="Psr\Container\ContainerInterface"/>
+        </call>
+        <tag name="container.service_subscriber"/>
+        <tag name="controller.service_arguments"/>
+      </service>
+
     </services>
 </container>

@@ -14,9 +14,13 @@
         "doctrine/annotations": "^1.11",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/orm": "^2.8",
+        "symfony/framework-bundle": "^5.3",
         "symfony/validator": "^5",
         "symfony/http-kernel": "^5",
         "symfony/options-resolver": "^5",
+        "symfony/translation": "^5",
+        "symfony/twig-bundle": "^5",
+        "twig/intl-extra": "^2.12|^3.0",
         "donatj/phpuseragentparser": "^1.4",
         "svc/util-bundle": "^1|dev-main",
         "svc/param-bundle": "^1|dev-main"
