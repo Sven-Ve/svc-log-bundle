@@ -19,7 +19,7 @@
           <td>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control form-control-sm" name="sourceID" placeholder="ID">
+                <input type="text" class="form-control form-control-sm" name="sourceID" value="{{ sourceID }}" placeholder="ID">
               </div>
               <div class="col">
                 {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDComp"}) }}
@@ -29,12 +29,29 @@
           <td>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control form-control-sm" name="sourceType" placeholder="type">
+                <input type="text" class="form-control form-control-sm" name="sourceType" value="{{ sourceType }}" placeholder="type">
               </div>
               <div class="col">
                 {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceTypeComp"}) }}
               </div>
             </div>
+          </td>
+          <td>
+            <div class="row">
+              <div class="col">
+                <select class="form-select form-select-sm" name="logLevel">
+                  {% for key, level in levelArray %}
+                    <option value="{{ key }}" {{ key == logLevel ? "selected" }}>{{ level }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col">
+                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "logLevelComp"}) }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <input type='Submit' value='Go'>
           </td>
         </tr>
 				<tr>
@@ -62,5 +79,7 @@
 		</table>
 	</div>
   </form>
+
+  {{ logs.count }}
 
 {% endblock %}

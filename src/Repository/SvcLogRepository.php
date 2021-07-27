@@ -21,7 +21,7 @@ class SvcLogRepository extends ServiceEntityRepository
     parent::__construct($registry, SvcLog::class);
   }
 
-  public const PAGINATOR_PER_PAGE = 10;
+  public const PAGINATOR_PER_PAGE = 15;
 
   /**
    * get a part of the logs for pagination
@@ -53,6 +53,35 @@ class SvcLogRepository extends ServiceEntityRepository
     return new Paginator($query);
   }
 
+
+  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceType, ?int $logLevel = null): Paginator
+  {
+    $query = $this->createQueryBuilder('s')
+      ->orderBy('s.id', 'DESC')
+      ->setMaxResults(self::PAGINATOR_PER_PAGE)
+      ->setFirstResult($offset);
+
+    if ($sourceID !== null) {
+      $query
+        ->andwhere('s.sourceID = :sourceID')
+        ->setParameter('sourceID', $sourceID);
+    }
+
+    if ($sourceType !== null) {
+      $query
+        ->setParameter('sourceType', $sourceType)
+        ->andWhere('s.sourceType = :sourceType');
+    }
+
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->andWhere('s.logLevel = :logLevel')
+        ->setParameter('logLevel', $logLevel);
+    }
+
+    $query->getQuery();
+    return new Paginator($query);
+  }
 
   /**
    * aggragete log entries by country for a specific ID
