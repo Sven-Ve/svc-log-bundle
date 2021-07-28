@@ -11,7 +11,7 @@
 		{% trans %}Log viewer{% endtrans %}
 	</h1>
 
-  <form>
+  <form data-controller="svcl-log-viewer" data-action="svcl-log-viewer#onSubmit" data-svcl-log-viewer-url-value="{{ path('svc_log_viewer_view') }}">
 	<div class='table-responsive'>
 		<table class="table table-hover table-sm">
 			<thead>
@@ -19,7 +19,7 @@
           <td>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control form-control-sm" name="sourceID" value="{{ sourceID }}" placeholder="ID">
+                <input type="text" class="form-control form-control-sm" name="sourceID" data-svcl-log-viewer-target="sourceid" value="{{ sourceID }}" placeholder="ID">
               </div>
               <div class="col">
                 {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDComp"}) }}
@@ -62,19 +62,8 @@
 					<th>Message</th>
 				</tr>
 			</thead>
-			<tbody>
-				{% for log in logs %}
-					<tr>
-						<td>{{ log.sourceID }}</td>
-						<td>{{ log.sourceType }}</td>
-						<td>{{ log.logLevelText }}</td>
-						<td>{{ log.logDate | format_datetime() }}</td>
-						<td>{{ log.message }}</td>
-				{% else %}
-					<tr>
-						<td colspan="4">{% trans %}no records found{% endtrans %}</td>
-					</tr>
-				{% endfor %}
+			<tbody data-svcl-log-viewer-target="content">
+        {{ include("@SvcLog/log_viewer/_table_rows.html.twig") }}
 			</tbody>
 		</table>
 	</div>

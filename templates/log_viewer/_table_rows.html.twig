@@ -1,0 +1,13 @@
+{% for log in logs %}
+	<tr>
+		<td>{{ log.sourceID }}</td>
+		<td>{{ log.sourceType }}</td>
+		<td>{{ log.logLevelText }}</td>
+		<td>{{ log.logDate | format_datetime() }}</td>
+		<td>{{ log.message }}</td>
+	</tr>
+{% else %}
+	<tr>
+		<td colspan="4">{% trans %}no records found{% endtrans %}</td>
+	</tr>
+{% endfor %}

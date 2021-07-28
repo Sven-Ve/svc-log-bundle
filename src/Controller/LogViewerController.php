@@ -26,10 +26,12 @@ class LogViewerController extends AbstractController
     $sourceID = $this->checkParam($request->query->get("sourceID"));
     $sourceType = $this->checkParam($request->query->get("sourceType"));
     $logLevel = $this->checkParam($request->query->get("logLevel"));
+    $onlyData = $request->query->get("onlyData");
 
 
     $logs = $svcLogRep->getLogPaginatorForViewer($offet, $sourceID, $sourceType, $logLevel) ;
-    return $this->render('@SvcLog/log_viewer/viewer.html.twig', [
+    $template = $onlyData ? "_table_rows.html.twig" : "viewer.html.twig";
+    return $this->render('@SvcLog/log_viewer/' . $template, [
       'logs' => $logs,
       'sourceID' => $sourceID,
       'sourceType' => $sourceType,
