@@ -54,8 +54,11 @@ class SvcLogRepository extends ServiceEntityRepository
   }
 
 
-  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceType, ?int $logLevel = null): Paginator
+  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC): Paginator
   {
+
+    //dd($sourceIDC);
+
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
       ->setMaxResults(self::PAGINATOR_PER_PAGE)
@@ -63,24 +66,44 @@ class SvcLogRepository extends ServiceEntityRepository
 
     if ($sourceID !== null) {
       $query
-        ->andwhere('s.sourceID = :sourceID')
+        ->andwhere('s.sourceID ' . $this->getComparisonOp($sourceIDC) . ' :sourceID')
         ->setParameter('sourceID', $sourceID);
     }
 
     if ($sourceType !== null) {
       $query
-        ->setParameter('sourceType', $sourceType)
-        ->andWhere('s.sourceType = :sourceType');
+        ->andWhere('s.sourceType ' . $this->getComparisonOp($sourceTypeC) . ' :sourceType')
+        ->setParameter('sourceType', $sourceType);
     }
 
     if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
       $query
-        ->andWhere('s.logLevel = :logLevel')
+        ->andWhere('s.logLevel  ' . $this->getComparisonOp($logLevelC) . '  :logLevel')
         ->setParameter('logLevel', $logLevel);
     }
 
     $query->getQuery();
     return new Paginator($query);
+  }
+
+  /**
+   * private function to convert to numeric comparison operator to the real operator
+   *  1: "="
+   *  2: ">"
+   *  3: "<"
+   *
+   * @param integer|null $numValue
+   * @return string
+   */
+  private function getComparisonOp(?int $numValue = null): string
+  {
+    if ($numValue === 2) {
+      return ">";
+    } elseif ($numValue === 3) {
+      return "<";
+    } else {
+      return "=";
+    }
   }
 
   /**

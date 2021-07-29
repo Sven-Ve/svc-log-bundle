@@ -11,64 +11,83 @@
 		{% trans %}Log viewer{% endtrans %}
 	</h1>
 
-  <form data-controller="svcl-log-viewer" data-action="svcl-log-viewer#onSubmit" data-svcl-log-viewer-url-value="{{ path('svc_log_viewer_view') }}">
-	<div class='table-responsive'>
-		<table class="table table-hover table-sm">
-			<thead>
-        <tr>
-          <td>
-            <div class="row">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" name="sourceID" data-svcl-log-viewer-target="sourceid" value="{{ sourceID }}" placeholder="ID">
-              </div>
-              <div class="col">
-                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDComp"}) }}
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="row">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" name="sourceType" value="{{ sourceType }}" placeholder="type">
-              </div>
-              <div class="col">
-                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceTypeComp"}) }}
-              </div>
-            </div>
-          </td>
-          <td>
-            <div class="row">
-              <div class="col">
-                <select class="form-select form-select-sm" name="logLevel">
-                  {% for key, level in levelArray %}
-                    <option value="{{ key }}" {{ key == logLevel ? "selected" }}>{{ level }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="col">
-                {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "logLevelComp"}) }}
-              </div>
-            </div>
-          </td>
-          <td>
-            <input type='Submit' value='Go'>
-          </td>
-        </tr>
-				<tr>
-					<th>Source ID</th>
-					<th>Source type</th>
-					<th>Level</th>
-					<th>Date</th>
-					<th>Message</th>
-				</tr>
-			</thead>
-			<tbody data-svcl-log-viewer-target="content">
-        {{ include("@SvcLog/log_viewer/_table_rows.html.twig") }}
-			</tbody>
-		</table>
-	</div>
-  </form>
+	<div data-controller="svcl-log-viewer" data-svcl-log-viewer-url-value="{{ path('svc_log_viewer_view') }}">
+		<form data-action="svcl-log-viewer#onSubmit">
+			<div class='table-responsive'>
+				<table class="table table-hover table-sm">
+					<thead>
+						<tr>
+							<td>
+								<div class="row">
+									<div class="col">
+										{{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDC"}) }}
+									</div>
+									<div class="col">
+										<input type="text" class="form-control form-control-sm" name="sourceID" data-svcl-log-viewer-target="sourceID" value="{{ sourceID }}" placeholder="ID">
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="row">
+									<div class="col">
+										{{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceTypeC"}) }}
+									</div>
+									<div class="col">
+										<input type="text" class="form-control form-control-sm" name="sourceType" data-svcl-log-viewer-target="sourceType" value="{{ sourceType }}" placeholder="type">
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="row">
+									<div class="col">
+										{{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "logLevelC"}) }}
+									</div>
+									<div class="col">
+										<select class="form-select form-select-sm" name="logLevel" data-svcl-log-viewer-target="logLevel" data-action="svcl-log-viewer#onSubmit">
+											{% for key, level in levelArray %}
+												<option value="{{ key }}" {{ key == logLevel ? "selected" }}>{{ level }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</td>
+							<td>
+								<input type='Submit' value='Go'>
+							</td>
+						</tr>
+						<tr>
+							<th>Source ID</th>
+							<th>Source type</th>
+							<th>Level</th>
+							<th>Date</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					<tbody data-svcl-log-viewer-target="content">
+						{{ include("@SvcLog/log_viewer/_table_rows.html.twig") }}
+					</tbody>
+				</table>
+			</div>
+		</form>
 
-  {{ logs.count }}
+		<nav aria-label="Page navigation">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" title='{% trans %}First{% endtrans %}' data-action="svcl-log-viewer#first">&laquo;</a>
+				</li>
+				<li class="page-item">
+					<a class='page-link' title='{% trans %}Previous{% endtrans %}' data-action="svcl-log-viewer#prev">&lsaquo;</a>
+				</li>
+				<li class="page-item">
+					<a class='page-link' title='{% trans %}Next{% endtrans %}' data-action="svcl-log-viewer#next">&rsaquo;</a>
+				</li>
+				<li class="page-item">
+					<a class='page-link' title='{% trans %}Last{% endtrans %}' data-action="svcl-log-viewer#last">&raquo;</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
+	{{ logs.count }}
 
 {% endblock %}
