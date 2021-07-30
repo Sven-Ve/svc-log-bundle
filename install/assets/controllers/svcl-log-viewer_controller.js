@@ -5,48 +5,37 @@ export default class extends Controller {
   static values = {
     url: String
   }
-  static targets = ["sourceID", "sourceType" , "logLevel", "content", "sourceIDC", "sourceTypeC" , "logLevelC", "next", "prev", "last"];
+  static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country", "next", "prev", "last", "hideNext", "hidePrev", "firstBtn", "prevBtn", "nextBtn", "lastBtn"];
 
 
 
-  /*   connect() {
-      console.log("connected");
-      console.log(this.urlValue);
-    } */
+  connect() {
+    this.enableDisableButton();
+  }
 
   onSubmit(event) {
     event.preventDefault();
-
-
-    url = this.createURL(0);
-    this.refreshContent(url);
+    this.refreshContent(this.createURL(0));
   }
 
   first() {
-    console.log("first");
     this.refreshContent(this.createURL(0));
   }
 
   prev() {
-    console.log("prev");
-    console.log(this.prevTarget.value);
-    const url = this.createURL(this.prevTarget.value);
-    this.refreshContent(url);
+    this.refreshContent(this.createURL(this.prevTarget.value));
   }
 
 
   next() {
-    console.log("next");
-    console.log(this.nextTarget.value);
-    const url = this.createURL(this.nextTarget.value);
-    this.refreshContent(url);
+    this.refreshContent(this.createURL(this.nextTarget.value));
   }
 
+  /**
+   * go to the last record
+   */
   last() {
-    console.log("last");
-    console.log(this.lastTarget.value);
-    const url = this.createURL(this.lastTarget.value);
-    this.refreshContent(url);
+    this.refreshContent(this.createURL(this.lastTarget.value));
   }
 
   createURL(offset) {
@@ -57,11 +46,11 @@ export default class extends Controller {
     url += "&sourceTypeC=" + this.sourceTypeCTarget.value;
     url += "&logLevel=" + this.logLevelTarget.value;
     url += "&logLevelC=" + this.logLevelCTarget.value;
+    url += "&country=" + this.countryTarget.value;
     return url;
   }
 
   async refreshContent(url) {
-    console.log(url);
 
     const target = this.contentTarget;
     target.style.opacity = .5;
@@ -79,10 +68,35 @@ export default class extends Controller {
     if (response.ok) {
       target.innerHTML = await response.text();
       target.style.opacity = 1;
+      this.enableDisableButton();
+
+
     } else {
       console.log(response.status);
       location.reload();
     }
+  }
+
+  /**
+   * enable or disable the pagination buttons
+   */
+  enableDisableButton() {
+    if (this.hidePrevTarget.value != "1") {
+      this.firstBtnTarget.classList.remove('disabled');
+      this.prevBtnTarget.classList.remove('disabled');
+    } else {
+      this.firstBtnTarget.classList.add('disabled');
+      this.prevBtnTarget.classList.add('disabled');
+    }
+
+    if (this.hideNextTarget.value != "1") {
+      this.nextBtnTarget.classList.remove('disabled');
+      this.lastBtnTarget.classList.remove('disabled');
+    } else {
+      this.nextBtnTarget.classList.add('disabled');
+      this.lastBtnTarget.classList.add('disabled');
+    }
+
   }
 
 }

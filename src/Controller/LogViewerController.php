@@ -29,15 +29,19 @@ class LogViewerController extends AbstractController
     $sourceTypeC = $this->checkParam($request->query->get("sourceTypeC"));
     $logLevel = $this->checkParam($request->query->get("logLevel"));
     $logLevelC = $this->checkParam($request->query->get("logLevelC"));
+    $country = $request->query->get("country");
     $onlyData = $request->query->get("onlyData");
 
 
 
-    $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC) ;
+    $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country) ;
 
-    $next = min(count($logs), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
-    $prev = max($offset - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
-    $last = max(count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
+    $dataContr = [];
+    $dataContr["next"] = min(count($logs), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
+    $dataContr["prev"] = max($offset - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
+    $dataContr["last"] = max(count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
+    $dataContr['hidePrev'] = $offset <= 0;
+    $dataContr['hideNext'] = $offset >= count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE;
 
 
     $template = $onlyData ? "_table_rows.html.twig" : "viewer.html.twig";
@@ -46,10 +50,9 @@ class LogViewerController extends AbstractController
       'sourceID' => $sourceID,
       'sourceType' => $sourceType,
       'logLevel' => $logLevel,
+      'country' => $country,
       'levelArray' => EventLog::ARR_LEVEL_TEXT,
-      'next' => $next,
-      'prev' => $prev,
-      'last' => $last,
+      'dataContr' => $dataContr,
     ]);
   }
 

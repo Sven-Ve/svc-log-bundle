@@ -54,7 +54,7 @@ class SvcLogRepository extends ServiceEntityRepository
   }
 
 
-  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC): Paginator
+  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC, ?string $country): Paginator
   {
 
     //dd($sourceIDC);
@@ -80,6 +80,12 @@ class SvcLogRepository extends ServiceEntityRepository
       $query
         ->andWhere('s.logLevel  ' . $this->getComparisonOp($logLevelC) . '  :logLevel')
         ->setParameter('logLevel', $logLevel);
+    }
+
+    if ($country) {
+      $query
+        ->andWhere('s.country = :country')
+        ->setParameter('country', $country);
     }
 
     $query->getQuery();

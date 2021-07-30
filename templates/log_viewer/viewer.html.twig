@@ -50,7 +50,12 @@
 										</select>
 									</div>
 								</div>
+              </td>
+							<td></td>
+ 							<td>
+								<input type="text" class="form-control form-control-sm" name="country" data-svcl-log-viewer-target="country" value="{{ country }}" placeholder="country">
 							</td>
+
 							<td>
 								<input type='Submit' value='Go'>
 							</td>
@@ -60,6 +65,7 @@
 							<th>Source type</th>
 							<th>Level</th>
 							<th>Date</th>
+							<th>Country</th>
 							<th>Message</th>
 						</tr>
 					</thead>
@@ -72,22 +78,20 @@
 
 		<nav aria-label="Page navigation">
 			<ul class="pagination">
-				<li class="page-item">
+				<li class="page-item disabled" data-svcl-log-viewer-target="firstBtn">
 					<a class="page-link" title='{% trans %}First{% endtrans %}' data-action="svcl-log-viewer#first">&laquo;</a>
 				</li>
-				<li class="page-item">
+				<li class="page-item disabled" data-svcl-log-viewer-target="prevBtn">
 					<a class='page-link' title='{% trans %}Previous{% endtrans %}' data-action="svcl-log-viewer#prev">&lsaquo;</a>
 				</li>
-				<li class="page-item">
+				<li class="page-item" data-svcl-log-viewer-target="nextBtn">
 					<a class='page-link' title='{% trans %}Next{% endtrans %}' data-action="svcl-log-viewer#next">&rsaquo;</a>
 				</li>
-				<li class="page-item">
+				<li class="page-item" data-svcl-log-viewer-target="lastBtn">
 					<a class='page-link' title='{% trans %}Last{% endtrans %}' data-action="svcl-log-viewer#last">&raquo;</a>
 				</li>
 			</ul>
 		</nav>
 	</div>
-
-	{{ logs.count }}
 
 {% endblock %}
