@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.3.3";
-$message = "added dataprovider";
+$version = "0.3.4";
+$message = "added svcl-log-viewer_controller.js to copy during install";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

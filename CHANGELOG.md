@@ -65,3 +65,8 @@
 ## Version 0.3.3
 *Sun, 01 Aug 2021 14:53:04 +0000*
 - added dataprovider
+
+
+## Version 0.3.4
+*Sun, 01 Aug 2021 15:14:42 +0000*
+- added svcl-log-viewer_controller.js to copy during install
