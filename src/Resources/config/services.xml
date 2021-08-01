@@ -17,6 +17,11 @@
         <tag name="controller.service_arguments"/>
       </service>
 
+      <service id="svc_log.data_provider.dummy_data_provider" class="Svc\LogBundle\DataProvider\DummyDataProvider" public="false" autowire="true" autoconfigure="true" >
+        <tag name="controller.service_arguments"/>
+      </service>
+       <service id="svc_log.data_provider" alias="svc_log.data_provider.dummy_data_provider" public="false" />
+
       <service id="Svc\LogBundle\Command\BatchFillLocationCommand" class="Svc\LogBundle\Command\BatchFillLocationCommand" public="true" autowire="true" autoconfigure="false" >
         <tag name="console.command" />
       </service>
@@ -34,6 +39,7 @@
       </service>
 
       <service id="svc_log.controller.logviewer" class="Svc\LogBundle\Controller\LogViewerController" public="true" autowire="true" >
+        <argument type="service" id="svc_log.data_provider" />
         <call method="setContainer">
             <argument type="service" id="Psr\Container\ContainerInterface"/>
         </call>

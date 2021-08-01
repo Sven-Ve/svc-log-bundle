@@ -60,3 +60,8 @@
 ## Version 0.3.2
 *Sun, 25 Jul 2021 20:25:22 +0000*
 - fixed min_log_level error, added documentation for getCountriesForChartJS1*
+
+
+## Version 0.3.3
+*Sun, 01 Aug 2021 14:53:04 +0000*
+- added dataprovider

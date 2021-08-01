@@ -6,6 +6,7 @@ use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class SvcLogExtension extends Extension
@@ -35,6 +36,9 @@ class SvcLogExtension extends Extension
     $definition->setArgument(1, $config['enable_ip_saving']);
     $definition->setArgument(2, $config['min_log_level']);
 
+    if (null !== $config['data_provider']) {
+      $container->setAlias('svc_log.data_provider', $config['data_provider']);
+    }
 
   }
 

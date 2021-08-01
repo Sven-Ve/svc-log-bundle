@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
 
@@ -15,6 +16,11 @@ use Svc\LogBundle\Service\EventLog;
 class LogViewerController extends AbstractController
 {
 
+  private $dataProvider;
+  public function __construct(DataProviderInterface $dataProvider)
+  {
+    $this->dataProvider = $dataProvider;
+  }
 
   /**
    * show statistics for a video
@@ -34,7 +40,10 @@ class LogViewerController extends AbstractController
 
 
 
-    $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country) ;
+    $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country);
+    foreach ($logs as $log) {
+      $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
+    }
 
     $dataContr = [];
     $dataContr["next"] = min(count($logs), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
@@ -57,12 +66,11 @@ class LogViewerController extends AbstractController
   }
 
 
-  private function checkParam(?string $value): ?int {
-    if ($value === null or $value==="") {
+  private function checkParam(?string $value): ?int
+  {
+    if ($value === null or $value === "") {
       return null;
-    } 
+    }
     return intval($value);
   }
-
-  
 }
