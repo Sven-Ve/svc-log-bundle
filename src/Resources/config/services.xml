@@ -17,10 +17,10 @@
         <tag name="controller.service_arguments"/>
       </service>
 
-      <service id="svc_log.data_provider.dummy_data_provider" class="Svc\LogBundle\DataProvider\DummyDataProvider" public="false" autowire="true" autoconfigure="true" >
+      <service id="svc_log.data_provider.general_data_provider" class="Svc\LogBundle\DataProvider\GeneralDataProvider" public="false" autowire="true" autoconfigure="true" >
         <tag name="controller.service_arguments"/>
       </service>
-       <service id="svc_log.data_provider" alias="svc_log.data_provider.dummy_data_provider" public="false" />
+       <service id="svc_log.data_provider" alias="svc_log.data_provider.general_data_provider" public="true" />
 
       <service id="Svc\LogBundle\Command\BatchFillLocationCommand" class="Svc\LogBundle\Command\BatchFillLocationCommand" public="true" autowire="true" autoconfigure="false" >
         <tag name="console.command" />

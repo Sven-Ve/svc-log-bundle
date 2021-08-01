@@ -13,5 +13,9 @@ return array (
   'Next' => 'Nächste',
   'Last' => 'Letzte',
   'no log records found.' => 'Es existieren keine Log-Daten.',
+  'Log viewer' => 'Log-Betrachter',
+  '' => '',
+  '' => '',
+  '' => '',
   '' => '',
 );

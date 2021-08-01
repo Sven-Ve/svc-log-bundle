@@ -70,3 +70,8 @@
 ## Version 0.3.4
 *Sun, 01 Aug 2021 15:14:42 +0000*
 - added svcl-log-viewer_controller.js to copy during install
+
+
+## Version 0.4.0
+*Sun, 01 Aug 2021 20:21:10 +0000*
+- finishing first version of LogDataProvider

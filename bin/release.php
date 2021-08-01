@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "0.3.4";
-$message = "added svcl-log-viewer_controller.js to copy during install";
+$version = "0.4.0";
+$message = "finishing first version of LogDataProvider";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

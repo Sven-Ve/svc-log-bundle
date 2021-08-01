@@ -13,13 +13,15 @@ interface DataProviderInterface
    */
   public function getSourceTypeText(int $sourceType): string;
 
+
   /**
-   * get the text/description for a source ID
+   * get the text/description for a source ID / sourceType combination
    *
    * @param integer $sourceID
+   * @param integer|null $sourceType
    * @return string
    */
-  public function getSourceIDText(int $sourceID): string;
+  public function getSourceIDText(int $sourceID, ?int $sourceType = null): string;
 
   /**
    * get all sourceIDs as array
