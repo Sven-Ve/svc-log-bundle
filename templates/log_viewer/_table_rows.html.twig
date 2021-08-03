@@ -1,6 +1,6 @@
 {% for log in logs %}
 	<tr>
-		<td>({{ log.id }}) - {{ log.sourceID }} - {{ log.sourceIDText }}</td>
+		<td>{{ log.sourceIDText }}</td>
 		<td>{{ log.sourceTypeText }}</td>
 		<td>{{ log.logLevelText }}</td>
 		<td>{{ log.logDate | format_datetime() }}</td>

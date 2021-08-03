@@ -20,7 +20,7 @@ class BatchFillLocationCommand extends Command
   protected static $defaultName = 'svc_log:fill-location';
   protected static $defaultDescription = 'Fill country and city (in batch because timing)';
 
-  private $eventLog;
+  private EventLog $eventLog;
 
   public function __construct(EventLog $eventLog)
   {

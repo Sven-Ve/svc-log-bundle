@@ -1,6 +1,10 @@
 # Reports / Statistics
 
-## Example for show a log table
+## Use the LogViewer with Ajax filtering
+
+Call the route "svc_log_viewer_view" in your application (twig template)
+
+## Integrate the log results in your application
 
 ### Create a controller
 

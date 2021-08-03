@@ -22,6 +22,9 @@ svc_log:
 
     # We use offset as url parameter. If this in use, you can choose another name
     offset_param_name:    offset
+
+    # Class of your own data provider to get info about sourceType and sourceID
+    data_provider: Svc\LogBundle\DataProvider\GeneralDataProvider
 ```
 
 ### prod

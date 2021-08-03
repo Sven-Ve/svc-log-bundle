@@ -7,5 +7,5 @@ Package to log events and statistics in a database table
 * [installation](docs/installation.md)
 * [Usage](docs/usage.md)
 * [Reports](docs/report.md)
-* DataProvider (coming soon)
+* [DataProvider](docs/data_provider.md)
 * [Changelog](CHANGELOG.md)

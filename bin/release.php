@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.0.0";
-$message = "ready to go to prod, added tests, documentation, ...";
+$version = "1.0.1";
+$message = "describe the data provider";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

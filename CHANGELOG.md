@@ -80,3 +80,8 @@
 ## Version 1.0.0
 *Tue, 03 Aug 2021 11:31:45 +0000*
 - ready to go to prod, added tests, documentation, ...
+
+
+## Version 1.0.1
+*Tue, 03 Aug 2021 20:15:19 +0000*
+- describe the data provider

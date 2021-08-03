@@ -12,6 +12,8 @@ class GeneralDataProvider implements DataProviderInterface
 
   protected $sourceTypes = [];
   protected $isSourceTypesInitialized = false;
+  protected $sourceIDs = [];
+  protected $isSourceIDsInitialized = false;
 
   /**
    * get the text/description for a source type
@@ -24,7 +26,7 @@ class GeneralDataProvider implements DataProviderInterface
     if (!$this->isSourceTypesInitialized) {
       $this->initSourceTypes();
     }
-    return array_key_exists($sourceType, $this->sourceTypes) ? $this->sourceTypes[$sourceType] : $sourceType;
+    return array_key_exists($sourceType, $this->sourceTypes) ? $this->sourceTypes[$sourceType] : strval($sourceType);
   }
 
 
@@ -37,7 +39,10 @@ class GeneralDataProvider implements DataProviderInterface
    */
   public function getSourceIDText(int $sourceID, ?int $sourceType = null): string
   {
-    return strval($sourceID);
+    if (!$this->isSourceIDsInitialized) {
+      $this->initSourceIDs();
+    }
+    return array_key_exists($sourceID, $this->sourceIDs) ? $this->sourceIDs[$sourceID] : strval($sourceID);
   }
 
   /**
@@ -47,7 +52,10 @@ class GeneralDataProvider implements DataProviderInterface
    */
   public function getSourceIDTextsArray(): array
   {
-    return [];
+    if (!$this->isSourceIDsInitialized) {
+      $this->initSourceIDs();
+    }
+    return $this->sourceIDs;
   }
 
   /**
@@ -73,7 +81,21 @@ class GeneralDataProvider implements DataProviderInterface
     if ($this->isSourceTypesInitialized) {
       return true;
     }
-    $this->sourceTypes=[];
+    $this->sourceTypes = [];
+    return true;
+  }
+
+  /**
+   * init the sourceIDs array
+   *
+   * @return boolean
+   */
+  protected function initSourceIDs(): bool
+  {
+    if ($this->isSourceIDsInitialized) {
+      return true;
+    }
+    $this->sourceIDs = [];
     return true;
   }
 }
