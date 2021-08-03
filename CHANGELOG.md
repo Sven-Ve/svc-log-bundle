@@ -75,3 +75,8 @@
 ## Version 0.4.0
 *Sun, 01 Aug 2021 20:21:10 +0000*
 - finishing first version of LogDataProvider
+
+
+## Version 1.0.0
+*Tue, 03 Aug 2021 11:31:45 +0000*
+- ready to go to prod, added tests, documentation, ...

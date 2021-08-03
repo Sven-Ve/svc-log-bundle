@@ -2,6 +2,11 @@
 
 namespace Svc\LogBundle\DataProvider;
 
+/**
+ * a general easy log provider, you have to extends from here
+ * 
+ * @author Sven Vetter <dev@sv-systems.com>
+ */
 class GeneralDataProvider implements DataProviderInterface
 {
 
@@ -32,7 +37,7 @@ class GeneralDataProvider implements DataProviderInterface
    */
   public function getSourceIDText(int $sourceID, ?int $sourceType = null): string
   {
-    return $sourceID;
+    return strval($sourceID);
   }
 
   /**
@@ -69,5 +74,6 @@ class GeneralDataProvider implements DataProviderInterface
       return true;
     }
     $this->sourceTypes=[];
+    return true;
   }
 }

@@ -11,6 +11,10 @@ use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
 
 /**
+ * Controller for displaying and filtering the log
+ * 
+ * @author Sven Vetter <dev@sv-systems.com>
+ * 
  * @IsGranted("ROLE_ADMIN")
  */
 class LogViewerController extends AbstractController

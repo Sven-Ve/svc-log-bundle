@@ -26,9 +26,9 @@ class StatsHelper
    * aggragate data for monthly statistics
    *
    * @param boolean $fresh should the data reloaded completly (truncate table before)
-   * @return void
+   * @return array
    */
-  public function aggrMonthly(bool $fresh = false)
+  public function aggrMonthly(bool $fresh = false): array
   {
     $paramName = "svcLog_lastRunAggrMonthly";
 

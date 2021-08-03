@@ -8,6 +8,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * send configuration to classes
+ * 
+ * @author Sven Vetter <dev@sv-systems.com>
+ */
 class SvcLogExtension extends Extension
 {
   private $rootPath;

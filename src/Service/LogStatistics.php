@@ -115,11 +115,13 @@ class LogStatistics
     $firstDay = new DateTime($today->format('Y-m-01'));
 
     $oneMonth = new DateInterval("P1M");
+    $monthList = [];
     for ($i = 1; $i <= 5; $i++) {
       $monthList[] = $firstDay->format('Y-m');
       $firstDay = $firstDay->sub($oneMonth);
     }
 
+    $data = [];
     $data['header'] = $monthList;
     $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
     return $data;

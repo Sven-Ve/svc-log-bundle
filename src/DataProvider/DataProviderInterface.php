@@ -2,6 +2,11 @@
 
 namespace Svc\LogBundle\DataProvider;
 
+/**
+ * Interface for the log provider
+ * 
+ * @author Sven Vetter <dev@sv-systems.com>
+ */
 interface DataProviderInterface
 {
 

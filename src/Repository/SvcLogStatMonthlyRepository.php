@@ -83,7 +83,6 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       return $stmt->rowCount();
     } catch (Exception $e) {
       dump($e->getMessage());
-      die("Fehler");
       return -1;
     }
   }
