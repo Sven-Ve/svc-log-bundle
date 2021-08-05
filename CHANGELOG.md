@@ -85,3 +85,8 @@
 ## Version 1.0.1
 *Tue, 03 Aug 2021 20:15:19 +0000*
 - describe the data provider
+
+
+## Version 1.0.2
+*Thu, 05 Aug 2021 20:34:40 +0000*
+- improve log viewer loading, show counts

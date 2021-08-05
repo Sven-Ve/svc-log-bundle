@@ -27,9 +27,21 @@ class LogViewerController extends AbstractController
   }
 
   /**
-   * show statistics for a video
+   * show a log table (without data, only the construct)
    */
-  public function view(Request $request, SvcLogRepository $svcLogRep): Response
+  public function viewTable(): Response
+  {
+
+    return $this->render('@SvcLog/log_viewer/viewer.html.twig', [
+      'levelArray' => EventLog::ARR_LEVEL_TEXT,
+      'init' => true
+    ]);
+  }
+
+  /**
+   * show a log table (the records)
+   */
+  public function viewData(Request $request, SvcLogRepository $svcLogRep): Response
   {
 
     $offset = $this->checkParam($request->query->get("offset")) ?? 0;
@@ -40,11 +52,11 @@ class LogViewerController extends AbstractController
     $logLevel = $this->checkParam($request->query->get("logLevel"));
     $logLevelC = $this->checkParam($request->query->get("logLevelC"));
     $country = $request->query->get("country");
-    $onlyData = $request->query->get("onlyData");
 
 
 
     $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country);
+    
     foreach ($logs as $log) {
       $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
       $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
@@ -56,21 +68,23 @@ class LogViewerController extends AbstractController
     $dataContr["last"] = max(count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE, 0);
     $dataContr['hidePrev'] = $offset <= 0;
     $dataContr['hideNext'] = $offset >= count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $dataContr['count'] = count($logs);
+    $dataContr['from'] = $offset + 1;
+    $dataContr['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, count($logs));
 
 
-    $template = $onlyData ? "_table_rows.html.twig" : "viewer.html.twig";
-    return $this->render('@SvcLog/log_viewer/' . $template, [
+    return $this->render('@SvcLog/log_viewer/_table_rows.html.twig' , [
       'logs' => $logs,
-      'sourceID' => $sourceID,
-      'sourceType' => $sourceType,
-      'logLevel' => $logLevel,
-      'country' => $country,
-      'levelArray' => EventLog::ARR_LEVEL_TEXT,
       'dataContr' => $dataContr,
     ]);
   }
 
-
+  /**
+   * check a (numeric) url parameter
+   *
+   * @param string|null $value
+   * @return integer|null
+   */
   private function checkParam(?string $value): ?int
   {
     if ($value === null or $value === "") {

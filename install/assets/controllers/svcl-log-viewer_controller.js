@@ -5,11 +5,16 @@ export default class extends Controller {
   static values = {
     url: String
   }
-  static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country", "next", "prev", "last", "hideNext", "hidePrev", "firstBtn", "prevBtn", "nextBtn", "lastBtn"];
+  static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country", 
+    "next", "prev", "last", 
+    "hideNext", "hidePrev", "firstBtn", "prevBtn", "nextBtn", "lastBtn",
+    "count", "countDisplay", "from", "fromDisplay", "to", "toDisplay",
+  ];
 
 
 
   connect() {
+    this.refreshContent(this.urlValue + "?onlyData=1&offset=0");
     this.enableDisableButton();
   }
 
@@ -68,6 +73,7 @@ export default class extends Controller {
     if (response.ok) {
       target.innerHTML = await response.text();
       target.style.opacity = 1;
+      this.refreshCounts();
       this.enableDisableButton();
 
 
@@ -75,6 +81,12 @@ export default class extends Controller {
       console.log(response.status);
       location.reload();
     }
+  }
+
+  refreshCounts() {
+    this.countDisplayTarget.innerText = this.countTarget.value;
+    this.fromDisplayTarget.innerText = this.fromTarget.value;
+    this.toDisplayTarget.innerText = this.toTarget.value;
   }
 
   /**

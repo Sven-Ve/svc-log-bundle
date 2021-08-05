@@ -1,4 +1,5 @@
-{% for log in logs %}
+{% trans_default_domain 'LogBundle' %}
+{% for log in logs | default(null) %}
 	<tr>
 		<td>{{ log.sourceIDText }}</td>
 		<td>{{ log.sourceTypeText }}</td>
@@ -9,11 +10,14 @@
 	</tr>
 {% else %}
 	<tr>
-		<td colspan="4">{% trans %}no records found{% endtrans %}</td>
+		<td colspan="4">{{ init | default(false) ? "Loading..." : "no log records found." | trans }}</td>
 	</tr>
 {% endfor %}
-<input type="hidden" value="{{ dataContr.next }}" data-svcl-log-viewer-target="next" >
-<input type="hidden" value="{{ dataContr.last }}" data-svcl-log-viewer-target="last" >
-<input type="hidden" value="{{ dataContr.prev }}" data-svcl-log-viewer-target="prev" >
-<input type="hidden" value="{{ dataContr.hidePrev }}" data-svcl-log-viewer-target="hidePrev" >
-<input type="hidden" value="{{ dataContr.hideNext }}" data-svcl-log-viewer-target="hideNext" >
+<input type="hidden" value="{{ dataContr.next | default(0) }}" data-svcl-log-viewer-target="next" >
+<input type="hidden" value="{{ dataContr.last | default(0) }}" data-svcl-log-viewer-target="last" >
+<input type="hidden" value="{{ dataContr.prev | default(0) }}" data-svcl-log-viewer-target="prev" >
+<input type="hidden" value="{{ dataContr.hidePrev | default(0) }}" data-svcl-log-viewer-target="hidePrev" >
+<input type="hidden" value="{{ dataContr.hideNext | default(0) }}" data-svcl-log-viewer-target="hideNext" >
+<input type="hidden" value="{{ dataContr.count | default(0) }}" data-svcl-log-viewer-target="count" >
+<input type="hidden" value="{{ dataContr.from | default(0) }}" data-svcl-log-viewer-target="from" >
+<input type="hidden" value="{{ dataContr.to | default(0) }}" data-svcl-log-viewer-target="to" >

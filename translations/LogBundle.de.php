@@ -14,8 +14,8 @@ return array (
   'Last' => 'Letzte',
   'no log records found.' => 'Es existieren keine Log-Daten.',
   'Log viewer' => 'Log-Betrachter',
-  '' => '',
-  '' => '',
-  '' => '',
+  'Row' => 'Datensatz',
+  'to' => 'bis',
+  'from a total of' => 'von insgesamt',
   '' => '',
 );
