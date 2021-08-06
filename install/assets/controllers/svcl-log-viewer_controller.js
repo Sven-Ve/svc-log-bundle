@@ -3,10 +3,11 @@ import { Controller } from 'stimulus';
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
   static values = {
-    url: String
+    url: String,
+    showFilter: Boolean
   }
-  static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country", 
-    "next", "prev", "last", 
+  static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country",
+    "next", "prev", "last",
     "hideNext", "hidePrev", "firstBtn", "prevBtn", "nextBtn", "lastBtn",
     "count", "countDisplay", "from", "fromDisplay", "to", "toDisplay",
   ];
@@ -14,8 +15,7 @@ export default class extends Controller {
 
 
   connect() {
-    this.refreshContent(this.urlValue + "?onlyData=1&offset=0");
-    this.enableDisableButton();
+    this.refreshContent(this.createURL(0));
   }
 
   onSubmit(event) {
@@ -44,14 +44,16 @@ export default class extends Controller {
   }
 
   createURL(offset) {
-    var url = this.urlValue + "?onlyData=1&offset=" + offset;
-    url += "&sourceID=" + this.sourceIDTarget.value;
-    url += "&sourceIDC=" + this.sourceIDCTarget.value;
-    url += "&sourceType=" + this.sourceTypeTarget.value;
-    url += "&sourceTypeC=" + this.sourceTypeCTarget.value;
-    url += "&logLevel=" + this.logLevelTarget.value;
-    url += "&logLevelC=" + this.logLevelCTarget.value;
-    url += "&country=" + this.countryTarget.value;
+    var url = this.urlValue + "?&offset=" + offset;
+    if (this.showFilterValue) {
+      url += "&sourceID=" + this.sourceIDTarget.value;
+      url += "&sourceIDC=" + this.sourceIDCTarget.value;
+      url += "&sourceType=" + this.sourceTypeTarget.value;
+      url += "&sourceTypeC=" + this.sourceTypeCTarget.value;
+      url += "&logLevel=" + this.logLevelTarget.value;
+      url += "&logLevelC=" + this.logLevelCTarget.value;
+      url += "&country=" + this.countryTarget.value;
+    }
     return url;
   }
 
