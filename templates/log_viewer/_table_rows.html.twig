@@ -1,8 +1,10 @@
 {% trans_default_domain 'LogBundle' %}
 {% for log in logs | default(null) %}
 	<tr>
-		<td>{{ log.sourceIDText }}</td>
-		<td>{{ log.sourceTypeText }}</td>
+    {% if not hideSourceCols | default(false) %}
+      <td>{{ log.sourceIDText }}</td>
+      <td>{{ log.sourceTypeText }}</td>
+    {% endif %}
 		<td>{{ log.logLevelText }}</td>
 		<td>{{ log.logDate | format_datetime() }}</td>
 		<td>{{ log.country }}</td>

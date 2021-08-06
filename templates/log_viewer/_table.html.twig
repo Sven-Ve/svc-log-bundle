@@ -1,9 +1,11 @@
+{% trans_default_domain 'LogBundle' %}
 <div data-controller="svcl-log-viewer" 
   data-svcl-log-viewer-url-value="{{ path('svc_log_viewer_view_data') }}"
   data-svcl-log-viewer-show-filter-value="{{ showFilter | default(0) }}"
   data-svcl-log-viewer-default-source-id-value="{{ sourceID | default('') }}"
   data-svcl-log-viewer-default-source-type-value="{{ sourceType | default('') }}"
   data-svcl-log-viewer-default-log-level-value="{{ logLevel | default('') }}"
+  data-svcl-log-viewer-hide-source-cols-value="{{ hideSourceCols | default(0) }}"
 >
   <form data-action="svcl-log-viewer#onSubmit">
     <div class='table-responsive'>
@@ -56,8 +58,10 @@
             </tr>
           {% endif %}
           <tr>
-            <th>Source ID</th>
-            <th>Source type</th>
+            {% if not hideSourceCols | default(false) %}
+              <th>Source ID</th>
+              <th>Source type</th>
+            {% endif %}
             <th>Level</th>
             <th>Date</th>
             <th>Country</th>
@@ -65,7 +69,7 @@
           </tr>
         </thead>
         <tbody data-svcl-log-viewer-target="content">
-          {{ include("@SvcLog/log_viewer/_table_rows.html.twig") }}
+          {{ include("@SvcLog/log_viewer/_table_rows.html.twig", {'init': true}) }}
         </tbody>
       </table>
     </div>

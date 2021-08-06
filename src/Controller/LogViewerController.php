@@ -33,8 +33,7 @@ class LogViewerController extends AbstractController
   {
 
     return $this->render('@SvcLog/log_viewer/viewer.html.twig', [
-      'levelArray' => EventLog::ARR_LEVEL_TEXT,
-      'init' => true
+      'levelArray' => EventLog::ARR_LEVEL_TEXT
     ]);
   }
 
@@ -52,11 +51,10 @@ class LogViewerController extends AbstractController
     $logLevel = $this->checkParam($request->query->get("logLevel"));
     $logLevelC = $this->checkParam($request->query->get("logLevelC"));
     $country = $request->query->get("country");
-
-
+    $hideSourceCols = $this->checkParam($request->query->get("hideSourceCols")) ?? 0;
 
     $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country);
-    
+
     foreach ($logs as $log) {
       $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
       $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
@@ -69,13 +67,14 @@ class LogViewerController extends AbstractController
     $dataContr['hidePrev'] = $offset <= 0;
     $dataContr['hideNext'] = $offset >= count($logs) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $dataContr['count'] = count($logs);
-    $dataContr['from'] = $offset + 1;
+    $dataContr['from'] = min($offset + 1, count($logs));
     $dataContr['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, count($logs));
 
 
-    return $this->render('@SvcLog/log_viewer/_table_rows.html.twig' , [
+    return $this->render('@SvcLog/log_viewer/_table_rows.html.twig', [
       'logs' => $logs,
       'dataContr' => $dataContr,
+      'hideSourceCols' => $hideSourceCols
     ]);
   }
 

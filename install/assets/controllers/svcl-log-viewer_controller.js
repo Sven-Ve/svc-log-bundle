@@ -7,7 +7,8 @@ export default class extends Controller {
     showFilter: Boolean,
     defaultSourceId: String,
     defaultSourceType: String,
-    defaultLogLevel: String
+    defaultLogLevel: String,
+    hideSourceCols: Boolean
   }
   static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country",
     "next", "prev", "last",
@@ -18,8 +19,6 @@ export default class extends Controller {
 
 
   connect() {
-    console.log(this.defaultSourceTypeValue);
-    console.log(this.defaultSourceIdValue);
     this.refreshContent(this.createURL(0));
   }
 
@@ -63,6 +62,11 @@ export default class extends Controller {
       url += "&sourceType=" + this.defaultSourceTypeValue;
       url += "&logLevel=" + this.defaultLogLevelValue;
     }
+
+    if (this.hideSourceColsValue) {
+      url += "&hideSourceCols=1";
+    }
+
     return url;
   }
 

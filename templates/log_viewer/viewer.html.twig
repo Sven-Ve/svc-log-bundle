@@ -11,5 +11,5 @@
 		{% trans %}Log viewer{% endtrans %}
 	</h1>
 
-	{{ include("@SvcLog/log_viewer/_table.html.twig", {showFilter: true}) }}
+	{{ include("@SvcLog/log_viewer/_table.html.twig", {showFilter: true, hideSourceCols: false}) }}
 {% endblock %}
