@@ -1,6 +1,9 @@
 <div data-controller="svcl-log-viewer" 
   data-svcl-log-viewer-url-value="{{ path('svc_log_viewer_view_data') }}"
   data-svcl-log-viewer-show-filter-value="{{ showFilter | default(0) }}"
+  data-svcl-log-viewer-default-source-id-value="{{ sourceID | default('') }}"
+  data-svcl-log-viewer-default-source-type-value="{{ sourceType | default('') }}"
+  data-svcl-log-viewer-default-log-level-value="{{ logLevel | default('') }}"
 >
   <form data-action="svcl-log-viewer#onSubmit">
     <div class='table-responsive'>
@@ -14,7 +17,7 @@
                     {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceIDC"}) }}
                   </div>
                   <div class="col">
-                    <input type="text" class="form-control form-control-sm" name="sourceID" data-svcl-log-viewer-target="sourceID" placeholder="ID">
+                    <input type="text" class="form-control form-control-sm" name="sourceID" value="{{ sourceID | default('') }}" data-svcl-log-viewer-target="sourceID" placeholder="ID">
                   </div>
                 </div>
               </td>
@@ -24,7 +27,7 @@
                     {{ include("@SvcLog/log_viewer/_comparison.html.twig", {name: "sourceTypeC"}) }}
                   </div>
                   <div class="col">
-                    <input type="text" class="form-control form-control-sm" name="sourceType" data-svcl-log-viewer-target="sourceType" placeholder="type">
+                    <input type="text" class="form-control form-control-sm" name="sourceType" value="{{ sourceType | default('') }}" data-svcl-log-viewer-target="sourceType" placeholder="type">
                   </div>
                 </div>
               </td>

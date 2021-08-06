@@ -4,7 +4,10 @@ import { Controller } from 'stimulus';
 export default class extends Controller {
   static values = {
     url: String,
-    showFilter: Boolean
+    showFilter: Boolean,
+    defaultSourceId: String,
+    defaultSourceType: String,
+    defaultLogLevel: String
   }
   static targets = ["sourceID", "sourceType", "logLevel", "content", "sourceIDC", "sourceTypeC", "logLevelC", "country",
     "next", "prev", "last",
@@ -15,6 +18,8 @@ export default class extends Controller {
 
 
   connect() {
+    console.log(this.defaultSourceTypeValue);
+    console.log(this.defaultSourceIdValue);
     this.refreshContent(this.createURL(0));
   }
 
@@ -53,6 +58,10 @@ export default class extends Controller {
       url += "&logLevel=" + this.logLevelTarget.value;
       url += "&logLevelC=" + this.logLevelCTarget.value;
       url += "&country=" + this.countryTarget.value;
+    } else {
+      url += "&sourceID=" + this.defaultSourceIdValue;
+      url += "&sourceType=" + this.defaultSourceTypeValue;
+      url += "&logLevel=" + this.defaultLogLevelValue;
     }
     return url;
   }
