@@ -23,9 +23,8 @@ class SvcLogExtension extends Extension
     $this->createAssetFiles("config/packages/svc_log.yaml");
     $this->createAssetFiles("config/routes/svc_log.yaml");
     $this->createAssetFiles("config/packages/prod/svc_log.yaml");
-    $this->createAssetFiles("assets/controllers/svcl-log-viewer_controller.js");
 
-    $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+    $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../Resources/config'));
     $loader->load('services.xml');
 
     $configuration = $this->getConfiguration($configs, $container);

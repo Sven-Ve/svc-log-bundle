@@ -1,6 +1,6 @@
 {
     "name": "svc/log-bundle",
-    "description": "Package to log events and statistics in a database table",
+    "description": "Bundle to log events and statistics in a database table",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -8,6 +8,9 @@
             "name": "Sven Vetter",
             "email": "git.09o@svenvetter.com"
         }
+    ],
+    "keywords": [
+      "symfony-ux"
     ],
     "require": {
         "php": "^7.3.0 | ^8.0.0",

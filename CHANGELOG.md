@@ -95,3 +95,8 @@
 ## Version 1.1.0
 *Fri, 06 Aug 2021 20:45:03 +0000*
 - integrate ajax log viewer for third-party-apps
+
+
+## Version 1.2.0
+*Sat, 07 Aug 2021 20:28:34 +0000*
+- install stimulus controller via ux-webpack-logic

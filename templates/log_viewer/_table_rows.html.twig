@@ -15,11 +15,11 @@
 		<td colspan="4">{{ init | default(false) ? "Loading..." : "no log records found." | trans }}</td>
 	</tr>
 {% endfor %}
-<input type="hidden" value="{{ dataContr.next | default(0) }}" data-svcl-log-viewer-target="next" >
-<input type="hidden" value="{{ dataContr.last | default(0) }}" data-svcl-log-viewer-target="last" >
-<input type="hidden" value="{{ dataContr.prev | default(0) }}" data-svcl-log-viewer-target="prev" >
-<input type="hidden" value="{{ dataContr.hidePrev | default(0) }}" data-svcl-log-viewer-target="hidePrev" >
-<input type="hidden" value="{{ dataContr.hideNext | default(0) }}" data-svcl-log-viewer-target="hideNext" >
-<input type="hidden" value="{{ dataContr.count | default(0) }}" data-svcl-log-viewer-target="count" >
-<input type="hidden" value="{{ dataContr.from | default(0) }}" data-svcl-log-viewer-target="from" >
-<input type="hidden" value="{{ dataContr.to | default(0) }}" data-svcl-log-viewer-target="to" >
+<input type="hidden" value="{{ dataContr.next | default(0) }}" data-svc--log-bundle--view-target="next" >
+<input type="hidden" value="{{ dataContr.last | default(0) }}" data-svc--log-bundle--view-target="last" >
+<input type="hidden" value="{{ dataContr.prev | default(0) }}" data-svc--log-bundle--view-target="prev" >
+<input type="hidden" value="{{ dataContr.hidePrev | default(0) }}" data-svc--log-bundle--view-target="hidePrev" >
+<input type="hidden" value="{{ dataContr.hideNext | default(0) }}" data-svc--log-bundle--view-target="hideNext" >
+<input type="hidden" value="{{ dataContr.count | default(0) }}" data-svc--log-bundle--view-target="count" >
+<input type="hidden" value="{{ dataContr.from | default(0) }}" data-svc--log-bundle--view-target="from" >
+<input type="hidden" value="{{ dataContr.to | default(0) }}" data-svc--log-bundle--view-target="to" >
