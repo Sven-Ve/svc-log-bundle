@@ -47,8 +47,12 @@ export default class extends Controller {
     this.refreshContent(this.createURL(this.lastTarget.value));
   }
 
+  /**
+   * create the ajax url with all filter parameter
+   * @param {string} offset - the pagination offset
+   */
   createURL(offset) {
-    var url = this.urlValue + "?&offset=" + offset;
+    var url = this.urlValue + "?offset=" + offset;
     if (this.showFilterValue) {
       url += "&sourceID=" + this.sourceIDTarget.value;
       url += "&sourceIDC=" + this.sourceIDCTarget.value;

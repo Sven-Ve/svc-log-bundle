@@ -100,3 +100,8 @@
 ## Version 1.2.0
 *Sat, 07 Aug 2021 20:28:34 +0000*
 - install stimulus controller via ux-webpack-logic
+
+
+## Version 1.2.1
+*Sun, 15 Aug 2021 21:50:14 +0000*
+- fixing type in viewer.js/createURL
