@@ -5,9 +5,18 @@
       <td>{{ log.sourceIDText }}</td>
       <td>{{ log.sourceTypeText }}</td>
     {% endif %}
+
 		<td>{{ log.logLevelText }}</td>
 		<td>{{ log.logDate | format_datetime() }}</td>
 		<td>{{ log.country }}</td>
+		<td>{{ log.city }}</td>
+
+    {% if hideSourceCols | default(false) %}
+      <td>{{ log.platform }}</td>
+      <td>{{ log.browser }}</td>
+      <td>{{ log.referer }}</td>
+    {% endif %}
+
 		<td>{{ log.message }}</td>
 	</tr>
 {% else %}

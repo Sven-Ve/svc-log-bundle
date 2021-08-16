@@ -55,9 +55,11 @@ class LogViewerController extends AbstractController
 
     $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country);
 
-    foreach ($logs as $log) {
-      $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
-      $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
+    if (!$hideSourceCols) {
+      foreach ($logs as $log) {
+        $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
+        $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
+      }
     }
 
     $dataContr = [];

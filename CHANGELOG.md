@@ -104,4 +104,9 @@
 
 ## Version 1.2.1
 *Sun, 15 Aug 2021 21:50:14 +0000*
-- fixing type in viewer.js/createURL
+- fixing typo in viewer.js/createURL
+
+
+## Version 1.2.2
+*Mon, 16 Aug 2021 21:59:15 +0000*
+- don't use data provider, if source columns are hided

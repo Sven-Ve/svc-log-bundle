@@ -17,7 +17,6 @@ export default class extends Controller {
   ];
 
 
-
   connect() {
     this.refreshContent(this.createURL(0));
   }
@@ -74,6 +73,12 @@ export default class extends Controller {
     return url;
   }
 
+  /**
+   * refresh (ajax) a given url and show the result in the target container
+   * 
+   * @param {string} url
+   * @returns 
+   */
   async refreshContent(url) {
 
     const target = this.contentTarget;
@@ -85,6 +90,7 @@ export default class extends Controller {
     }
     catch (err) {
       console.log(err.message);
+      alert('Error during load. Please dry again.')
       location.reload();
       return;
     }
@@ -97,11 +103,15 @@ export default class extends Controller {
 
 
     } else {
+      alert('Error during load. Please dry again. (' + response.status + ')');
       console.log(response.status);
       location.reload();
     }
   }
 
+  /**
+   * refresh the count information (row 1 to 10 from 100)
+   */
   refreshCounts() {
     this.countDisplayTarget.innerText = this.countTarget.value;
     this.fromDisplayTarget.innerText = this.fromTarget.value;

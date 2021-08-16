@@ -51,7 +51,7 @@
               <td>
                 <input type="text" class="form-control form-control-sm" name="country" data-svc--log-bundle--view-target="country" placeholder="country">
               </td>
-
+              <td> </td>
               <td>
                 <input type='Submit' value='Go'>
               </td>
@@ -59,13 +59,19 @@
           {% endif %}
           <tr>
             {% if not hideSourceCols | default(false) %}
-              <th>Source ID</th>
-              <th>Source type</th>
+              <th scope="col">Source ID</th>
+              <th scope="col">Source type</th>
             {% endif %}
-            <th>Level</th>
-            <th>Date</th>
-            <th>Country</th>
-            <th>Message</th>
+            <th scope="col">{% trans %}Level{% endtrans %}</th>
+            <th scope="col">{% trans %}Date{% endtrans %}</th>
+            <th scope="col">{% trans %}Country{% endtrans %}</th>
+            <th scope="col">{% trans %}City{% endtrans %}</th>
+            {% if hideSourceCols | default(false) %}
+              <th scope="col">{% trans %}Platform{% endtrans %}</th>
+              <th scope="col">{% trans %}Browser{% endtrans %}</th>
+              <th scope="col">{% trans %}Referer{% endtrans %}</th>
+            {% endif %}
+            <th scope="col">{% trans %}Message{% endtrans %}</th>
           </tr>
         </thead>
         <tbody data-svc--log-bundle--view-target="content">
