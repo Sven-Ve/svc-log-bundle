@@ -1,17 +1,6 @@
 {% trans_default_domain 'LogBundle' %}
 {% for log in logs | default(null) %}
 	<tr>
-		<td>
-    <button type="button" class="btn btn-sm btn-primary" 
-      data-bs-toggle="modal" 
-      data-bs-target="#showDetail"
-      data-bs-sourceID="{{ log.sourceID }}"
-      data-bs-sourceType="{{ log.sourceType }}"
-      data-bs-message="{{ log.message }}"
-    >
-      Detail
-    </button>
-    </td>
     {% if not hideSourceCols | default(false) %}
       <td>{{ log.sourceIDText }}</td>
       <td>{{ log.sourceTypeText }}</td>
