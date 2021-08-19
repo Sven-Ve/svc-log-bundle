@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Controller for displaying and filtering the log
@@ -78,6 +80,18 @@ class LogViewerController extends AbstractController
       'dataContr' => $dataContr,
       'hideSourceCols' => $hideSourceCols
     ]);
+  }
+
+  public function getDetailAsJson(int $id, SvcLogRepository $svcLogRep, SerializerInterface $serializer): Response {
+
+    $log = $svcLogRep->find($id);
+//    $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
+//    $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
+
+
+    $logJson = $serializer->serialize($log, 'json');
+
+    return JsonResponse::fromJsonString($logJson);
   }
 
   /**

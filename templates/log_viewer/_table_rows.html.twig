@@ -1,17 +1,10 @@
 {% trans_default_domain 'LogBundle' %}
 {% for log in logs | default(null) %}
-	<tr>
-		<td>
-    <button type="button" class="btn btn-sm btn-primary" 
-      data-bs-toggle="modal" 
-      data-bs-target="#showDetail"
-      data-bs-sourceID="{{ log.sourceID }}"
-      data-bs-sourceType="{{ log.sourceType }}"
-      data-bs-message="{{ log.message }}"
-    >
-      Detail
-    </button>
-    </td>
+	<tr 
+    data-controller="detail" 
+    data-detail-url-value="{{ path('svc_log_viewer_get_detail', {id: log.id}) }}"
+    data-action="click->detail#showDetail"
+  >
     {% if not hideSourceCols | default(false) %}
       <td>{{ log.sourceIDText }}</td>
       <td>{{ log.sourceTypeText }}</td>
@@ -28,7 +21,6 @@
       <td>{{ log.referer }}</td>
     {% endif %}
 
-		<td>{{ log.message }}</td>
 	</tr>
 {% else %}
 	<tr>
