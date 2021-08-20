@@ -1,5 +1,9 @@
-import { Controller } from 'stimulus';
-import { Modal } from 'bootstrap';
+import {
+  Controller
+} from 'stimulus';
+import {
+  Modal
+} from 'bootstrap';
 
 
 /* stimulusFetch: 'lazy' */
@@ -10,11 +14,10 @@ export default class extends Controller {
 
 
   connect() {
-//    console.log("connected" + this.idValue);
+//    console.log("connected");
   }
 
   showDetail() {
-    console.log("Detail " + this.urlValue);
     this.loadData(this.urlValue);
   }
 
@@ -23,8 +26,7 @@ export default class extends Controller {
     var response;
     try {
       response = await fetch(url);
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err.message);
       alert('Error during load. Please dry again.')
       location.reload();
@@ -32,7 +34,7 @@ export default class extends Controller {
     }
 
     if (response.ok) {
-      const result = await response.json();
+      const result = await response.text();
       this.showModal(result);
 
 
@@ -44,16 +46,12 @@ export default class extends Controller {
   }
 
   showModal(data) {
-    var model =  document.getElementById('showDetail')
+    var model = document.getElementById('showDetail')
     var myModal = new Modal(model);
     myModal.show();
 
 
-    model.querySelector('.mc-sourceID').textContent = data.sourceID;
-    model.querySelector('.mc-sourceType').textContent = data.sourceType;
-    model.querySelector('.mc-message').textContent = data.message;
-    model.querySelector('.mc-date').textContent = data.logDate;
-    model.querySelector('.mc-logLevel').textContent = data.logLevel;
-}
+    model.querySelector('.modal-details').innerHTML = data;
+  }
 
 }

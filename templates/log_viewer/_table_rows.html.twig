@@ -2,7 +2,7 @@
 {% for log in logs | default(null) %}
 	<tr 
     data-controller="detail" 
-    data-detail-url-value="{{ path('svc_log_viewer_get_detail', {id: log.id}) }}"
+    data-detail-url-value="{{ path('svc_log_viewer_view_detail', {id: log.id}) }}"
     data-action="click->detail#showDetail"
   >
     {% if not hideSourceCols | default(false) %}

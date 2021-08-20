@@ -1,0 +1,14 @@
+<div class="table-responsive">
+  <table class='table table-sm table-bordered table-hover'>
+    <tr><th>Date</th><td>{{ log.logDate | format_datetime() }}</td></tr>
+    <tr><th>SourceID</th><td>{{ log.sourceIDText }} (ID: {{ log.sourceID }})</td></tr>
+    <tr><th>SourceType</th><td>{{ log.sourceTypeText }} (Type: {{ log.sourceType }})</td></tr>
+    <tr><th>Log level</th><td>{{ log.logLevelText }}</td></tr>
+    <tr><th>Message</th><td>{{ log.message }}</td></tr>
+    <tr><th>Country</th><td>{{ log.country }}</td></tr>
+    <tr><th>City</th><td>{{ log.city }}</td></tr>
+    <tr><th>Platform</th><td>{{ log.platform }}</td></tr>
+    <tr><th>Browser</th><td>{{ log.browser }}</td></tr>
+    <tr><th>Referer</th><td>{{ log.referer }}</td></tr>
+  </table>
+</div>

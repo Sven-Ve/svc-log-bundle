@@ -12,7 +12,7 @@
         <!-- settings -->
     </route>
 
-    <route id="svc_log_viewer_get_detail" controller="svc_log.controller.logviewer::getDetailAsJson" path="/detail/{id}" >
+    <route id="svc_log_viewer_view_detail" controller="svc_log.controller.logviewer::viewDetail" path="/detail/{id}" >
         <!-- settings -->
     </route>
 
