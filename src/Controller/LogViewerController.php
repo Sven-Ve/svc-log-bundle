@@ -84,8 +84,8 @@ class LogViewerController extends AbstractController
   {
 
     $log = $svcLogRep->find($id);
-    $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType());
-    $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType());
+    $log->sourceTypeText = $this->dataProvider->getSourceTypeText($log->getSourceType()); // @phpstan-ignore-line
+    $log->sourceIDText = $this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()); // @phpstan-ignore-line
 
     return $this->render('@SvcLog/log_viewer/_detail.html.twig', [
       'log' => $log,

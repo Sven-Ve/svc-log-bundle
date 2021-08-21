@@ -17,5 +17,12 @@ return array (
   'Row' => 'Datensatz',
   'to' => 'bis',
   'from a total of' => 'von insgesamt',
+  'Log details' => 'Log-Details',
+  'Level' => 'Level',
+  'Message' => 'Nachricht',
+  'Referer' => 'Referer',
+  '' => '',
+  '' => '',
+  '' => '',
   '' => '',
 );

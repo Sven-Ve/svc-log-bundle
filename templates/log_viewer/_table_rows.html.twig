@@ -1,9 +1,10 @@
 {% trans_default_domain 'LogBundle' %}
 {% for log in logs | default(null) %}
 	<tr 
-    data-controller="detail" 
-    data-detail-url-value="{{ path('svc_log_viewer_view_detail', {id: log.id}) }}"
-    data-action="click->detail#showDetail"
+    data-controller="svc--util-bundle--modal"
+    data-svc--util-bundle--modal-url-value="{{ path('svc_log_viewer_view_detail', {id: log.id}) }}"
+    data-svc--util-bundle--modal-title-value="{% trans %}Log details{% endtrans %}"
+    data-action="click->svc--util-bundle--modal#show"
   >
     {% if not hideSourceCols | default(false) %}
       <td>{{ log.sourceIDText }}</td>

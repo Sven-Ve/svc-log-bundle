@@ -110,3 +110,8 @@
 ## Version 1.2.2
 *Mon, 16 Aug 2021 21:59:15 +0000*
 - don't use data provider, if source columns are hided
+
+
+## Version 1.3.0
+*Sat, 21 Aug 2021 22:03:36 +0000*
+- added modal dialog for log details

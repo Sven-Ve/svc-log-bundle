@@ -1,23 +1,15 @@
-import {
-  Controller
-} from 'stimulus';
-import {
-  Modal
-} from 'bootstrap';
+import {Controller} from 'stimulus';
+import {Modal} from 'bootstrap';
 
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
   static values = {
-    url: String
+    url: String,
+    title: String
   }
 
-
-  connect() {
-//    console.log("connected");
-  }
-
-  showDetail() {
+  show() {
     this.loadData(this.urlValue);
   }
 
@@ -34,24 +26,23 @@ export default class extends Controller {
     }
 
     if (response.ok) {
-      const result = await response.text();
-      this.showModal(result);
-
+      this.displayModal(await response.text());
 
     } else {
       alert('Error during load. Please dry again. (' + response.status + ')');
-      console.log(response.status);
       location.reload();
     }
   }
 
-  showModal(data) {
-    var model = document.getElementById('showDetail')
+  displayModal(data) {
+    var model = document.getElementById('svcModal')
+    model.querySelector('.modal-details').innerHTML = data;
+    if (this.titleValue) {
+      model.querySelector('.modal-title').textContent = this.titleValue;
+    }
+
     var myModal = new Modal(model);
     myModal.show();
-
-
-    model.querySelector('.modal-details').innerHTML = data;
   }
 
 }
