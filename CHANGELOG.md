@@ -119,4 +119,4 @@
 
 ## Version 1.4.0
 *Sun, 22 Aug 2021 21:23:05 +0000*
-- moved Resources back to /src, added pseudo columns *Text
+- moved Resources back to /src, added pseudo columns $source*Text
