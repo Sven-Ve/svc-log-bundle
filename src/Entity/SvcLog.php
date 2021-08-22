@@ -83,6 +83,12 @@ class SvcLog
    */
   private $referer;
 
+  /**
+   * not in database, only helper columns
+   */
+  private string|null $sourceIDText;
+  private string|null $sourceTypeText;
+
   public function getId(): ?int
   {
     return $this->id;
@@ -253,6 +259,30 @@ class SvcLog
   public function setReferer(?string $referer): self
   {
     $this->referer = $referer;
+
+    return $this;
+  }
+
+  public function getSourceIDText(): ?string
+  {
+    return $this->sourceIDText;
+  }
+
+  public function setSourceIDText(?string $sourceIDText): self
+  {
+    $this->sourceIDText = $sourceIDText;
+
+    return $this;
+  }
+
+  public function getSourceTypeText(): ?string
+  {
+    return $this->sourceTypeText;
+  }
+
+  public function setSourceTypeText(?string $sourceTypeText): self
+  {
+    $this->sourceTypeText = $sourceTypeText;
 
     return $this;
   }

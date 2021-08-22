@@ -115,3 +115,8 @@
 ## Version 1.3.0
 *Sat, 21 Aug 2021 22:03:36 +0000*
 - added modal dialog for log details
+
+
+## Version 1.4.0
+*Sun, 22 Aug 2021 21:23:05 +0000*
+- moved Resources back to /src, added pseudo columns *Text

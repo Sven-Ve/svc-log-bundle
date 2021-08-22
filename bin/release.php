@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.3.0";
-$message = "added modal dialog for log details";
+$version = "1.4.0";
+$message = "moved Resources back to /src, added pseudo columns $source*Text";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);
