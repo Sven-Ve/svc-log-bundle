@@ -11,7 +11,7 @@
       <td>{{ log.sourceTypeText }}</td>
     {% endif %}
 
-		<td>{{ log.logLevelText }}</td>
+		<td class='{{ log.getLogLevelBootstrap5Class }}' style='text-align:center;'>{{ log.logLevelText }}</td>
 		<td>{{ log.logDate | format_datetime() }}</td>
 		<td>{{ log.country }}</td>
 		<td>{{ log.city }}</td>

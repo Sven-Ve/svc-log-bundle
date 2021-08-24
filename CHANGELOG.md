@@ -120,3 +120,8 @@
 ## Version 1.4.0
 *Sun, 22 Aug 2021 21:23:05 +0000*
 - moved Resources back to /src, added pseudo columns $source*Text
+
+
+## Version 1.5.0
+*Tue, 24 Aug 2021 22:23:33 +0000*
+- added color classes to the log result table

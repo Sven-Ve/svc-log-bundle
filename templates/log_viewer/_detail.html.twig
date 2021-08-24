@@ -4,7 +4,7 @@
     <tr><th>{% trans %}Date{% endtrans %}</th><td>{{ log.logDate | format_datetime() }}</td></tr>
     <tr><th>{% trans %}SourceID{% endtrans %}</th><td>{{ log.sourceIDText }} (ID: {{ log.sourceID }})</td></tr>
     <tr><th>{% trans %}SourceType{% endtrans %}</th><td>{{ log.sourceTypeText }} (Type: {{ log.sourceType }})</td></tr>
-    <tr><th>{% trans %}Level{% endtrans %}</th><td>{{ log.logLevelText }}</td></tr>
+    <tr><th>{% trans %}Level{% endtrans %}</th><td class='{{ log.getLogLevelBootstrap5Class }}'>{{ log.logLevelText }}</td></tr>
     <tr><th>{% trans %}Message{% endtrans %}</th><td>{{ log.message }}</td></tr>
     <tr><th>{% trans %}Country{% endtrans %}</th><td>{{ log.country }}</td></tr>
     <tr><th>{% trans %}City{% endtrans %}</th><td>{{ log.city }}</td></tr>

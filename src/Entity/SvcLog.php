@@ -132,7 +132,7 @@ class SvcLog
     if (array_key_exists($this->logLevel, EventLog::ARR_LEVEL_TEXT)) {
       return EventLog::ARR_LEVEL_TEXT[$this->logLevel];
     } else {
-      return "?";
+      return "? (" . strval($this->logLevel) . ")";
     }
   }
 
@@ -286,4 +286,53 @@ class SvcLog
 
     return $this;
   }
+
+  /**
+   * get the background color value per log level (use the background values from bootstrap 5)
+   *
+   * @return string
+   */
+  public function getLogLevelBGColor(): string
+  {
+    switch ($this->logLevel) {
+      case EventLog::LEVEL_INFO:
+        return 'primary';
+      case EventLog::LEVEL_DATA:
+        return 'success';
+      case EventLog::LEVEL_WARN:
+        return 'warning';
+      case EventLog::LEVEL_ERROR:
+        return 'danger';
+      case EventLog::LEVEL_FATAL:
+        return 'danger';
+      default:
+        return 'secondary';
+    }
+  }
+
+  /**
+   * get the foreground color value per log level (use the background values from bootstrap 5)
+   *
+   * @return string
+   */
+  public function getLogLevelFGColor(): string
+  {
+    switch ($this->logLevel) {
+      case EventLog::LEVEL_WARN:
+        return 'dark';
+      default:
+        return 'white';
+    }
+  }
+
+  /**
+   * get the complete bootstrap 5 class for the logLevel
+   *
+   * @return string
+   */
+  public function getLogLevelBootstrap5Class(): string
+  {
+    return 'bg-' . $this->getLogLevelBGColor() . " text-" . $this->getLogLevelFGColor();
+  }
+
 }
