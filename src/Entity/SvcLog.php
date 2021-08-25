@@ -83,6 +83,17 @@ class SvcLog
    */
   private $referer;
 
+    /**
+   * @ORM\Column(type="string", length=255, nullable=true)
+   */
+  private $userName;
+
+
+    /**
+   * @ORM\Column(type="integer", nullable=true)
+   */
+  private $userID = 0;
+
   /**
    * not in database, only helper columns
    */
@@ -287,6 +298,29 @@ class SvcLog
     return $this;
   }
 
+  public function getUserID(): ?int
+  {
+    return $this->userID;
+  }
+
+  public function setUserID(?int $userID): self
+  {
+    $this->userID = $userID;
+
+    return $this;
+  }
+
+  public function getUserName(): ?string
+  {
+    return $this->userName;
+  }
+
+  public function setUserName(?string $userName): self
+  {
+    $this->userName = $userName;
+
+    return $this;
+  }
   /**
    * get the background color value per log level (use the background values from bootstrap 5)
    *

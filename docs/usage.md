@@ -17,6 +17,10 @@ svc_log:
     # Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)
     enable_ip_saving:     false
 
+
+    # Should the user id and name recorded? Please set to true only if this is allowed in your environment (personal data...) and the security bundle is installed
+    enable_user_saving:   false
+
     # Do you like different source types?
     enable_source_type:   true
 

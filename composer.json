@@ -6,11 +6,11 @@
     "authors": [
         {
             "name": "Sven Vetter",
-            "email": "git.09o@svenvetter.com"
+            "email": "dev@svenvetter.com"
         }
     ],
     "keywords": [
-      "symfony-ux"
+        "symfony-ux"
     ],
     "require": {
         "php": "^7.3.0 | ^8.0.0",
@@ -27,6 +27,9 @@
         "donatj/phpuseragentparser": "^1.4",
         "svc/util-bundle": "^1.7|dev-main",
         "svc/param-bundle": "^1|dev-main"
+    },
+    "suggest": {
+        "symfony/security-bundle": "if you want to store information about the connected user in the logs"
     },
     "autoload": {
         "psr-4": {

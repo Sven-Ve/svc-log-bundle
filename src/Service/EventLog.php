@@ -12,6 +12,8 @@ use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
+
 
 /**
  * Helper class to log events
@@ -47,19 +49,25 @@ class EventLog
   private $enableIPSaving;
   private $logRepo;
   private $minLogLevel;
+  private $security;
+  private $enableUserSaving;
 
   public function __construct(
     bool $enableSourceType,
     bool $enableIPSaving,
+    bool $enableUserSaving,
     int $minLogLevel,
+    ?Security $security,
     EntityManagerInterface $entityManager,
-    SvcLogRepository $logRepo
+    SvcLogRepository $logRepo,
   ) {
     $this->enableSourceType = $enableSourceType;
     $this->enableIPSaving = $enableIPSaving;
     $this->minLogLevel = $minLogLevel;
     $this->entityManager = $entityManager;
     $this->logRepo = $logRepo;
+    $this->security = $security;
+    $this->enableUserSaving = $enableUserSaving;
   }
 
   /**
@@ -109,9 +117,26 @@ class EventLog
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
+    if ($this->enableUserSaving and $this->security) {
+      try {
+        $user = $this->security->getUser();
+        if ($user) {
+          $log->setUserID($user->getId());
+
+          if (method_exists($this->security->getUser(), 'getUserIdentifier')) {
+            $log->setUserName($user->getUserIdentifier());
+          } else {
+            $log->setUserName($user->getUserName());
+          }
+        }
+      } catch (Exception $e) {
+        // ignore user record
+      }
+    }
+
     try {
       $this->entityManager->persist($log);
-      $this->entityManager->flush();  
+      $this->entityManager->flush();
     } catch (Exception $e) {
       return false;
     }

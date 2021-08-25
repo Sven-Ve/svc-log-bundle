@@ -30,6 +30,8 @@ class SvcLogExtension extends Extension
     $configuration = $this->getConfiguration($configs, $container);
     $config = $this->processConfiguration($configuration, $configs);
 
+    $enableUserSaving = $config['enable_user_saving'];
+
     $definition = $container->getDefinition('Svc\LogBundle\Service\LogStatistics');
     $definition->setArgument(0, $config['enable_source_type']);
     $definition->setArgument(1, $config['enable_ip_saving']);
@@ -38,7 +40,11 @@ class SvcLogExtension extends Extension
     $definition = $container->getDefinition('Svc\LogBundle\Service\EventLog');
     $definition->setArgument(0, $config['enable_source_type']);
     $definition->setArgument(1, $config['enable_ip_saving']);
-    $definition->setArgument(2, $config['min_log_level']);
+    $definition->setArgument(2, $enableUserSaving);
+    $definition->setArgument(3, $config['min_log_level']);
+    if (!$enableUserSaving) {
+      $definition->setArgument(4, null); // set security to null
+    }
 
     if (null !== $config['data_provider']) {
       $container->setAlias('svc_log.data_provider', $config['data_provider']);
