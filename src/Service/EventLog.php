@@ -57,7 +57,7 @@ class EventLog
     bool $enableIPSaving,
     bool $enableUserSaving,
     int $minLogLevel,
-    ?Security $security,
+    ?Security $security, /** @phpstan-ignore-line */
     EntityManagerInterface $entityManager,
     SvcLogRepository $logRepo,
   ) {
