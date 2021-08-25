@@ -6,13 +6,17 @@
     <tr><th>{% trans %}SourceType{% endtrans %}</th><td>{{ log.sourceTypeText }} (Type: {{ log.sourceType }})</td></tr>
     <tr><th>{% trans %}Level{% endtrans %}</th><td class='{{ log.getLogLevelBootstrap5Class }}'>{{ log.logLevelText }}</td></tr>
     <tr><th>{% trans %}Message{% endtrans %}</th><td>{{ log.message }}</td></tr>
-    <tr><th>{% trans %}Country{% endtrans %}</th><td>{{ log.country }}</td></tr>
-    <tr><th>{% trans %}City{% endtrans %}</th><td>{{ log.city }}</td></tr>
-    <tr><th>{% trans %}IP{% endtrans %}</th><td>{{ log.ip }}</td></tr>
+    {% if enableIPSaving %}
+      <tr><th>{% trans %}Country{% endtrans %}</th><td>{{ log.country }}</td></tr>
+      <tr><th>{% trans %}City{% endtrans %}</th><td>{{ log.city }}</td></tr>
+      <tr><th>{% trans %}IP{% endtrans %}</th><td>{{ log.ip }}</td></tr>
+    {% endif %}
     <tr><th>{% trans %}Platform{% endtrans %}</th><td>{{ log.platform }}</td></tr>
     <tr><th>{% trans %}Browser{% endtrans %}</th><td>{{ log.browser }}</td></tr>
     <tr><th>{% trans %}Referer{% endtrans %}</th><td>{{ log.referer }}</td></tr>
-    <tr><th>{% trans %}User ID{% endtrans %}</th><td>{{ log.userID }}</td></tr>
-    <tr><th>{% trans %}User name{% endtrans %}</th><td>{{ log.userName }}</td></tr>
+    {% if enableUserSaving %}
+      <tr><th>{% trans %}User ID{% endtrans %}</th><td>{{ log.userID ? log.userID : '' }}</td></tr>
+      <tr><th>{% trans %}User name{% endtrans %}</th><td>{{ log.userName }}</td></tr>
+    {% endif %}
   </table>
 </div>

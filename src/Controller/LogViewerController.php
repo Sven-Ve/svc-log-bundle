@@ -21,9 +21,18 @@ class LogViewerController extends AbstractController
 {
 
   private $dataProvider;
-  public function __construct(DataProviderInterface $dataProvider)
+  private $enableUserSaving;
+  private $enableIPSaving;
+
+  public function __construct(
+    DataProviderInterface $dataProvider, 
+    bool $enableUserSaving,
+    bool $enableIPSaving,
+  )
   {
+    $this->enableUserSaving = $enableUserSaving;
     $this->dataProvider = $dataProvider;
+    $this->enableIPSaving = $enableIPSaving;
   }
 
   /**
@@ -89,6 +98,8 @@ class LogViewerController extends AbstractController
 
     return $this->render('@SvcLog/log_viewer/_detail.html.twig', [
       'log' => $log,
+      'enableUserSaving' => $this->enableUserSaving,
+      'enableIPSaving' => $this->enableIPSaving,
     ]);
   }
 

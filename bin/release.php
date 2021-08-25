@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.5.0";
-$message = "added color classes to the log result table";
+$version = "1.6.0";
+$message = "added user information (if allowed) to log";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

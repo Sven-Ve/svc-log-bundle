@@ -125,3 +125,8 @@
 ## Version 1.5.0
 *Tue, 24 Aug 2021 22:23:33 +0000*
 - added color classes to the log result table
+
+
+## Version 1.6.0
+*Wed, 25 Aug 2021 20:20:09 +0000*
+- added user information (if allowed) to log

@@ -46,6 +46,10 @@ class SvcLogExtension extends Extension
       $definition->setArgument(4, null); // set security to null
     }
 
+    $definition = $container->getDefinition('svc_log.controller.logviewer');
+    $definition->setArgument(1, $enableUserSaving);
+    $definition->setArgument(2, $config['enable_ip_saving']);
+
     if (null !== $config['data_provider']) {
       $container->setAlias('svc_log.data_provider', $config['data_provider']);
     }
