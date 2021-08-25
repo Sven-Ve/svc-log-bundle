@@ -29,7 +29,7 @@
         "svc/param-bundle": "^1|dev-main"
     },
     "suggest": {
-        "symfony/security-bundle": "if you want to store information about the connected user in the logs"
+        "symfony/security-bundle": "if you want to store information about the logged in user in the logs"
     },
     "autoload": {
         "psr-4": {
