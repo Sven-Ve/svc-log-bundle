@@ -130,3 +130,8 @@
 ## Version 1.6.0
 *Wed, 25 Aug 2021 20:20:09 +0000*
 - added user information (if allowed) to log
+
+
+## Version 1.6.1
+*Sat, 28 Aug 2021 19:51:09 +0000*
+- added check, if SecurityBundle installed when enable_user_saving = true

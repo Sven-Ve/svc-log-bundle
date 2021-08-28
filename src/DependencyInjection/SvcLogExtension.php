@@ -32,6 +32,12 @@ class SvcLogExtension extends Extension
 
     $enableUserSaving = $config['enable_user_saving'];
 
+    if ($enableUserSaving) {
+      if (!array_key_exists('SecurityBundle', $container->getParameter('kernel.bundles'))) {
+        throw new Exception('if you set "enable_user_saving" to true (in svc_log.yaml) you have to install the SecurityBundle.');
+      }
+    }
+
     $definition = $container->getDefinition('Svc\LogBundle\Service\LogStatistics');
     $definition->setArgument(0, $config['enable_source_type']);
     $definition->setArgument(1, $config['enable_ip_saving']);
@@ -53,7 +59,6 @@ class SvcLogExtension extends Extension
     if (null !== $config['data_provider']) {
       $container->setAlias('svc_log.data_provider', $config['data_provider']);
     }
-
   }
 
   /**
@@ -83,4 +88,3 @@ class SvcLogExtension extends Extension
     return true;
   }
 }
-
