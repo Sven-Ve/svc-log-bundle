@@ -192,4 +192,9 @@ class EventLog
     $this->entityManager->flush();
     return $successCnt;
   }
+
+  public function purgeLogs(int $keepMonth, bool $dryRun): int {
+    
+    return 0;
+  }
 }

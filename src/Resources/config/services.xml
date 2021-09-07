@@ -30,6 +30,10 @@
         <tag name="console.command" />
       </service>
 
+      <service id="Svc\LogBundle\Command\PurgeLogsCommand" class="Svc\LogBundle\Command\PurgeLogsCommand" public="true" autowire="true" autoconfigure="false" >
+        <tag name="console.command" />
+      </service>
+
       <service id="Svc\LogBundle\Repository\SvcLogRepository" class="Svc\LogBundle\Repository\SvcLogRepository" public="false" autowire="true" autoconfigure="true" >
         <tag name="doctrine.repository_service"/>
       </service>

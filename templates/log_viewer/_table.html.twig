@@ -13,6 +13,7 @@
         <thead>
           {% if showFilter | default(false) %}
             <tr>
+              <td> </td>
               <td>
                 <div class="row">
                   <div class="col">
@@ -51,13 +52,14 @@
               <td>
                 <input type="text" class="form-control form-control-sm" name="country" data-svc--log-bundle--view-target="country" placeholder="country">
               </td>
-              <td> </td>
               <td>
                 <input type='Submit' value='Go'>
               </td>
             </tr>
           {% endif %}
+
           <tr>
+            <th scope="col"> </th>
             {% if not hideSourceCols | default(false) %}
               <th scope="col">Source ID</th>
               <th scope="col">Source type</th>

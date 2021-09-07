@@ -6,6 +6,14 @@
     data-svc--util-bundle--modal-title-value="{% trans %}Log details{% endtrans %}"
     data-action="click->svc--util-bundle--modal#show"
   >
+    <td>
+      {% if log.message %}
+        <i class="fas fa-comments" title="Message"></i>
+      {% endif %}
+      {% if log.userName %}
+        <i class="fas fa-user-tag" title="User info"></i>
+      {% endif %}
+    </td>
     {% if not hideSourceCols | default(false) %}
       <td>{{ log.sourceIDText }}</td>
       <td>{{ log.sourceTypeText }}</td>
