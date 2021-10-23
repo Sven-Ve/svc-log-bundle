@@ -53,8 +53,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
     if ($startDate) {
       $stmt->bindValue('startDate', $startDate->format("Y-m"));
     }
-    $stmt->executeStatement();
-    return $stmt->rowCount();
+    return $stmt->executeStatement();
   }
 
   /**
@@ -79,8 +78,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       if ($startDate) {
         $stmt->bindValue('startDate', $startDate->format("Y-m-d H:i:s"));
       }
-      $stmt->executeStatement();
-      return $stmt->rowCount();
+      return $stmt->executeStatement();
     } catch (Exception $e) {
       dump($e->getMessage());
       return -1;

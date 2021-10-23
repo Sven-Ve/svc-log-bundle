@@ -135,3 +135,8 @@
 ## Version 1.6.1
 *Sat, 28 Aug 2021 19:51:09 +0000*
 - added check, if SecurityBundle installed when enable_user_saving = true
+
+
+## Version 1.6.2
+*Sat, 23 Oct 2021 20:52:57 +0000*
+- fixed wrong rowCount call in executeStatement

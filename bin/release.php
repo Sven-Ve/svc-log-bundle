@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.6.1";
-$message = "added check, if SecurityBundle installed when enable_user_saving = true";
+$version = "1.6.2";
+$message = "fixed wrong rowCount call in executeStatement";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);
