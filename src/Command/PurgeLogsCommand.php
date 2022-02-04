@@ -20,12 +20,7 @@ class PurgeLogsCommand extends Command
   protected static $defaultName = 'svc_log:purge-logs';
   protected static $defaultDescription = 'Purge old log files';
 
-  private $statsHelper;
-  public function __construct(StatsHelper $statsHelper)
-  {
-    parent::__construct();
-    $this->statsHelper = $statsHelper;
-  }
+
   protected function configure()
   {
     $this

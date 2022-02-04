@@ -25,7 +25,7 @@
         "symfony/twig-bundle": "^5",
         "twig/intl-extra": "^2.12|^3.0",
         "donatj/phpuseragentparser": "^1.4",
-        "svc/util-bundle": "^1.7|dev-main",
+        "svc/util-bundle": "^2|dev-main",
         "svc/param-bundle": "^1|dev-main"
     },
     "suggest": {
@@ -44,10 +44,17 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5",
         "symfony/browser-kit": "^5",
-        "phpstan/phpstan": "^0.12.94"
+        "phpstan/phpstan": "^1",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-doctrine": "^1.2"
     },
     "scripts": {
         "test": "vendor/bin/simple-phpunit",
         "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }

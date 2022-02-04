@@ -42,7 +42,7 @@ class BatchFillLocationCommand extends Command
     } catch (LogExceptionInterface $e) {
       $io->error($e->getReason());
       return Command::FAILURE;
-    } catch (Exception $e) {
+    } catch (Exception $e) { /** @phpstan-ignore-line */
       $io->error($e->getMessage());
       return Command::FAILURE;
     }

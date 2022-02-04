@@ -45,7 +45,7 @@ class EventLog
   ];
 
   private $entityManager;
-  private $enableSourceType;
+  private $enableSourceType; /** @phpstan-ignore-line */
   private $enableIPSaving;
   private $logRepo;
   private $minLogLevel;

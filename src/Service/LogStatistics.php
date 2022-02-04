@@ -21,7 +21,7 @@ class LogStatistics
   private $svcLogRep;
   private $requestStack;
   private $router;
-  private $enableSourceType;
+  private $enableSourceType; /** @phpstan-ignore-line */
   private $enableIPSaving;
   private $offsetParamName;
   private $statMonRep;
