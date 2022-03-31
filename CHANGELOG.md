@@ -140,3 +140,8 @@
 ## Version 1.6.2
 *Sat, 23 Oct 2021 20:52:57 +0000*
 - fixed wrong rowCount call in executeStatement
+
+
+## Version 2.0.0
+*Thu, 31 Mar 2022 20:46:48 +0000*
+- added initial compatibility to stimulus 3

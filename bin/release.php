@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "1.6.2";
-$message = "fixed wrong rowCount call in executeStatement";
+$version = "2.0.0";
+$message = "added initial compatibility to stimulus 3";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);
