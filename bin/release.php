@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "2.0.0";
-$message = "added initial compatibility to stimulus 3";
+$version = "2.0.1";
+$message = "fix for symfony 5.4";
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);

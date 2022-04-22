@@ -145,3 +145,8 @@
 ## Version 2.0.0
 *Thu, 31 Mar 2022 20:46:48 +0000*
 - added initial compatibility to stimulus 3
+
+
+## Version 2.0.1
+*Fri, 22 Apr 2022 20:22:53 +0000*
+- fix for symfony 5.4
