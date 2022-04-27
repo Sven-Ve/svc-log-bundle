@@ -13,16 +13,16 @@
         "symfony-ux"
     ],
     "require": {
-        "php": "^7.3.0 | ^8.0.0",
+        "php": "^7.3.0 | ^8",
         "doctrine/annotations": "^1.11",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/orm": "^2.8",
-        "symfony/framework-bundle": "^5.3",
-        "symfony/validator": "^5",
-        "symfony/http-kernel": "^5",
-        "symfony/options-resolver": "^5",
-        "symfony/translation": "^5",
-        "symfony/twig-bundle": "^5",
+        "symfony/framework-bundle": "^5.3|^6",
+        "symfony/validator": "^5|^6",
+        "symfony/http-kernel": "^5|^6",
+        "symfony/options-resolver": "^5|^6",
+        "symfony/translation": "^5|^6",
+        "symfony/twig-bundle": "^5|^6",
         "twig/intl-extra": "^2.12|^3.0",
         "donatj/phpuseragentparser": "^1.4",
         "svc/util-bundle": "^2|dev-main",
@@ -42,8 +42,8 @@
         }
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5",
-        "symfony/browser-kit": "^5",
+        "symfony/phpunit-bridge": "^5|^6",
+        "symfony/browser-kit": "^5|^6",
         "phpstan/phpstan": "^1",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-doctrine": "^1.2"

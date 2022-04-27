@@ -150,3 +150,8 @@
 ## Version 2.0.1
 *Fri, 22 Apr 2022 20:22:53 +0000*
 - fix for symfony 5.4
+
+
+## Version 2.1.0
+*Wed, 27 Apr 2022 16:13:01 +0000*
+- ready for symfony 6
