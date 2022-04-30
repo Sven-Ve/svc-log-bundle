@@ -155,3 +155,8 @@
 ## Version 2.1.0
 *Wed, 27 Apr 2022 16:13:01 +0000*
 - ready for symfony 6
+
+
+## Version 2.1.1
+*Sat, 30 Apr 2022 14:13:51 +0000*
+- don't create prod config file, see documentation, use simplified config.

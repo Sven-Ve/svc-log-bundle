@@ -29,15 +29,11 @@ svc_log:
 
     # Class of your own data provider to get info about sourceType and sourceID
     data_provider: Svc\LogBundle\DataProvider\GeneralDataProvider
-```
 
-### prod
-
-```yaml
-# /config/packages/prod/svc_log.yaml
-svc_log:
-    # Minimal log level, see documentation for values - set to 3 (LEVEL_DATA) in production
-    min_log_level:        3 # Required
+when@prod:
+    svc_log:
+        # Minimal log level, see documentation for values - set to 3 (LEVEL_DATA) in production
+        min_log_level:        3 # Required
 ```
 
 ## Log level
