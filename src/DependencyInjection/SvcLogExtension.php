@@ -62,9 +62,6 @@ class SvcLogExtension extends Extension
 
   /**
    * create config and asset files
-   *
-   * @param string $file
-   * @return boolean
    */
   private function createAssetFiles(string $file): bool
   {

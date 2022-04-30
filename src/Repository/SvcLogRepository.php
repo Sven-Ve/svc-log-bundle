@@ -26,10 +26,6 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * get a part of the logs for pagination
    *
-   * @param integer $offset
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
    * @return Paginator
    */
   public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): Paginator
@@ -97,9 +93,6 @@ class SvcLogRepository extends ServiceEntityRepository
    *  1: "="
    *  2: ">"
    *  3: "<"
-   *
-   * @param integer|null $numValue
-   * @return string
    */
   private function getComparisonOp(?int $numValue = null): string
   {
@@ -114,11 +107,6 @@ class SvcLogRepository extends ServiceEntityRepository
 
   /**
    * aggragete log entries by country for a specific ID
-   *
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
-   * @return array
    */
   public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): array
   {

@@ -18,12 +18,9 @@ class StatMonthlyCommand extends Command
 {
   protected static $defaultName = 'svc_log:stat-aggregate';
   protected static $defaultDescription = 'Create statistics';
-
-  private $statsHelper;
-  public function __construct(StatsHelper $statsHelper)
+  public function __construct(private StatsHelper $statsHelper)
   {
     parent::__construct();
-    $this->statsHelper = $statsHelper;
   }
   protected function configure()
   {

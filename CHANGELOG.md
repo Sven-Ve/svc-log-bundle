@@ -160,3 +160,8 @@
 ## Version 2.1.1
 *Sat, 30 Apr 2022 14:13:51 +0000*
 - don't create prod config file, see documentation, use simplified config.
+
+
+## Version 3.0.0
+*Sat, 30 Apr 2022 20:20:39 +0000*
+- runs only with symfony 5.4 and >6 und php8

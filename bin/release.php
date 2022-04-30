@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "2.1.1";
-$message = "don't create prod config file, see documentation, use simplified config.";
+$version = "3.0.0";
+$message = "runs only with symfony 5.4 and >6 und php8";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

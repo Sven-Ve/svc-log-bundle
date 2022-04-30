@@ -44,30 +44,16 @@ class EventLog
     self::LEVEL_FATAL => 'fatal'
   ];
 
-  private $entityManager;
-  private $enableSourceType; /** @phpstan-ignore-line */
-  private $enableIPSaving;
-  private $logRepo;
-  private $minLogLevel;
-  private $security;
-  private $enableUserSaving;
-
   public function __construct(
-    bool $enableSourceType,
-    bool $enableIPSaving,
-    bool $enableUserSaving,
-    int $minLogLevel,
-    ?Security $security, /** @phpstan-ignore-line */
-    EntityManagerInterface $entityManager,
-    SvcLogRepository $logRepo,
-  ) {
-    $this->enableSourceType = $enableSourceType;
-    $this->enableIPSaving = $enableIPSaving;
-    $this->minLogLevel = $minLogLevel;
-    $this->entityManager = $entityManager;
-    $this->logRepo = $logRepo;
-    $this->security = $security;
-    $this->enableUserSaving = $enableUserSaving;
+      private bool $enableSourceType,  /** @phpstan-ignore-line */
+      private bool $enableIPSaving,
+      private bool $enableUserSaving,
+      private int $minLogLevel,
+      private ?Security $security, /** @phpstan-ignore-line */
+      private EntityManagerInterface $entityManager,
+      private SvcLogRepository $logRepo
+  )
+  {
   }
 
   /**
@@ -113,23 +99,23 @@ class EventLog
       $log->setBrowser($ua->browser());
       $log->setBrowserVersion($ua->browserVersion());
       $log->setReferer(NetworkHelper::getReferer());
-    } catch (Exception $e) {
+    } catch (Exception) {
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
     if ($this->enableUserSaving and $this->security) {
       try {
-        $user = $this->security->getUser();
+        $user = $this->security->getUser();  /** @phpstan-ignore-line */
         if ($user) {
           $log->setUserID($user->getId());
 
-          if (method_exists($this->security->getUser(), 'getUserIdentifier')) {
+          if (method_exists($this->security->getUser(), 'getUserIdentifier')) {  /** @phpstan-ignore-line */
             $log->setUserName($user->getUserIdentifier());
           } else {
             $log->setUserName($user->getUserName());
           }
         }
-      } catch (Exception $e) {
+      } catch (Exception) {
         // ignore user record
       }
     }
@@ -137,7 +123,7 @@ class EventLog
     try {
       $this->entityManager->persist($log);
       $this->entityManager->flush();
-    } catch (Exception $e) {
+    } catch (Exception) {
       return false;
     }
 

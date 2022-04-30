@@ -24,8 +24,6 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
 
   /**
    * truncate statistic table
-   *
-   * @return boolean
    */
   public function truncateStatMonthlyTable(): bool
   {
@@ -38,9 +36,6 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
 
   /**
    * delete current perio in statistic table
-   *
-   * @param DateTime|null $startDate
-   * @return integer
    */
   public function deleteCurrentData(?DateTime $startDate = null): int
   {
@@ -58,9 +53,6 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
 
   /**
    * aggregate and store logging data
-   *
-   * @param DateTime|null $startDate
-   * @return integer
    */
   public function aggrData(?DateTime $startDate = null): int
   {
@@ -90,9 +82,6 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
    * fetch and pivot the statistic data
    *
    * @param array $months array with month like ['2021-06', ...]
-   * @param int $sourceType
-   * @param integer|null $logLevel
-   * @return array
    */
   public function pivotData(array $months, int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {

@@ -17,9 +17,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * get the text/description for a source type
-   *
-   * @param integer $sourceType
-   * @return string
    */
   public function getSourceTypeText(int $sourceType): string
   {
@@ -32,10 +29,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * get the text/description for a source ID / sourceType combination
-   *
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @return string
    */
   public function getSourceIDText(int $sourceID, ?int $sourceType = null): string
   {
@@ -47,8 +40,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * get all sourceIDs as array
-   *
-   * @return array
    */
   public function getSourceIDTextsArray(): array
   {
@@ -60,8 +51,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * get all sourceTypes as array
-   *
-   * @return array
    */
   public function getSourceTypeTextsArray(): array
   {
@@ -73,8 +62,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * init the sourceType array
-   *
-   * @return boolean
    */
   protected function initSourceTypes(): bool
   {
@@ -87,8 +74,6 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * init the sourceIDs array
-   *
-   * @return boolean
    */
   protected function initSourceIDs(): bool
   {

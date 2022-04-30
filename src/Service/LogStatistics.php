@@ -18,39 +18,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class LogStatistics
 {
 
-  private $svcLogRep;
-  private $requestStack;
-  private $router;
-  private $enableSourceType; /** @phpstan-ignore-line */
-  private $enableIPSaving;
-  private $offsetParamName;
-  private $statMonRep;
-
   public function __construct(
-    bool $enableSourceType,
-    bool $enableIPSaving,
-    string $offsetParamName,
-    SvcLogRepository $svcLogRep,
-    SvcLogStatMonthlyRepository $statMonRep,
-    RequestStack $requestStack,
-    UrlGeneratorInterface $router
-  ) {
-    $this->enableSourceType = $enableSourceType;
-    $this->enableIPSaving = $enableIPSaving;
-    $this->offsetParamName = $offsetParamName;
-    $this->svcLogRep = $svcLogRep;
-    $this->statMonRep = $statMonRep;
-    $this->requestStack = $requestStack;
-    $this->router = $router;
+      private bool $enableSourceType,  /** @phpstan-ignore-line */
+      private bool $enableIPSaving,
+      private string $offsetParamName,
+      private SvcLogRepository $svcLogRep,
+      private SvcLogStatMonthlyRepository $statMonRep,
+      private RequestStack $requestStack,
+      private UrlGeneratorInterface $router
+  )
+  {
   }
 
   /**
    * give an array with log entries for one sourceID
-   *
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
-   * @return array
    */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
@@ -58,12 +39,12 @@ class LogStatistics
     $offset = $request->query->get($this->offsetParamName) ?? 0;
 
     $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
-    if (count($logEntries) == 0) {
+    if ((is_countable($logEntries) ? count($logEntries) : 0) == 0) {
       return [];
     }
 
-    if ($offset >= count($logEntries)) {
-      $offset = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    if ($offset >= (is_countable($logEntries) ? count($logEntries) : 0)) {
+      $offset = (is_countable($logEntries) ? count($logEntries) : 0) - SvcLogRepository::PAGINATOR_PER_PAGE;
       $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
     }
 
@@ -77,11 +58,11 @@ class LogStatistics
     $prevUrl = $this->router->generate($routeName, $prevRoutParam);
 
     $nextRoutParam = $defRouteParam;
-    $nextRoutParam[$this->offsetParamName] = min(count($logEntries), $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
+    $nextRoutParam[$this->offsetParamName] = min(is_countable($logEntries) ? count($logEntries) : 0, $offset + SvcLogRepository::PAGINATOR_PER_PAGE);
     $nextUrl = $this->router->generate($routeName, $nextRoutParam);
 
     $lastRoutParam = $defRouteParam;
-    $lastRoutParam[$this->offsetParamName] = count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $lastRoutParam[$this->offsetParamName] = (is_countable($logEntries) ? count($logEntries) : 0) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $lastUrl = $this->router->generate($routeName, $lastRoutParam);
 
     $data = [];
@@ -92,21 +73,17 @@ class LogStatistics
     $data['firstUrl'] = $firstUrl;
     $data['lastUrl'] = $lastUrl;
     $data['offset'] = $offset;
-    $data['count'] = count($logEntries);
+    $data['count'] = is_countable($logEntries) ? count($logEntries) : 0;
     $data['hidePrev'] = $offset <= 0;
-    $data['hideNext'] = $offset >= count($logEntries) - SvcLogRepository::PAGINATOR_PER_PAGE;
+    $data['hideNext'] = $offset >= (is_countable($logEntries) ? count($logEntries) : 0) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $data['from'] = $offset + 1;
-    $data['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, count($logEntries));
+    $data['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, is_countable($logEntries) ? count($logEntries) : 0);
     return $data;
   }
 
 
   /**
    * pivot the data for a specific sourceType for the last 5 month
-   *
-   * @param integer $sourceType
-   * @param integer|null $logLevel
-   * @return array
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
@@ -130,10 +107,6 @@ class LogStatistics
   /**
    * get an array with countries and counts/country for an specific sourceID
    *
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
-   * @return array
    * @throws LogExceptionInterface
    */
   public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
@@ -148,15 +121,14 @@ class LogStatistics
   /**
    * format counts/country for symfony/ux-chartjs
    *
-   * @param integer $sourceID
    * @param integer|null $sourceType (Default 0)
    * @param integer|null $logLevel (Default DATA)
    * @param integer|null $maxEntries (Default 5)
-   * @return array
    * @throws LogExceptionInterface
    */
   public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
   {
+    $result = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
@@ -180,16 +152,12 @@ class LogStatistics
 
   /**
    * format counts/country as array for direct chart.js integration per yarn
-   * 
-   * @param integer $sourceID
-   * @param integer|null $sourceType
-   * @param integer|null $logLevel
-   * @param integer|null $maxEntries
-   * @return array
+   *
    * @throws LogExceptionInterface
    */
   public function getCountriesForChartJS1(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
   {
+    $results = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
