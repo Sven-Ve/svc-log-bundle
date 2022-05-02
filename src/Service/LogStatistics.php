@@ -92,6 +92,7 @@ class LogStatistics
 
   /**
    * pivot the data for a specific sourceType for the last 5 month
+   * if access for non-admins not allowed create the array with headers but without data
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
@@ -108,7 +109,13 @@ class LogStatistics
 
     $data = [];
     $data['header'] = $monthList;
-    $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
+
+    if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
+      $data['data']=[];
+    } else {
+      $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
+    }
+
     return $data;
   }
 
@@ -119,6 +126,9 @@ class LogStatistics
    */
   public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
+    if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
+      return [];
+    }
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
@@ -136,6 +146,10 @@ class LogStatistics
    */
   public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
   {
+    if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
+      return [];
+    }
+    
     $result = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
@@ -165,6 +179,10 @@ class LogStatistics
    */
   public function getCountriesForChartJS1(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
   {
+    if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
+      return [];
+    }
+    
     $results = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();

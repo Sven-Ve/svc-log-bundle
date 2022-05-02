@@ -170,3 +170,8 @@
 ## Version 3.1.0
 *Mon, 02 May 2022 18:34:17 +0000*
 - new parameter to allow no-admin view data
+
+
+## Version 3.1.1
+*Mon, 02 May 2022 18:51:53 +0000*
+- new parameter to allow no-admin view data (fix for statistic data)
