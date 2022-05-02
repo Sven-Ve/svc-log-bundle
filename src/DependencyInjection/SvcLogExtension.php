@@ -41,19 +41,18 @@ class SvcLogExtension extends Extension
     $definition->setArgument(0, $config['enable_source_type']);
     $definition->setArgument(1, $config['enable_ip_saving']);
     $definition->setArgument(2, $config['offset_param_name']);
+    $definition->setArgument(3, $config['need_admin_for_stats']);
 
     $definition = $container->getDefinition('Svc\LogBundle\Service\EventLog');
     $definition->setArgument(0, $config['enable_source_type']);
     $definition->setArgument(1, $config['enable_ip_saving']);
     $definition->setArgument(2, $enableUserSaving);
     $definition->setArgument(3, $config['min_log_level']);
-    if (!$enableUserSaving) {
-      $definition->setArgument(4, null); // set security to null
-    }
 
     $definition = $container->getDefinition('svc_log.controller.logviewer');
     $definition->setArgument(1, $enableUserSaving);
     $definition->setArgument(2, $config['enable_ip_saving']);
+    $definition->setArgument(3, $config['need_admin_for_view']);
 
     if (null !== $config['data_provider']) {
       $container->setAlias('svc_log.data_provider', $config['data_provider']);

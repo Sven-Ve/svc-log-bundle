@@ -23,6 +23,8 @@ class Configuration implements ConfigurationInterface
         ->booleanNode('enable_ip_saving')->defaultFalse()->info('Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)')->end()
         ->booleanNode('enable_user_saving')->defaultFalse()->info('Should the user id and name recorded? Please set to true only if this is allowed in your environment (personal data...)')->end()
         ->booleanNode('enable_source_type')->defaultTrue()->info('Do you like different source types?')->end()
+        ->booleanNode('need_admin_for_view')->defaultTrue()->info('Need the user the role ROLE_ADMIN for viewing logs (default yes)')->end()
+        ->booleanNode('need_admin_for_stats')->defaultTrue()->info('Need the user the role ROLE_ADMIN for get statistics (default yes)')->end()
         ->scalarNode('offset_param_name')->cannotBeEmpty()->defaultValue('offset')->info('We use offset as url parameter. If this in use, you can choose another name')->end()
         ->scalarNode('data_provider')->defaultNull()->info("Class of your one data provider to get info about sourceType and sourceID, see documentation")->end()
       ->end();

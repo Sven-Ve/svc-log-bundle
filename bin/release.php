@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.0.0";
-$message = "runs only with symfony 5.4 and >6 und php8";
+$version = "3.1.0";
+$message = "new parameter to allow no-admin view data";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

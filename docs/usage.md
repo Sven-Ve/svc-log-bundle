@@ -24,12 +24,23 @@ svc_log:
     # Do you like different source types?
     enable_source_type:   true
 
+    # Need the user the role ROLE_ADMIN for viewing logs (default yes)
+    need_admin_for_view:  true
+
+    # Need the user the role ROLE_ADMIN for get statistics (default yes)
+    need_admin_for_stats: true
+    
     # We use offset as url parameter. If this in use, you can choose another name
     offset_param_name:    offset
 
     # Class of your own data provider to get info about sourceType and sourceID
     data_provider: Svc\LogBundle\DataProvider\GeneralDataProvider
+```
 
+### Recommended seeting
+
+```yaml
+# /config/packages/svc_log.yaml
 when@prod:
     svc_log:
         # Minimal log level, see documentation for values - set to 3 (LEVEL_DATA) in production

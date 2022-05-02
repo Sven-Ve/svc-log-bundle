@@ -9,6 +9,8 @@ use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
+
 
 /**
  * Helper class for displaing statistics
@@ -22,10 +24,12 @@ class LogStatistics
       private bool $enableSourceType,  /** @phpstan-ignore-line */
       private bool $enableIPSaving,
       private string $offsetParamName,
+      private bool $needAdminForStats,
       private SvcLogRepository $svcLogRep,
       private SvcLogStatMonthlyRepository $statMonRep,
       private RequestStack $requestStack,
-      private UrlGeneratorInterface $router
+      private UrlGeneratorInterface $router,
+      private Security $security
   )
   {
   }
@@ -35,6 +39,10 @@ class LogStatistics
    */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
+    if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
+      return [];
+    }
+    
     $request = $this->requestStack->getCurrentRequest();
     $offset = $request->query->get($this->offsetParamName) ?? 0;
 

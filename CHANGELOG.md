@@ -165,3 +165,8 @@
 ## Version 3.0.0
 *Sat, 30 Apr 2022 20:20:39 +0000*
 - runs only with symfony 5.4 and >6 und php8
+
+
+## Version 3.1.0
+*Mon, 02 May 2022 18:34:17 +0000*
+- new parameter to allow no-admin view data

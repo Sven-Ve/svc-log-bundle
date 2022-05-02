@@ -19,6 +19,7 @@
         "symfony/validator": "5.4.*|^6",
         "symfony/http-kernel": "5.4.*|^6",
         "symfony/options-resolver": "5.4.*|^6",
+        "symfony/security-bundle": "5.4.*|^6",
         "symfony/translation": "5.4.*|^6",
         "symfony/twig-bundle": "5.4.*|^6",
         "twig/intl-extra": "^2.12|^3.0",

@@ -49,7 +49,7 @@ class EventLog
       private bool $enableIPSaving,
       private bool $enableUserSaving,
       private int $minLogLevel,
-      private ?Security $security, /** @phpstan-ignore-line */
+      private Security $security, 
       private EntityManagerInterface $entityManager,
       private SvcLogRepository $logRepo
   )
@@ -103,16 +103,16 @@ class EventLog
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
-    if ($this->enableUserSaving and $this->security) {
+    if ($this->enableUserSaving) {
       try {
-        $user = $this->security->getUser();  /** @phpstan-ignore-line */
+        $user = $this->security->getUser();  
         if ($user) {
-          $log->setUserID($user->getId());
+          $log->setUserID($user->getId()); /** @phpstan-ignore-line */  
 
-          if (method_exists($this->security->getUser(), 'getUserIdentifier')) {  /** @phpstan-ignore-line */
+          if (method_exists($this->security->getUser(), 'getUserIdentifier')) { 
             $log->setUserName($user->getUserIdentifier());
           } else {
-            $log->setUserName($user->getUserName());
+            $log->setUserName($user->getUserName()); /** @phpstan-ignore-line */
           }
         }
       } catch (Exception) {
