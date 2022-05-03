@@ -136,7 +136,7 @@ class EventLog
    * @param OptionsResolver $resolver
    * @return void
    */
-  private function configureOptions(OptionsResolver $resolver)
+  private function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
       'level'    => self::LEVEL_DATA,
