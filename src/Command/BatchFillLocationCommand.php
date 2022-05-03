@@ -11,8 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * command to fill locations
- * 
+ * command to fill locations.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class BatchFillLocationCommand extends Command
@@ -38,13 +38,16 @@ class BatchFillLocationCommand extends Command
       $successCnt = $this->eventLog->batchFillLocation();
     } catch (LogExceptionInterface $e) {
       $io->error($e->getReason());
+
       return Command::FAILURE;
-    } catch (Exception $e) { /** @phpstan-ignore-line */
+    } catch (Exception $e) { /* @phpstan-ignore-line */
       $io->error($e->getMessage());
+
       return Command::FAILURE;
     }
 
     $io->success("$successCnt locations set");
+
     return Command::SUCCESS;
   }
 }

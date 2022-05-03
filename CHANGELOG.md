@@ -175,3 +175,8 @@
 ## Version 3.1.1
 *Mon, 02 May 2022 18:51:53 +0000*
 - new parameter to allow no-admin view data (fix for statistic data)
+
+
+## Version 3.1.2
+*Tue, 03 May 2022 20:50:40 +0000*
+- format code with php-cs-fixer, ignore wrong phpstan warning

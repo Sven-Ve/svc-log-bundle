@@ -9,8 +9,8 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * send configuration to classes
- * 
+ * send configuration to classes.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class SvcLogExtension extends Extension
@@ -19,9 +19,9 @@ class SvcLogExtension extends Extension
 
   public function load(array $configs, ContainerBuilder $container)
   {
-    $this->rootPath = $container->getParameter("kernel.project_dir");
-    $this->createAssetFiles("config/packages/svc_log.yaml");
-    $this->createAssetFiles("config/routes/svc_log.yaml");
+    $this->rootPath = $container->getParameter('kernel.project_dir');
+    $this->createAssetFiles('config/packages/svc_log.yaml');
+    $this->createAssetFiles('config/routes/svc_log.yaml');
 
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
     $loader->load('services.xml');
@@ -60,26 +60,29 @@ class SvcLogExtension extends Extension
   }
 
   /**
-   * create config and asset files
+   * create config and asset files.
    */
   private function createAssetFiles(string $file): bool
   {
-    $destFile = $this->rootPath . "/" . $file;
+    $destFile = $this->rootPath . '/' . $file;
     if (file_exists($destFile)) {
       return true;
     }
-    $soureFile =  $this->rootPath . "/vendor/svc/log-bundle/install/" . $file;
+    $soureFile = $this->rootPath . '/vendor/svc/log-bundle/install/' . $file;
     if (!file_exists($soureFile)) {
-      dump("Cannot create file " . $file . " (source not exists)");
+      dump('Cannot create file ' . $file . ' (source not exists)');
+
       return false;
     }
 
     try {
       copy($soureFile, $destFile);
     } catch (Exception $e) {
-      dump("Cannot create file " . $file . " (" . $e->getMessage() . ")");
+      dump('Cannot create file ' . $file . ' (' . $e->getMessage() . ')');
+
       return false;
     }
+
     return true;
   }
 }

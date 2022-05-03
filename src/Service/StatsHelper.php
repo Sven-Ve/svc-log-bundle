@@ -7,8 +7,8 @@ use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Svc\ParamBundle\Repository\ParamsRepository;
 
 /**
- * Helper class for creating statistics
- * 
+ * Helper class for creating statistics.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class StatsHelper
@@ -17,14 +17,14 @@ class StatsHelper
   {
   }
 
-    /**
-   * aggragate data for monthly statistics
+  /**
+   * aggragate data for monthly statistics.
    *
-   * @param boolean $fresh should the data reloaded completly (truncate table before)
+   * @param bool $fresh should the data reloaded completly (truncate table before)
    */
   public function aggrMonthly(bool $fresh = false): array
   {
-    $paramName = "svcLog_lastRunAggrMonthly";
+    $paramName = 'svcLog_lastRunAggrMonthly';
 
     if ($fresh) {
       $lastRun = null;
@@ -44,7 +44,6 @@ class StatsHelper
 
     $this->paramsRep->setDateTime($paramName, new DateTime(), 'last aggregate refresh');
 
-    return ["deleted" => $deleted, "inserted" => $inserted];
+    return ['deleted' => $deleted, 'inserted' => $inserted];
   }
-
 }

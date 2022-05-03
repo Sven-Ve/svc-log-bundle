@@ -13,5 +13,4 @@ final class IpSavingNotEnabledException extends \Exception implements LogExcepti
   {
     return $this->message;
   }
-
 }

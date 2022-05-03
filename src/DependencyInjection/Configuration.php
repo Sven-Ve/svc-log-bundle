@@ -6,8 +6,8 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Defining the configuration
- * 
+ * Defining the configuration.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class Configuration implements ConfigurationInterface
@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
   {
     $treeBuilder = new TreeBuilder('svc_log');
     $rootNode = $treeBuilder->getRootNode();
- 
+
     $rootNode
       ->children()
         ->integerNode('min_log_level')->min(0)->max(6)->defaultValue(1)->info('Minimal log level, see documentation for values')->end()
@@ -26,10 +26,9 @@ class Configuration implements ConfigurationInterface
         ->booleanNode('need_admin_for_view')->defaultTrue()->info('Need the user the role ROLE_ADMIN for viewing logs (default yes)')->end()
         ->booleanNode('need_admin_for_stats')->defaultTrue()->info('Need the user the role ROLE_ADMIN for get statistics (default yes)')->end()
         ->scalarNode('offset_param_name')->cannotBeEmpty()->defaultValue('offset')->info('We use offset as url parameter. If this in use, you can choose another name')->end()
-        ->scalarNode('data_provider')->defaultNull()->info("Class of your one data provider to get info about sourceType and sourceID, see documentation")->end()
+        ->scalarNode('data_provider')->defaultNull()->info('Class of your one data provider to get info about sourceType and sourceID, see documentation')->end()
       ->end();
+
     return $treeBuilder;
-
   }
-
 }

@@ -14,20 +14,18 @@ use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
-
 /**
- * Helper class to log events
- * 
+ * Helper class to log events.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class EventLog
 {
-
   public const LEVEL_ALL = 0;
   public const LEVEL_DEBUG = 1;
   public const LEVEL_INFO = 2;
   /**
-   * data is a special log level to store access data (page views, ...)
+   * data is a special log level to store access data (page views, ...).
    */
   public const LEVEL_DATA = 3;
   public const LEVEL_WARN = 4;
@@ -41,7 +39,7 @@ class EventLog
     self::LEVEL_DATA => 'data',
     self::LEVEL_WARN => 'warn',
     self::LEVEL_ERROR => 'error',
-    self::LEVEL_FATAL => 'fatal'
+    self::LEVEL_FATAL => 'fatal',
   ];
 
   public function __construct(
@@ -49,22 +47,22 @@ class EventLog
       private bool $enableIPSaving,
       private bool $enableUserSaving,
       private int $minLogLevel,
-      private Security $security, 
+      private Security $security,
       private EntityManagerInterface $entityManager,
       private SvcLogRepository $logRepo
-  )
-  {
+  ) {
   }
 
   /**
-   * write a log record
+   * write a log record.
    *
-   * @param integer $sourceID the ID of the source object
-   * @param integer|null $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param int        $sourceID   the ID of the source object
+   * @param int|null   $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
    * @param array|null $options
-   *  - int level
-   *  - string message
-   * @return boolean true if successfull
+   *                               - int level
+   *                               - string message
+   *
+   * @return bool true if successfull
    */
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
   {
@@ -105,14 +103,14 @@ class EventLog
 
     if ($this->enableUserSaving) {
       try {
-        $user = $this->security->getUser();  
+        $user = $this->security->getUser();
         if ($user) {
-          $log->setUserID($user->getId()); /** @phpstan-ignore-line */  
+          $log->setUserID($user->getId()); /* @phpstan-ignore-line */
 
-          if (method_exists($this->security->getUser(), 'getUserIdentifier')) { 
+          if (method_exists($this->security->getUser(), 'getUserIdentifier')) {
             $log->setUserName($user->getUserIdentifier());
           } else {
-            $log->setUserName($user->getUserName()); /** @phpstan-ignore-line */
+            $log->setUserName($user->getUserName()); /* @phpstan-ignore-line */
           }
         }
       } catch (Exception) {
@@ -131,16 +129,13 @@ class EventLog
   }
 
   /**
-   * configure options for log entries
-   *
-   * @param OptionsResolver $resolver
-   * @return void
+   * configure options for log entries.
    */
   private function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
-      'level'    => self::LEVEL_DATA,
-      'message'  => null,
+      'level' => self::LEVEL_DATA,
+      'message' => null,
     ]);
 
     $resolver->setAllowedTypes('level', ['int', 'null']);
@@ -148,9 +143,10 @@ class EventLog
   }
 
   /**
-   * fill the location info, called in batch because timing
+   * fill the location info, called in batch because timing.
    *
-   * @return integer count of successful locations set
+   * @return int count of successful locations set
+   *
    * @throws LogExceptionInterface
    */
   public function batchFillLocation(): int
@@ -162,7 +158,7 @@ class EventLog
     $successCnt = 0;
     foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
       if (!$entry->getIp()) {
-        $entry->setCountry("-");
+        $entry->setCountry('-');
         continue;
       }
 
@@ -170,17 +166,18 @@ class EventLog
       if ($location['country']) {
         $entry->setCountry($location['country']);
         $entry->setCity($location['city']);
-        $successCnt++;
+        ++$successCnt;
       } else {
-        $entry->setCountry("-");
+        $entry->setCountry('-');
       }
     }
     $this->entityManager->flush();
+
     return $successCnt;
   }
 
-  public function purgeLogs(int $keepMonth, bool $dryRun): int {
-    
+  public function purgeLogs(int $keepMonth, bool $dryRun): int
+  {
     return 0;
   }
 }

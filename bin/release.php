@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.1.1";
-$message = "new parameter to allow no-admin view data (fix for statistic data)";
+$version = "3.1.2";
+$message = "format code with php-cs-fixer, ignore wrong phpstan warning";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

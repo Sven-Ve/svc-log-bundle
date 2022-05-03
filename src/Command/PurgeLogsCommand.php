@@ -2,24 +2,21 @@
 
 namespace Svc\LogBundle\Command;
 
-use Svc\LogBundle\Service\StatsHelper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * purge old log files
- * 
+ * purge old log files.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class PurgeLogsCommand extends Command
 {
   protected static $defaultName = 'svc_log:purge-logs';
   protected static $defaultDescription = 'Purge old log files';
-
 
   protected function configure()
   {
@@ -40,17 +37,18 @@ class PurgeLogsCommand extends Command
       $month = 6;
     } elseif (!ctype_digit($month) or !is_numeric($month)) {
       $io->error('Month must be an integer!');
+
       return Command::FAILURE;
     } else {
-      $month=intval($month);
+      $month = intval($month);
     }
 
-    if ($month<1) {
+    if ($month < 1) {
       $io->error('Month must be greather or equal 1!');
+
       return Command::FAILURE;
     }
-    $io->info("Month:" . $month);
-
+    $io->info('Month:' . $month);
 
 //    $io->info($res['inserted'] . ' statistic records created.');
     $io->success('Aggragation successfully runs.');

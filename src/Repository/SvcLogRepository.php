@@ -2,10 +2,10 @@
 
 namespace Svc\LogBundle\Repository;
 
-use Svc\LogBundle\Entity\SvcLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Service\EventLog;
 
 /**
@@ -24,9 +24,7 @@ class SvcLogRepository extends ServiceEntityRepository
   public const PAGINATOR_PER_PAGE = 15;
 
   /**
-   * get a part of the logs for pagination
-   *
-   * @return Paginator
+   * get a part of the logs for pagination.
    */
   public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): Paginator
   {
@@ -46,14 +44,13 @@ class SvcLogRepository extends ServiceEntityRepository
     }
 
     $query->getQuery();
+
     return new Paginator($query);
   }
 
-
   public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC, ?string $country): Paginator
   {
-
-    //dd($sourceIDC);
+    // dd($sourceIDC);
 
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
@@ -85,6 +82,7 @@ class SvcLogRepository extends ServiceEntityRepository
     }
 
     $query->getQuery();
+
     return new Paginator($query);
   }
 
@@ -92,21 +90,21 @@ class SvcLogRepository extends ServiceEntityRepository
    * private function to convert to numeric comparison operator to the real operator
    *  1: "="
    *  2: ">"
-   *  3: "<"
+   *  3: "<".
    */
   private function getComparisonOp(?int $numValue = null): string
   {
     if ($numValue === 2) {
-      return ">";
+      return '>';
     } elseif ($numValue === 3) {
-      return "<";
+      return '<';
     } else {
-      return "=";
+      return '=';
     }
   }
 
   /**
-   * aggragete log entries by country for a specific ID
+   * aggragete log entries by country for a specific ID.
    */
   public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): array
   {

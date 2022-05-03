@@ -11,15 +11,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
 
-
 /**
- * Helper class for displaing statistics
- * 
+ * Helper class for displaing statistics.
+ *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class LogStatistics
 {
-
   public function __construct(
       private bool $enableSourceType,  /** @phpstan-ignore-line */
       private bool $enableIPSaving,
@@ -30,19 +28,18 @@ class LogStatistics
       private RequestStack $requestStack,
       private UrlGeneratorInterface $router,
       private Security $security
-  )
-  {
+  ) {
   }
 
   /**
-   * give an array with log entries for one sourceID
+   * give an array with log entries for one sourceID.
    */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
     }
-    
+
     $request = $this->requestStack->getCurrentRequest();
     $offset = $request->query->get($this->offsetParamName) ?? 0;
 
@@ -86,23 +83,22 @@ class LogStatistics
     $data['hideNext'] = $offset >= (is_countable($logEntries) ? count($logEntries) : 0) - SvcLogRepository::PAGINATOR_PER_PAGE;
     $data['from'] = $offset + 1;
     $data['to'] = min($offset + SvcLogRepository::PAGINATOR_PER_PAGE, is_countable($logEntries) ? count($logEntries) : 0);
+
     return $data;
   }
 
-
   /**
    * pivot the data for a specific sourceType for the last 5 month
-   * if access for non-admins not allowed create the array with headers but without data
+   * if access for non-admins not allowed create the array with headers but without data.
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {
-
     $today = new DateTime();
     $firstDay = new DateTime($today->format('Y-m-01'));
 
-    $oneMonth = new DateInterval("P1M");
+    $oneMonth = new DateInterval('P1M');
     $monthList = [];
-    for ($i = 1; $i <= 5; $i++) {
+    for ($i = 1; $i <= 5; ++$i) {
       $monthList[] = $firstDay->format('Y-m');
       $firstDay = $firstDay->sub($oneMonth);
     }
@@ -111,7 +107,7 @@ class LogStatistics
     $data['header'] = $monthList;
 
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
-      $data['data']=[];
+      $data['data'] = [];
     } else {
       $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
     }
@@ -120,7 +116,7 @@ class LogStatistics
   }
 
   /**
-   * get an array with countries and counts/country for an specific sourceID
+   * get an array with countries and counts/country for an specific sourceID.
    *
    * @throws LogExceptionInterface
    */
@@ -132,16 +128,17 @@ class LogStatistics
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
+
     return $this->svcLogRep->aggrLogsByCountry($sourceID, $sourceType, $logLevel);
   }
 
-
   /**
-   * format counts/country for symfony/ux-chartjs
+   * format counts/country for symfony/ux-chartjs.
    *
-   * @param integer|null $sourceType (Default 0)
-   * @param integer|null $logLevel (Default DATA)
-   * @param integer|null $maxEntries (Default 5)
+   * @param int|null $sourceType (Default 0)
+   * @param int|null $logLevel   (Default DATA)
+   * @param int|null $maxEntries (Default 5)
+   *
    * @throws LogExceptionInterface
    */
   public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
@@ -149,7 +146,7 @@ class LogStatistics
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
     }
-    
+
     $result = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
@@ -159,21 +156,22 @@ class LogStatistics
 
     $counter = 0;
     foreach ($this->getCountriesForOneId($sourceID, $sourceType, $logLevel) as $values) {
-      $chartLabels[] = $values['country'] ?? "?";
-      $chartData[] =  $values['cntCountry'];
-      $counter++;
+      $chartLabels[] = $values['country'] ?? '?';
+      $chartData[] = $values['cntCountry'];
+      ++$counter;
       if ($counter == $maxEntries) {
         break;
       }
     }
 
-    $result["labels"] = $chartLabels;
-    $result["datasets"][0]["data"] = $chartData;
+    $result['labels'] = $chartLabels;
+    $result['datasets'][0]['data'] = $chartData;
+
     return $result;
   }
 
   /**
-   * format counts/country as array for direct chart.js integration per yarn
+   * format counts/country as array for direct chart.js integration per yarn.
    *
    * @throws LogExceptionInterface
    */
@@ -182,15 +180,15 @@ class LogStatistics
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
     }
-    
+
     $results = [];
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
     $chartArray = $this->getCountriesForChartJS($sourceID, $sourceType, $logLevel, $maxEntries);
-    $results["labels"] = implode("|", $chartArray["labels"]);
-    $results["data"] = implode("|", $chartArray["datasets"][0]["data"]);
+    $results['labels'] = implode('|', $chartArray['labels']);
+    $results['data'] = implode('|', $chartArray['datasets'][0]['data']);
+
     return $results;
   }
-
 }

@@ -3,10 +3,10 @@
 namespace Svc\LogBundle\Repository;
 
 use DateTime;
-use Svc\LogBundle\Entity\SvcLogStatMonthly;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Svc\LogBundle\Entity\SvcLogStatMonthly;
 use Svc\LogBundle\Service\EventLog;
 
 /**
@@ -23,63 +23,66 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   }
 
   /**
-   * truncate statistic table
+   * truncate statistic table.
    */
   public function truncateStatMonthlyTable(): bool
   {
     $conn = $this->getEntityManager()->getConnection();
-    $sql = "truncate table svc_log_stat_monthly";
+    $sql = 'truncate table svc_log_stat_monthly';
     $stmt = $conn->prepare($sql);
     $stmt->executeStatement();
+
     return true;
   }
 
   /**
-   * delete current perio in statistic table
+   * delete current perio in statistic table.
    */
   public function deleteCurrentData(?DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
-    $sql = "delete from svc_log_stat_monthly";
+    $sql = 'delete from svc_log_stat_monthly';
     if ($startDate) {
-      $sql .= "  WHERE month >= :startDate";
+      $sql .= '  WHERE month >= :startDate';
     }
     $stmt = $conn->prepare($sql);
     if ($startDate) {
-      $stmt->bindValue('startDate', $startDate->format("Y-m"));
+      $stmt->bindValue('startDate', $startDate->format('Y-m'));
     }
+
     return $stmt->executeStatement();
   }
 
   /**
-   * aggregate and store logging data
+   * aggregate and store logging data.
    */
   public function aggrData(?DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
 
-    $sql = "insert into svc_log_stat_monthly (month, source_id, source_type, log_level, log_count)";
+    $sql = 'insert into svc_log_stat_monthly (month, source_id, source_type, log_level, log_count)';
     $sql .= " SELECT DATE_FORMAT(log_date, '%Y-%m') month, source_id, source_type, log_level, count(*) log_count FROM `svc_log`";
     if ($startDate) {
-      $sql .= "  WHERE log_date >= :startDate";
+      $sql .= '  WHERE log_date >= :startDate';
     }
-    $sql .= "  GROUP by month, source_id, source_type, log_level";
+    $sql .= '  GROUP by month, source_id, source_type, log_level';
 
     try {
       $stmt = $conn->prepare($sql);
       if ($startDate) {
-        $stmt->bindValue('startDate', $startDate->format("Y-m-d H:i:s"));
+        $stmt->bindValue('startDate', $startDate->format('Y-m-d H:i:s'));
       }
+
       return $stmt->executeStatement();
     } catch (Exception $e) {
       dump($e->getMessage());
+
       return -1;
     }
   }
 
-
   /**
-   * fetch and pivot the statistic data
+   * fetch and pivot the statistic data.
    *
    * @param array $months array with month like ['2021-06', ...]
    */
@@ -96,7 +99,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       ->where('s.sourceType = :sourceType')
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel!==null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
       $query
         ->andwhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);
