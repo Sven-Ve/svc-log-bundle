@@ -180,3 +180,8 @@
 ## Version 3.1.2
 *Tue, 03 May 2022 20:50:40 +0000*
 - format code with php-cs-fixer, ignore wrong phpstan warning
+
+
+## Version 3.1.3
+*Sat, 14 May 2022 13:54:04 +0000*
+- php attributes added

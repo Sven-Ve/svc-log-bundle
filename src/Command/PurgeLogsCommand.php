@@ -16,6 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class PurgeLogsCommand extends Command
 {
   protected static $defaultName = 'svc_log:purge-logs';
+
   protected static $defaultDescription = 'Purge old log files';
 
   protected function configure()

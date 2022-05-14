@@ -10,8 +10,11 @@ namespace Svc\LogBundle\DataProvider;
 class GeneralDataProvider implements DataProviderInterface
 {
   protected $sourceTypes = [];
+
   protected $isSourceTypesInitialized = false;
+
   protected $sourceIDs = [];
+
   protected $isSourceIDsInitialized = false;
 
   /**

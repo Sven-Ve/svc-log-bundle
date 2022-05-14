@@ -13,7 +13,7 @@
         "symfony-ux"
     ],
     "require": {
-        "php": "^8",
+        "php": "^8.0.2",
         "doctrine/doctrine-bundle": "^2.6",
         "symfony/framework-bundle": "5.4.*|^6",
         "symfony/validator": "5.4.*|^6",
@@ -24,7 +24,7 @@
         "symfony/twig-bundle": "5.4.*|^6",
         "twig/intl-extra": "^2.12|^3.0",
         "donatj/phpuseragentparser": "^1.6",
-        "svc/util-bundle": "^2|^3|dev-main",
+        "svc/util-bundle": "^3|dev-main",
         "svc/param-bundle": "^3|dev-main"
     },
     "suggest": {

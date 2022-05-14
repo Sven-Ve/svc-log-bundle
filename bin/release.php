@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.1.2";
-$message = "format code with php-cs-fixer, ignore wrong phpstan warning";
+$version = "3.1.3";
+$message = "php attributes added";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

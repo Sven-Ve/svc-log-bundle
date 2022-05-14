@@ -18,6 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BatchFillLocationCommand extends Command
 {
   protected static $defaultName = 'svc_log:fill-location';
+
   protected static $defaultDescription = 'Fill country and city (in batch because timing)';
 
   public function __construct(private EventLog $eventLog)

@@ -17,6 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class StatMonthlyCommand extends Command
 {
   protected static $defaultName = 'svc_log:stat-aggregate';
+
   protected static $defaultDescription = 'Create statistics';
 
   public function __construct(private StatsHelper $statsHelper)

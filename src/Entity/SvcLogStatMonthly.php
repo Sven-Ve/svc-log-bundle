@@ -6,30 +6,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 
-/** @phpstan-ignore-next-line */
 #[ORM\Entity(repositoryClass: SvcLogStatMonthlyRepository::class)]
 #[UniqueConstraint(columns: ['month', 'source_id', 'source_type', 'log_level'])]
 class SvcLogStatMonthly
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
-  #[ORM\Column(type: 'integer')]
-  private $id;
+  #[ORM\Column()]
+  private ?int $id = null;
 
-  #[ORM\Column(type: 'string', length: 7)]
-  private $month;
+  #[ORM\Column(length: 7)]
+  private ?string $month = null;
 
-  #[ORM\Column(type: 'integer')]
-  private $sourceID;
+  #[ORM\Column()]
+  private ?int $sourceID = null;
 
-  #[ORM\Column(type: 'integer')]
+  #[ORM\Column()]
   private int $sourceType = 0;
 
-  #[ORM\Column(type: 'integer')]
-  private $logLevel;
+  #[ORM\Column()]
+  private ?int $logLevel = null;
 
-  #[ORM\Column(type: 'integer')]
-  private $logCount;
+  #[ORM\Column()]
+  private ?int $logCount = null;
 
   public function getId(): ?int
   {

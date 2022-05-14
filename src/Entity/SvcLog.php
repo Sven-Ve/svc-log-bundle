@@ -6,65 +6,65 @@ use Doctrine\ORM\Mapping as ORM;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
 
-/** @phpstan-ignore-next-line */
 #[ORM\Entity(repositoryClass: SvcLogRepository::class)]
 class SvcLog
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
-  #[ORM\Column(type: 'integer')]
-  private $id;
+  #[ORM\Column()]
+  private ?int $id = null;
 
-  #[ORM\Column(type: 'integer')]
+  #[ORM\Column()]
   private int $sourceType = 0;
 
-  #[ORM\Column(type: 'integer')]
-  private $sourceID;
+  #[ORM\Column()]
+  private ?int $sourceID = null;
 
-  #[ORM\Column(type: 'datetime')]
-  private $logDate;
+  #[ORM\Column()]
+  private ?\DateTime $logDate = null;
 
-  #[ORM\Column(type: 'integer')]
+  #[ORM\Column()]
   private int $logLevel = EventLog::LEVEL_DATA;
 
-  #[ORM\Column(type: 'string', length: 255, nullable: true)]
-  private $message;
+  #[ORM\Column(nullable: true)]
+  private ?string $message = null;
 
-  #[ORM\Column(type: 'string', length: 100, nullable: true)]
-  private $ip;
+  #[ORM\Column(length: 100, nullable: true)]
+  private ?string  $ip = null;
 
-  #[ORM\Column(type: 'string', length: 255, nullable: true)]
-  private $userAgent;
+  #[ORM\Column(nullable: true)]
+  private ?string  $userAgent = null;
 
-  #[ORM\Column(type: 'string', length: 50, nullable: true)]
-  private $country;
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string  $country = null;
 
-  #[ORM\Column(type: 'string', length: 50, nullable: true)]
-  private $city;
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string  $city = null;
 
-  #[ORM\Column(type: 'string', length: 50, nullable: true)]
-  private $platform;
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string  $platform = null;
 
-  #[ORM\Column(type: 'string', length: 50, nullable: true)]
-  private $browser;
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string  $browser = null;
 
-  #[ORM\Column(type: 'string', length: 50, nullable: true)]
-  private $browserVersion;
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string  $browserVersion = null;
 
-  #[ORM\Column(type: 'string', length: 255, nullable: true)]
-  private $referer;
+  #[ORM\Column(nullable: true)]
+  private ?string  $referer = null;
 
-  #[ORM\Column(type: 'string', length: 255, nullable: true)]
-  private $userName;
+  #[ORM\Column(nullable: true)]
+  private ?string  $userName = null;
 
-  #[ORM\Column(type: 'integer', nullable: true)]
+  #[ORM\Column(nullable: true)]
   private ?int $userID = 0;
 
   /**
    * not in database, only helper columns.
    */
-  private string|null $sourceIDText = null;
-  private string|null $sourceTypeText = null;
+  private ?string $sourceIDText = null;
+
+  private ?string $sourceTypeText = null;
 
   public function getId(): ?int
   {
