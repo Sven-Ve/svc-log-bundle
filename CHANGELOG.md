@@ -185,3 +185,8 @@
 ## Version 3.1.3
 *Sat, 14 May 2022 13:54:04 +0000*
 - php attributes added
+
+
+## Version 3.2.0
+*Sun, 29 May 2022 21:26:51 +0000*
+- purge log console command finished

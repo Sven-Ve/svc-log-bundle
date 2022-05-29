@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle\Command;
 
+use Svc\LogBundle\Service\PurgeHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,6 +16,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class PurgeLogsCommand extends Command
 {
+  public function __construct(private PurgeHelper $purgeHelper)
+  {
+    parent::__construct();
+  }
+
   protected static $defaultName = 'svc_log:purge-logs';
 
   protected static $defaultDescription = 'Purge old log files';
@@ -24,7 +30,7 @@ class PurgeLogsCommand extends Command
     $this
         ->setDescription(self::$defaultDescription)
         ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Dry run - shows only the number of entries that would be deleted')
-        ->addOption('month', null, InputOption::VALUE_OPTIONAL, 'Number of month to keep', 6)
+        ->addOption('month', null, InputOption::VALUE_OPTIONAL, 'Number of month to keep (default = 6)')
     ;
   }
 
@@ -34,6 +40,7 @@ class PurgeLogsCommand extends Command
     $dryRun = $input->getOption('dryrun');
 
     $month = $input->getOption('month');
+
     if ($month === null) {
       $month = 6;
     } elseif (!ctype_digit($month) or !is_numeric($month)) {
@@ -51,8 +58,10 @@ class PurgeLogsCommand extends Command
     }
     $io->info('Month:' . $month);
 
-//    $io->info($res['inserted'] . ' statistic records created.');
-    $io->success('Aggragation successfully runs.');
+    $count = $this->purgeHelper->purgeLogs($month, $dryRun);
+
+    $io->info($count . ' log records purged.' . ($dryRun ? ' (dryrun)' : ''));
+    $io->success('Purge successfull.' . ($dryRun ? ' (dryrun)' : ''));
 
     return Command::SUCCESS;
   }

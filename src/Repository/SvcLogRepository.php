@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle\Repository;
 
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -125,5 +126,31 @@ class SvcLogRepository extends ServiceEntityRepository
 
     return $query->getQuery()
       ->getResult();
+  }
+
+  /**
+   * purge old log data.
+   */
+  public function purgeOldData(DateTime $keepDate, bool $dryRun): int
+  {
+    if ($dryRun) {
+      $query = $this->createQueryBuilder('l')
+        ->select('count(l) as cntRows')
+        ->where('l.logDate < :keepDate')
+        ->setParameter('keepDate', $keepDate)
+        ->getQuery();
+
+      $res = $query->getSingleResult();
+
+      return $res['cntRows'];
+    }
+
+    $query = $this->createQueryBuilder('l')
+      ->delete()
+      ->where('l.logDate < :keepDate')
+      ->setParameter('keepDate', $keepDate)
+      ->getQuery();
+
+    return $query->execute();
   }
 }

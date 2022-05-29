@@ -17,6 +17,10 @@
         <tag name="controller.service_arguments"/>
       </service>
 
+      <service id="Svc\LogBundle\Service\PurgeHelper" class="Svc\LogBundle\Service\PurgeHelper" public="false" autowire="true" autoconfigure="true" >
+        <tag name="controller.service_arguments"/>
+      </service>
+
       <service id="svc_log.data_provider.general_data_provider" class="Svc\LogBundle\DataProvider\GeneralDataProvider" public="false" autowire="true" autoconfigure="true" >
         <tag name="controller.service_arguments"/>
       </service>

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.1.3";
-$message = "php attributes added";
+$version = "3.2.0";
+$message = "purge log console command finished";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
