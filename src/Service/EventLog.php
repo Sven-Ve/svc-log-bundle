@@ -43,13 +43,13 @@ class EventLog
   ];
 
   public function __construct(
-      private bool $enableSourceType,  /** @phpstan-ignore-line */
-      private bool $enableIPSaving,
-      private bool $enableUserSaving,
-      private int $minLogLevel,
-      private Security $security,
-      private EntityManagerInterface $entityManager,
-      private SvcLogRepository $logRepo
+    private bool $enableSourceType,  /** @phpstan-ignore-line */
+    private bool $enableIPSaving, 
+    private bool $enableUserSaving,
+    private int $minLogLevel,
+    private Security $security,
+    private EntityManagerInterface $entityManager,
+    private SvcLogRepository $logRepo
   ) {
   }
 
@@ -157,27 +157,30 @@ class EventLog
 
     $successCnt = 0;
     foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
-      if (!$entry->getIp()) {
-        $entry->setCountry('-');
-        continue;
-      }
+      try {
+        if (!$entry->getIp()) {
+          $entry->setCountry('-');
+          continue;
+        }
 
-      $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
-      if ($location['country']) {
-        $entry->setCountry($location['country']);
-        $entry->setCity($location['city']);
-        ++$successCnt;
-      } else {
+        $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
+        if ($location['country']) {
+          $entry->setCountry($location['country']);
+          $entry->setCity($location['city']);
+          ++$successCnt;
+        } else {
+          $entry->setCountry('-');
+        }
+      } catch (Exception) {
         $entry->setCountry('-');
       }
     }
-    $this->entityManager->flush();
+    try {
+      $this->entityManager->flush();
+    } catch (Exception $e) {
+      throw new Exception("Cannot save data: " . $e->getMessage());
+    }
 
     return $successCnt;
-  }
-
-  public function purgeLogs(int $keepMonth, bool $dryRun): int
-  {
-    return 0;
   }
 }

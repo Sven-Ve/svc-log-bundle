@@ -190,3 +190,8 @@
 ## Version 3.2.0
 *Sun, 29 May 2022 21:26:51 +0000*
 - purge log console command finished
+
+
+## Version 3.2.1
+*Mon, 30 May 2022 08:24:49 +0000*
+- improved error handling in batchFillLocation
