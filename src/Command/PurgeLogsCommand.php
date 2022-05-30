@@ -23,7 +23,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class PurgeLogsCommand extends Command
 {
-
   use LockableTrait;
 
   public function __construct(private PurgeHelper $purgeHelper)
@@ -49,7 +48,7 @@ class PurgeLogsCommand extends Command
       return Command::FAILURE;
     }
 
-    $io->title("Purge old log events");
+    $io->title('Purge old log events');
 
     $dryRun = $input->getOption('dryrun');
 
@@ -78,6 +77,7 @@ class PurgeLogsCommand extends Command
     $io->success('Purge successfull.' . ($dryRun ? ' (dryrun)' : ''));
 
     $this->release();
+
     return Command::SUCCESS;
   }
 }

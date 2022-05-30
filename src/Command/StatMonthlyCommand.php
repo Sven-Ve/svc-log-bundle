@@ -40,19 +40,20 @@ class StatMonthlyCommand extends Command
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
-  
+
     if (!$this->lock()) {
       $io->caution('The command is already running in another process.');
 
       return Command::FAILURE;
     }
-  
+
     $fresh = $input->getOption('fresh');
 
     $res = $this->statsHelper->aggrMonthly($fresh);
     $io->success('Aggragation successfully runs. ' . $res['inserted'] . ' statistic records created.');
 
     $this->release();
+
     return Command::SUCCESS;
   }
 }

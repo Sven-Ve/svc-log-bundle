@@ -25,7 +25,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class BatchFillLocationCommand extends Command
 {
-
   use LockableTrait;
 
   public function __construct(private EventLog $eventLog)
@@ -41,7 +40,6 @@ class BatchFillLocationCommand extends Command
 
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
-
     $io = new SymfonyStyle($input, $output);
 
     if (!$this->lock()) {
@@ -50,7 +48,7 @@ class BatchFillLocationCommand extends Command
       return Command::FAILURE;
     }
 
-    $io->title("Fill country and city for event logs");
+    $io->title('Fill country and city for event logs');
     $force = $input->getOption('force');
 
     try {
@@ -59,17 +57,20 @@ class BatchFillLocationCommand extends Command
       $io->error($e->getReason());
 
       $this->release();
+
       return Command::FAILURE;
     } catch (Exception $e) { /* @phpstan-ignore-line */
       $io->error($e->getMessage());
 
       $this->release();
+
       return Command::FAILURE;
     }
 
     $io->success("$successCnt locations set");
 
     $this->release();
+
     return Command::SUCCESS;
   }
 }

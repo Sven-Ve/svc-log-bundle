@@ -46,7 +46,7 @@ class EventLog
 
   public function __construct(
     private bool $enableSourceType,  /** @phpstan-ignore-line */
-    private bool $enableIPSaving, 
+    private bool $enableIPSaving,
     private bool $enableUserSaving,
     private int $minLogLevel,
     private Security $security,
@@ -176,19 +176,19 @@ class EventLog
       $progressBar->advance();
 
       try {
-        if (!$entry->getIp() or $entry->getIp() == "127.0.0.1") {
+        if (!$entry->getIp() or $entry->getIp() == '127.0.0.1') {
           $entry->setCountry('-');
           continue;
         }
 
         ++$counter;
-        if ($counter==100) {
-          $io->writeln(" Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
+        if ($counter == 100) {
+          $io->writeln(' Sleep 70 seconds because api limit on http://www.geoplugin.net (' . $successCnt . ' countries found).');
           $this->entityManager->flush();
           sleep((70));
-          $counter=0;
+          $counter = 0;
         }
-  
+
         $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
         if ($location['country']) {
           $entry->setCountry($location['country']);
@@ -201,14 +201,15 @@ class EventLog
         $entry->setCountry('-');
       }
     }
-    
+
     try {
       $this->entityManager->flush();
     } catch (Exception $e) {
-      throw new Exception("Cannot save data: " . $e->getMessage());
+      throw new Exception('Cannot save data: ' . $e->getMessage());
     }
 
     $progressBar->finish();
+
     return $successCnt;
   }
 }
