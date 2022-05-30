@@ -3,6 +3,7 @@
 namespace Svc\LogBundle\Command;
 
 use Svc\LogBundle\Service\StatsHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,12 +15,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
-class StatMonthlyCommand extends Command
+#[AsCommand(
+  name: 'svc_log:stat-aggregate',
+  description: 'Create statistics.',
+  hidden: false
+)]class StatMonthlyCommand extends Command
 {
-  protected static $defaultName = 'svc_log:stat-aggregate';
-
-  protected static $defaultDescription = 'Create statistics';
-
   public function __construct(private StatsHelper $statsHelper)
   {
     parent::__construct();
@@ -28,7 +29,6 @@ class StatMonthlyCommand extends Command
   protected function configure()
   {
     $this
-        ->setDescription(self::$defaultDescription)
         ->addOption('fresh', 'f', InputOption::VALUE_NONE, 'Reload all statistics (otherwise only rebuild current data)')
     ;
   }

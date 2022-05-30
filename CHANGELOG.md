@@ -195,3 +195,8 @@
 ## Version 3.2.1
 *Mon, 30 May 2022 08:24:49 +0000*
 - improved error handling in batchFillLocation
+
+
+## Version 3.3.0
+*Mon, 30 May 2022 11:39:27 +0000*
+- added force to fillLocation (rescan all empty locations)

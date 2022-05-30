@@ -149,14 +149,28 @@ class EventLog
    *
    * @throws LogExceptionInterface
    */
-  public function batchFillLocation(): int
+  public function batchFillLocation(bool $force): int
   {
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
     }
 
     $successCnt = 0;
-    foreach ($this->logRepo->findBy(['country' => null]) as $entry) {
+    $counter = 0;
+    if ($force) {
+      $entries = $this->logRepo->findBy(['country' => '-']);
+    } else {
+      $entries = $this->logRepo->findBy(['country' => null]);
+    }
+
+    foreach ($entries as $entry) {
+      ++$counter;
+      if ($counter==100) {
+        dump("Sleep 70 seconds beacause api limit on http://www.geoplugin.net");
+        sleep((70));
+        $counter=0;
+      }
+      
       try {
         if (!$entry->getIp()) {
           $entry->setCountry('-');
@@ -175,6 +189,7 @@ class EventLog
         $entry->setCountry('-');
       }
     }
+    
     try {
       $this->entityManager->flush();
     } catch (Exception $e) {

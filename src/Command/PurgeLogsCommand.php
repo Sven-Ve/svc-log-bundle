@@ -3,6 +3,7 @@
 namespace Svc\LogBundle\Command;
 
 use Svc\LogBundle\Service\PurgeHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,6 +15,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
+#[AsCommand(
+  name: 'svc_log:purge-logs',
+  description: 'Purge old log files.',
+  hidden: false
+)]
 class PurgeLogsCommand extends Command
 {
   public function __construct(private PurgeHelper $purgeHelper)
@@ -21,14 +27,9 @@ class PurgeLogsCommand extends Command
     parent::__construct();
   }
 
-  protected static $defaultName = 'svc_log:purge-logs';
-
-  protected static $defaultDescription = 'Purge old log files';
-
   protected function configure()
   {
     $this
-        ->setDescription(self::$defaultDescription)
         ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Dry run - shows only the number of entries that would be deleted')
         ->addOption('month', null, InputOption::VALUE_OPTIONAL, 'Number of month to keep (default = 6)')
     ;

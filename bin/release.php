@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.2.1";
-$message = "improved error handling in batchFillLocation";
+$version = "3.3.0";
+$message = "added force to fillLocation (rescan all empty locations)";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

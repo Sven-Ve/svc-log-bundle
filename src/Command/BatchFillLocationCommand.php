@@ -5,8 +5,10 @@ namespace Svc\LogBundle\Command;
 use Exception;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Service\EventLog;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -15,11 +17,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
-class BatchFillLocationCommand extends Command
+#[AsCommand(
+  name: 'svc_log:fill-location',
+  description: 'Fill country and city (in batch because timing).',
+  hidden: false
+)]
+ class BatchFillLocationCommand extends Command
 {
-  protected static $defaultName = 'svc_log:fill-location';
-
-  protected static $defaultDescription = 'Fill country and city (in batch because timing)';
 
   public function __construct(private EventLog $eventLog)
   {
@@ -28,15 +32,18 @@ class BatchFillLocationCommand extends Command
 
   protected function configure()
   {
-    $this->setDescription(self::$defaultDescription);
+    $this
+        ->addOption('force', 'f', InputOption::VALUE_NONE, 'Reload all empty countries')
+    ;
   }
 
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
+    $force = $input->getOption('force');
 
     try {
-      $successCnt = $this->eventLog->batchFillLocation();
+      $successCnt = $this->eventLog->batchFillLocation($force);
     } catch (LogExceptionInterface $e) {
       $io->error($e->getReason());
 
