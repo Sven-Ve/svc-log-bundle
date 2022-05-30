@@ -164,19 +164,20 @@ class EventLog
     }
 
     foreach ($entries as $entry) {
-      ++$counter;
-      if ($counter==100) {
-        dump("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found.");
-        sleep((70));
-        $counter=0;
-      }
 
       try {
-        if (!$entry->getIp()) {
+        if (!$entry->getIp() or $entry->getIp() == "127.0.0.1") {
           $entry->setCountry('-');
           continue;
         }
 
+        ++$counter;
+        if ($counter==100) {
+          dump("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
+          sleep((70));
+          $counter=0;
+        }
+  
         $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
         if ($location['country']) {
           $entry->setCountry($location['country']);

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.3.1";
-$message = "Improved logging in svc_log:fill-location command";
+$version = "3.3.2";
+$message = "Improved performance in svc_log:fill-location command";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
