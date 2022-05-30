@@ -166,11 +166,11 @@ class EventLog
     foreach ($entries as $entry) {
       ++$counter;
       if ($counter==100) {
-        dump("Sleep 70 seconds beacause api limit on http://www.geoplugin.net");
+        dump("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found.");
         sleep((70));
         $counter=0;
       }
-      
+
       try {
         if (!$entry->getIp()) {
           $entry->setCountry('-');

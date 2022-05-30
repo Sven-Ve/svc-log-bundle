@@ -200,3 +200,8 @@
 ## Version 3.3.0
 *Mon, 30 May 2022 11:39:27 +0000*
 - added force to fillLocation (rescan all empty locations)
+
+
+## Version 3.3.1
+*Mon, 30 May 2022 11:44:29 +0000*
+- Improved logging in svc_log:fill-location command
