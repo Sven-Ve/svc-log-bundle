@@ -165,6 +165,10 @@ class EventLog
       $entries = $this->logRepo->findBy(['country' => null]);
     }
 
+    if (count($entries) == 0) {
+      return 0;
+    }
+
     $progressBar = new ProgressBar($io, count($entries));
     $progressBar->start();
 
@@ -179,7 +183,8 @@ class EventLog
 
         ++$counter;
         if ($counter==100) {
-          $io->writeln("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
+          $io->writeln(" Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
+          $this->entityManager->flush();
           sleep((70));
           $counter=0;
         }

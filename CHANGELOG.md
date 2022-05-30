@@ -215,3 +215,8 @@
 ## Version 3.3.3
 *Mon, 30 May 2022 14:30:08 +0000*
 - Improved logging in svc_log:fill-location command
+
+
+## Version 3.3.4
+*Mon, 30 May 2022 16:06:37 +0000*
+- Small improvements

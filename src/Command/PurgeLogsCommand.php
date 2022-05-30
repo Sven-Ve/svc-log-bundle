@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Command;
 use Svc\LogBundle\Service\PurgeHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,11 +18,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 #[AsCommand(
   name: 'svc_log:purge-logs',
-  description: 'Purge old log files.',
+  description: 'Purge old log events.',
   hidden: false
 )]
 class PurgeLogsCommand extends Command
 {
+
+  use LockableTrait;
+
   public function __construct(private PurgeHelper $purgeHelper)
   {
     parent::__construct();
@@ -38,6 +42,15 @@ class PurgeLogsCommand extends Command
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
+
+    if (!$this->lock()) {
+      $io->caution('The command is already running in another process.');
+
+      return Command::FAILURE;
+    }
+
+    $io->title("Purge old log events");
+
     $dryRun = $input->getOption('dryrun');
 
     $month = $input->getOption('month');
@@ -57,13 +70,14 @@ class PurgeLogsCommand extends Command
 
       return Command::FAILURE;
     }
-    $io->info('Month:' . $month);
+    $io->writeln('Keep Month:' . $month);
 
     $count = $this->purgeHelper->purgeLogs($month, $dryRun);
 
-    $io->info($count . ' log records purged.' . ($dryRun ? ' (dryrun)' : ''));
+    $io->writeln($count . ' log records purged.' . ($dryRun ? ' (dryrun)' : ''));
     $io->success('Purge successfull.' . ($dryRun ? ' (dryrun)' : ''));
 
+    $this->release();
     return Command::SUCCESS;
   }
 }
