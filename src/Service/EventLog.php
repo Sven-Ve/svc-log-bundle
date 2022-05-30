@@ -11,6 +11,8 @@ use Svc\LogBundle\Exception\IpSavingNotEnabledException;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
@@ -149,7 +151,7 @@ class EventLog
    *
    * @throws LogExceptionInterface
    */
-  public function batchFillLocation(bool $force): int
+  public function batchFillLocation(bool $force, SymfonyStyle $io): int
   {
     if (!$this->enableIPSaving) {
       throw new IpSavingNotEnabledException();
@@ -163,7 +165,11 @@ class EventLog
       $entries = $this->logRepo->findBy(['country' => null]);
     }
 
+    $progressBar = new ProgressBar($io, count($entries));
+    $progressBar->start();
+
     foreach ($entries as $entry) {
+      $progressBar->advance();
 
       try {
         if (!$entry->getIp() or $entry->getIp() == "127.0.0.1") {
@@ -173,7 +179,7 @@ class EventLog
 
         ++$counter;
         if ($counter==100) {
-          dump("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
+          $io->writeln("Sleep 70 seconds because api limit on http://www.geoplugin.net (" . $successCnt . " countries found).");
           sleep((70));
           $counter=0;
         }
@@ -197,6 +203,7 @@ class EventLog
       throw new Exception("Cannot save data: " . $e->getMessage());
     }
 
+    $progressBar->finish();
     return $successCnt;
   }
 }

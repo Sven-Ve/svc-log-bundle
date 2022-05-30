@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Command;
 use Svc\LogBundle\Service\StatsHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,8 +20,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
   name: 'svc_log:stat-aggregate',
   description: 'Create statistics.',
   hidden: false
-)]class StatMonthlyCommand extends Command
+)]
+class StatMonthlyCommand extends Command
 {
+  use LockableTrait;
+
   public function __construct(private StatsHelper $statsHelper)
   {
     parent::__construct();
@@ -36,12 +40,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
+  
+    if (!$this->lock()) {
+      $io->caution('The command is already running in another process.');
+
+      return Command::FAILURE;
+    }
+  
     $fresh = $input->getOption('fresh');
 
     $res = $this->statsHelper->aggrMonthly($fresh);
-    $io->info($res['inserted'] . ' statistic records created.');
-    $io->success('Aggragation successfully runs.');
+    $io->success('Aggragation successfully runs. ' . $res['inserted'] . ' statistic records created.');
 
+    $this->release();
     return Command::SUCCESS;
   }
 }
