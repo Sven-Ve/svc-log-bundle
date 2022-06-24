@@ -220,3 +220,8 @@
 ## Version 3.3.4
 *Mon, 30 May 2022 16:06:37 +0000*
 - Small improvements
+
+
+## Version 3.4.0
+*Fri, 24 Jun 2022 19:13:21 +0000*
+- added daily statistics to pivot

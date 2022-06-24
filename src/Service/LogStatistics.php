@@ -91,7 +91,7 @@ class LogStatistics
    * pivot the data for a specific sourceType for the last 5 month
    * if access for non-admins not allowed create the array with headers but without data.
    */
-  public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
+  public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL, ?bool $addDailyStats = false): array
   {
     $today = new DateTime();
     $firstDay = new DateTime($today->format('Y-m-01'));
@@ -109,7 +109,18 @@ class LogStatistics
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       $data['data'] = [];
     } else {
-      $data['data'] = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
+      $numbers = $this->statMonRep->pivotData($monthList, $sourceType, $logLevel);
+      if ($addDailyStats) {
+        $dailyStats = $this->svcLogRep->aggrLogsForCurrentDay($sourceType);
+        foreach ($numbers as $key => $row) {
+          if (array_key_exists($row['sourceID'], $dailyStats)) {
+            $numbers[$key]['daily'] = $dailyStats[$row['sourceID']];
+          } else {
+            $numbers[$key]['daily'] = 0;
+          }
+        }
+      }
+      $data['data'] = $numbers;
     }
 
     return $data;

@@ -129,6 +129,35 @@ class SvcLogRepository extends ServiceEntityRepository
   }
 
   /**
+   * aggragete log entries for the current day.
+   */
+  public function aggrLogsForCurrentDay(int $sourceType, ?int $logLevel = null): array
+  {
+    $query = $this->createQueryBuilder('s')
+      ->select('s.sourceID, count(s) as cntDay')
+      ->groupBy('s.sourceID')
+      ->andWhere('s.sourceType = :sourceType')
+      ->andWhere('s.logDate >= CURRENT_DATE()')
+      ->setParameter('sourceType', $sourceType);
+
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->andWhere('s.logLevel = :logLevel')
+        ->setParameter('logLevel', $logLevel);
+    }
+
+    $results = $query->getQuery()
+      ->getResult();
+
+    $resultArray = [];
+    foreach ($results as $result) {
+      $resultArray[$result['sourceID']] = $result['cntDay'];
+    }
+
+    return $resultArray;
+  }
+
+  /**
    * purge old log data.
    */
   public function purgeOldData(DateTime $keepDate, bool $dryRun): int

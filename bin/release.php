@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.3.4";
-$message = "Small improvements";
+$version = "3.4.0";
+$message = "added daily statistics to pivot";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
