@@ -225,3 +225,8 @@
 ## Version 3.4.0
 *Fri, 24 Jun 2022 19:13:21 +0000*
 - added daily statistics to pivot
+
+
+## Version 3.4.1
+*Sat, 25 Jun 2022 08:17:28 +0000*
+- added total and total5 (last 5 month) to pivot

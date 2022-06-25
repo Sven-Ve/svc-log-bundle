@@ -94,7 +94,8 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
         SUM(CASE WHEN s.month='$months[1]' THEN s.logCount ELSE 0 END) AS month1,
         SUM(CASE WHEN s.month='$months[2]' THEN s.logCount ELSE 0 END) AS month2,
         SUM(CASE WHEN s.month='$months[3]' THEN s.logCount ELSE 0 END) AS month3,
-        SUM(CASE WHEN s.month='$months[4]' THEN s.logCount ELSE 0 END) AS month4
+        SUM(CASE WHEN s.month='$months[4]' THEN s.logCount ELSE 0 END) AS month4,
+        SUM(s.logCount)  as total
         ")
       ->where('s.sourceType = :sourceType')
       ->setParameter('sourceType', $sourceType);

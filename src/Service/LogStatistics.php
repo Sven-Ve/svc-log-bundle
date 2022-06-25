@@ -113,6 +113,7 @@ class LogStatistics
       if ($addDailyStats) {
         $dailyStats = $this->svcLogRep->aggrLogsForCurrentDay($sourceType);
         foreach ($numbers as $key => $row) {
+          $numbers[$key]['total5'] = $row['month0'] + $row['month1'] + $row['month2'] + $row['month3'] + $row['month4'];
           if (array_key_exists($row['sourceID'], $dailyStats)) {
             $numbers[$key]['daily'] = $dailyStats[$row['sourceID']];
           } else {
