@@ -33,8 +33,7 @@ class StatMonthlyCommand extends Command
   protected function configure()
   {
     $this
-        ->addOption('fresh', 'f', InputOption::VALUE_NONE, 'Reload all statistics (otherwise only rebuild current data)')
-    ;
+      ->addOption('fresh', 'f', InputOption::VALUE_NONE, 'Reload all statistics (otherwise only rebuild current data)');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output): int

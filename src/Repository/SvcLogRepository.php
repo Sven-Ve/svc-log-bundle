@@ -105,7 +105,7 @@ class SvcLogRepository extends ServiceEntityRepository
   }
 
   /**
-   * aggragete log entries by country for a specific ID.
+   * aggregate log entries by country for a specific ID.
    */
   public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): array
   {
@@ -129,7 +129,7 @@ class SvcLogRepository extends ServiceEntityRepository
   }
 
   /**
-   * aggragete log entries for the current day.
+   * aggregate log entries for the current day.
    */
   public function aggrLogsForCurrentDay(int $sourceType, ?int $logLevel = null): array
   {

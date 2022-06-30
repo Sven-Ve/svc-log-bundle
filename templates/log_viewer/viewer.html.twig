@@ -2,14 +2,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{% trans %}Log viewer{% endtrans %}
+  {% trans %}Log viewer{% endtrans %}
 {% endblock %}
 
 {% block body %}
-	<h1>
-		<i class="fas fa-binoculars"></i>
-		{% trans %}Log viewer{% endtrans %}
-	</h1>
+  <h1>
+    <i class="fas fa-binoculars"></i>
+    {% trans %}Log viewer{% endtrans %}
+  </h1>
 
-	{{ include("@SvcLog/log_viewer/_table.html.twig", {showFilter: true, hideSourceCols: false}) }}
+  {{ include("@SvcLog/log_viewer/_table.html.twig", {showFilter: true, hideSourceCols: false}) }}
 {% endblock %}

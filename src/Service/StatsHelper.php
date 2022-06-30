@@ -18,7 +18,7 @@ class StatsHelper
   }
 
   /**
-   * aggragate data for monthly statistics.
+   * aggregate data for monthly statistics.
    *
    * @param bool $fresh should the data reloaded completly (truncate table before)
    */

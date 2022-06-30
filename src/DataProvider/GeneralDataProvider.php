@@ -3,19 +3,19 @@
 namespace Svc\LogBundle\DataProvider;
 
 /**
- * a general easy log provider, you have to extends from here.
+ * a general easy log provider, you have to extend from here.
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
 class GeneralDataProvider implements DataProviderInterface
 {
-  protected $sourceTypes = [];
+  protected array $sourceTypes = [];
 
-  protected $isSourceTypesInitialized = false;
+  protected bool $isSourceTypesInitialized = false;
 
-  protected $sourceIDs = [];
+  protected array $sourceIDs = [];
 
-  protected $isSourceIDsInitialized = false;
+  protected bool $isSourceIDsInitialized = false;
 
   /**
    * get the text/description for a source type.

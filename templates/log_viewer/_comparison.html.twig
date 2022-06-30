@@ -1,5 +1,8 @@
 {% trans_default_domain 'LogBundle' %}
-<select class="form-select form-select-sm" name="{{ name }}" data-svc--log-bundle--view-target="{{ name }}" data-action="svc--log-bundle--view#onSubmit">
+<select class="form-select form-select-sm" name="{{ name }}"
+  {{ stimulus_target("svc--log-bundle--view", name) }}
+  {{ stimulus_action("svc--log-bundle--view", "onSubmit") }}
+>
   <option value="1">=</option>
   <option value="2">></option>
   <option value="3"><</option>

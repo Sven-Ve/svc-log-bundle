@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Service;
 use DateInterval;
 use DateTime;
 use Svc\LogBundle\Exception\IpSavingNotEnabledException;
+use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Helper class for displaing statistics.
+ * Helper class for displaying statistics.
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
@@ -89,7 +90,7 @@ class LogStatistics
 
   /**
    * pivot the data for a specific sourceType for the last 5 month
-   * if access for non-admins not allowed create the array with headers but without data.
+   * if access for non-admins not allowed to create the array with headers but without data.
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL, ?bool $addDailyStats = false): array
   {

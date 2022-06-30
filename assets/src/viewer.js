@@ -18,16 +18,16 @@ export default class extends Controller {
 
 
   connect() {
-    this.refreshContent(this.createURL(0));
+    this.refreshContent(this.createURL("0"));
   }
 
   onSubmit(event) {
     event.preventDefault();
-    this.refreshContent(this.createURL(0));
+    this.refreshContent(this.createURL("0"));
   }
 
   first() {
-    this.refreshContent(this.createURL(0));
+    this.refreshContent(this.createURL("0"));
   }
 
   prev() {
@@ -75,16 +75,16 @@ export default class extends Controller {
 
   /**
    * refresh (ajax) a given url and show the result in the target container
-   * 
+   *
    * @param {string} url
-   * @returns 
+   * @returns
    */
   async refreshContent(url) {
 
     const target = this.contentTarget;
     target.style.opacity = .5;
 
-    var response;
+    let response;
     try {
       response = await fetch(url);
     }

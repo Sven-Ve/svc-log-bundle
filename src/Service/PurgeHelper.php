@@ -18,7 +18,7 @@ class PurgeHelper
   }
 
   /**
-   * aggragate data for monthly statistics.
+   * aggregate data for monthly statistics.
    */
   public function purgeLogs(int $purgeMonth, bool $dryRun): int
   {

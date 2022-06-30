@@ -230,3 +230,8 @@
 ## Version 3.4.1
 *Sat, 25 Jun 2022 08:17:28 +0000*
 - added total and total5 (last 5 month) to pivot
+
+
+## Version 3.4.2
+*Thu, 30 Jun 2022 20:06:25 +0000*
+- moved to the newer stimulus syntax, some smaller fixes

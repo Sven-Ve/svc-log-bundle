@@ -36,7 +36,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   }
 
   /**
-   * delete current perio in statistic table.
+   * delete current period in statistic table.
    */
   public function deleteCurrentData(?DateTime $startDate = null): int
   {

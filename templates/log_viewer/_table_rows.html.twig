@@ -1,10 +1,11 @@
 {% trans_default_domain 'LogBundle' %}
 {% for log in logs | default(null) %}
-	<tr 
-    data-controller="svc--util-bundle--modal"
-    data-svc--util-bundle--modal-url-value="{{ path('svc_log_viewer_view_detail', {id: log.id}) }}"
-    data-svc--util-bundle--modal-title-value="{% trans %}Log details{% endtrans %}"
-    data-action="click->svc--util-bundle--modal#show"
+	<tr
+    {{ stimulus_controller('svc--util-bundle--modal', {
+      url: path('svc_log_viewer_view_detail', {id: log.id}),
+      title: "Log details" | trans
+    }) }}
+    {{ stimulus_action("svc--util-bundle--modal", "show", "click") }}
   >
     <td>
       {% if log.message %}
@@ -36,11 +37,11 @@
 		<td colspan="4">{{ init | default(false) ? "Loading..." : "no log records found." | trans }}</td>
 	</tr>
 {% endfor %}
-<input type="hidden" value="{{ dataContr.next | default(0) }}" data-svc--log-bundle--view-target="next" >
-<input type="hidden" value="{{ dataContr.last | default(0) }}" data-svc--log-bundle--view-target="last" >
-<input type="hidden" value="{{ dataContr.prev | default(0) }}" data-svc--log-bundle--view-target="prev" >
-<input type="hidden" value="{{ dataContr.hidePrev | default(0) }}" data-svc--log-bundle--view-target="hidePrev" >
-<input type="hidden" value="{{ dataContr.hideNext | default(0) }}" data-svc--log-bundle--view-target="hideNext" >
-<input type="hidden" value="{{ dataContr.count | default(0) }}" data-svc--log-bundle--view-target="count" >
-<input type="hidden" value="{{ dataContr.from | default(0) }}" data-svc--log-bundle--view-target="from" >
-<input type="hidden" value="{{ dataContr.to | default(0) }}" data-svc--log-bundle--view-target="to" >
+<input type="hidden" value="{{ dataContr.next | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "next") }}>
+<input type="hidden" value="{{ dataContr.last | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "last") }}>
+<input type="hidden" value="{{ dataContr.prev | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "prev") }}>
+<input type="hidden" value="{{ dataContr.hidePrev | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "hidePrev") }}>
+<input type="hidden" value="{{ dataContr.hideNext | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "hideNext") }}>
+<input type="hidden" value="{{ dataContr.count | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "count") }}>
+<input type="hidden" value="{{ dataContr.from | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "from") }}>
+<input type="hidden" value="{{ dataContr.to | default(0) }}" {{ stimulus_target("svc--log-bundle--view", "to") }}>
