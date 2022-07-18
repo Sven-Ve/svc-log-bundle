@@ -14,22 +14,23 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "doctrine/doctrine-bundle": "^2.6",
-        "symfony/framework-bundle": "5.4.*|^6",
-        "symfony/validator": "5.4.*|^6",
-        "symfony/http-kernel": "5.4.*|^6",
-        "symfony/lock": "5.4.*|^6",
-        "symfony/options-resolver": "5.4.*|^6",
-        "symfony/security-bundle": "5.4.*|^6",
-        "symfony/translation": "5.4.*|^6",
-        "symfony/twig-bundle": "5.4.*|^6",
-        "twig/intl-extra": "^2.12|^3.0",
+        "doctrine/doctrine-bundle": "^2.7",
+        "symfony/framework-bundle": "^6.1",
+        "symfony/validator": "^6.1",
+        "symfony/http-kernel": "^6.1",
+        "symfony/lock": "^6.1",
+        "symfony/options-resolver": "^6.1",
+        "symfony/security-bundle": "^6.1",
+        "symfony/translation": "^6.1",
+        "symfony/twig-bundle": "^6.1",
+        "twig/intl-extra": "^3.0",
         "donatj/phpuseragentparser": "^1.6",
-        "svc/util-bundle": "^3|dev-main",
-        "svc/param-bundle": "^3|dev-main"
+        "svc/util-bundle": "^3|^4|dev-main",
+        "svc/param-bundle": "^3|^4|dev-main"
     },
     "suggest": {
-        "symfony/security-bundle": "if you want to store information about the logged in user in the logs"
+        "symfony/security-bundle": "if you want to store information about the logged in user in the logs",
+        "easycorp/easyadmin-bundle": "If the EasyAdmin log admin page is to be used"
     },
     "autoload": {
         "psr-4": {
@@ -42,9 +43,9 @@
         }
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "5.4.*|^6",
-        "symfony/browser-kit": "5.4.*|^6",
-        "phpstan/phpstan": "^1",
+        "symfony/phpunit-bridge": "^6.1",
+        "symfony/browser-kit": "^6.1",
+        "phpstan/phpstan": "^1.7",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-doctrine": "^1.2"
     },

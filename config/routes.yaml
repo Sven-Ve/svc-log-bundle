@@ -1,0 +1,11 @@
+svc_log_viewer_view:
+  path: /
+  controller: Svc\LogBundle\Controller\LogViewerController::viewTable
+
+svc_log_viewer_view_data:
+  path: /data
+  controller: Svc\LogBundle\Controller\LogViewerController::viewData
+
+svc_log_viewer_view_detail:
+  path: /detail/{id}
+  controller: Svc\LogBundle\Controller\LogViewerController::viewDetail

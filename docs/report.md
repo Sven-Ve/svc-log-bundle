@@ -1,10 +1,10 @@
 # Reports
 
-## Option 1: Use the LogViewer with Ajax filtering (complete out-of-the-box controller)
+### Option 1: Use the LogViewer with Ajax filtering (complete out-of-the-box controller)
 
 Call the route "svc_log_viewer_view" in your application (twig template)
 
-## Option 2: Integrate the log results in your application ("modern way" with ajax)
+### Option 2: Integrate the log results in your application ("modern way" with ajax)
 
 In your twig template include the template "@SvcLog/log_viewer/_table.html.twig" with this parameters:
 * showFilter (default true): show the filter for sourceID, sourceType, logLevel, country and allow ajax based filtering
@@ -26,9 +26,9 @@ In your twig template include the template "@SvcLog/log_viewer/_table.html.twig"
   }}
 ```
 
-## Option 3: Integrate the log results in your application (classic way without ajax)
+### Option 3: Integrate the log results in your application (classic way without ajax)
 
-### Create a controller
+#### Create a controller
 
 add a parameter logData to the twig-render function and call the function reportOneId() with sourceID, sourceType and (optional) logLevel
 
@@ -47,9 +47,9 @@ use Svc\LogBundle\Service\LogStatistics;
   }
   ```
 
-### Create a twig template
+#### Create a twig template
 
-include in the your twig template the table:
+include in your twig template the table:
 
 ```twig
 ...
@@ -57,7 +57,7 @@ include in the your twig template the table:
 ...
 ```
 
-## Option 4: Direct access on log data
+### Option 4: Direct access on log data
 
 you can direct query the logdata for a specific ID within a sourceType and (optional) a specific logLevel
 
@@ -73,4 +73,25 @@ use Svc\LogBundle\Service\LogStatistics;
    * @return array
    */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array 
+```
+
+### Option 5: Access via EasyAdmin (in development)
+
+If you have EasyAdmin installed, you can use a small admin interface there (but only with raw data)
+
+Example:<br/>
+```php
+use Svc\LogBundle\Controller\EaLogCrudController;
+use Svc\LogBundle\Controller\EaLogStatMonthlyCrudController;
+use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Entity\SvcLogStatMonthly;
+
+class DashboardController extends AbstractDashboardController
+{
+  public function configureMenuItems(): iterable
+  {
+    ...
+    yield MenuItem::section('Logs');
+    yield MenuItem::linkToCrud('Logs (raw)', 'fas fa-binoculars', SvcLog::class);
+    yield MenuItem::linkToCrud('Logs (aggr.)', 'fa-solid fa-chart-pie', SvcLogStatMonthly::class);
 ```

@@ -51,7 +51,7 @@ export default class extends Controller {
    * @param {string} offset - the pagination offset
    */
   createURL(offset) {
-    var url = this.urlValue + "?offset=" + offset;
+    let url = this.urlValue + "?offset=" + offset;
     if (this.showFilterValue) {
       url += "&sourceID=" + this.sourceIDTarget.value;
       url += "&sourceIDC=" + this.sourceIDCTarget.value;

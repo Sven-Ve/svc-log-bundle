@@ -1,0 +1,22 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Svc\LogBundle\Service\EventLog:
+  Svc\LogBundle\Service\LogStatistics:
+  Svc\LogBundle\Service\StatsHelper:
+  Svc\LogBundle\Service\PurgeHelper:
+  Svc\LogBundle\DataProvider\GeneralDataProvider:
+  Svc\LogBundle\Command\BatchFillLocationCommand:
+  Svc\LogBundle\Command\StatMonthlyCommand:
+  Svc\LogBundle\Command\PurgeLogsCommand:
+  Svc\LogBundle\Repository\SvcLogRepository:
+  Svc\LogBundle\Repository\SvcLogStatMonthlyRepository:
+  Svc\LogBundle\Controller\LogViewerController:
+    arguments:
+      - "@Svc\\LogBundle\\DataProvider\\GeneralDataProvider"
+
+  Svc\LogBundle\Controller\EaLogCrudController:
+  Svc\LogBundle\Controller\EaLogStatMonthlyCrudController:

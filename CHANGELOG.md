@@ -235,3 +235,8 @@
 ## Version 3.4.2
 *Thu, 30 Jun 2022 20:06:25 +0000*
 - moved to the newer stimulus syntax, some smaller fixes
+
+
+## Version 4.0.0
+*Mon, 18 Jul 2022 19:43:07 +0000*
+- build with Symfony 6.1 bundle features, runs only with symfony 6.1

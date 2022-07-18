@@ -36,6 +36,6 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    Svc\ParamBundle\SvcLogBundle::class => ['all' => true],
+    Svc\LogBundle\SvcLogBundle::class => ['all' => true],
 ];
 ```

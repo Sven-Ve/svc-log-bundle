@@ -3,3 +3,6 @@ parameters:
     - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
     - '#Else branch is unreachable because ternary operator condition is always true.#'
     - '#Property Svc\\LogBundle\\Entity\\SvcLog::\$.* \(DateTime\|null\) does not accept DateTimeInterface.#'
+  excludePaths:
+    - 'src/Controller/EaLogCrudController'
+    - 'src/Controller/EaLogStatMonthlyCrudController'

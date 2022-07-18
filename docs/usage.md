@@ -37,7 +37,7 @@ svc_log:
     data_provider: Svc\LogBundle\DataProvider\GeneralDataProvider
 ```
 
-### Recommended seeting
+### Recommended setting
 
 ```yaml
 # /config/packages/svc_log.yaml
