@@ -7,11 +7,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Svc\LogBundle\Entity\SvcLogStatMonthly;
+use Svc\LogBundle\Service\EventLog;
 
 class EaLogStatMonthlyCrudController extends AbstractCrudController
 {
@@ -39,7 +40,8 @@ class EaLogStatMonthlyCrudController extends AbstractCrudController
     yield NumberField::new('sourceID')
       ->setLabel('Source ID');
     yield NumberField::new('sourceType');
-    yield NumberField::new('logLevel');
+    yield ChoiceField::new('logLevel')
+      ->setChoices(EventLog::getLevelsForChoices(false));
     yield NumberField::new('logCount')
       ->setLabel('Count');
   }
@@ -58,6 +60,6 @@ class EaLogStatMonthlyCrudController extends AbstractCrudController
       ->add('sourceID')
       ->add('sourceType')
       ->add('logLevel')
-      ;
+    ;
   }
 }

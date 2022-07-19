@@ -20,15 +20,15 @@ use Symfony\Component\Security\Core\Security;
 class LogStatistics
 {
   public function __construct(
-      private bool $enableSourceType,  /** @phpstan-ignore-line */
-      private bool $enableIPSaving,
-      private string $offsetParamName,
-      private bool $needAdminForStats,
-      private SvcLogRepository $svcLogRep,
-      private SvcLogStatMonthlyRepository $statMonRep,
-      private RequestStack $requestStack,
-      private UrlGeneratorInterface $router,
-      private Security $security
+    private bool $enableSourceType,  /** @phpstan-ignore-line */
+    private bool $enableIPSaving,
+    private string $offsetParamName,
+    private bool $needAdminForStats,
+    private SvcLogRepository $svcLogRep,
+    private SvcLogStatMonthlyRepository $statMonRep,
+    private RequestStack $requestStack,
+    private UrlGeneratorInterface $router,
+    private Security $security
   ) {
   }
 

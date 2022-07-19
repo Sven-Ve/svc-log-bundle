@@ -185,7 +185,7 @@ class EventLog
         if ($counter == 100) {
           $io->writeln(' Sleep 70 seconds because api limit on http://www.geoplugin.net (' . $successCnt . ' countries found).');
           $this->entityManager->flush();
-          sleep((70));
+          sleep(70);
           $counter = 0;
         }
 
@@ -211,5 +211,18 @@ class EventLog
     $progressBar->finish();
 
     return $successCnt;
+  }
+
+  public static function getLevelsForChoices(bool $includeAll = false): array
+  {
+    $choices = [];
+    foreach (self::ARR_LEVEL_TEXT as $key => $name) {
+      if (!$includeAll and $key == self::LEVEL_ALL) {
+        continue;
+      }
+      $choices[$name] = $key;
+    }
+
+    return $choices;
   }
 }

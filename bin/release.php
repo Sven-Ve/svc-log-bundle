@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.0.1";
-$message = "Improved EaLogStatMonthlyCrudController";
+$version = "4.0.2";
+$message = "Improved EA Controllers";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

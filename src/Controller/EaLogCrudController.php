@@ -4,12 +4,14 @@ namespace Svc\LogBundle\Controller;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Service\EventLog;
 
 class EaLogCrudController extends AbstractCrudController
 {
@@ -40,8 +42,9 @@ class EaLogCrudController extends AbstractCrudController
       ->setColumns(5);
     yield DateTimeField::new('logDate')
       ->setColumns(5);
-    yield NumberField::new('logLevel')
-      ->setColumns(5);
+    yield ChoiceField::new('logLevel')
+      ->setColumns(5)
+      ->setChoices(EventLog::getLevelsForChoices(false));
     yield TextField::new('message')
       ->setColumns(10);
     yield FormField::addPanel('Client info')->collapsible();

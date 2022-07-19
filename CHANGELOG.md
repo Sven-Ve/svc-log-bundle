@@ -245,3 +245,8 @@
 ## Version 4.0.1
 *Tue, 19 Jul 2022 10:52:23 +0000*
 - Improved EaLogStatMonthlyCrudController
+
+
+## Version 4.0.2
+*Tue, 19 Jul 2022 14:38:59 +0000*
+- Improved EA Controllers
