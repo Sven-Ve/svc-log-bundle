@@ -240,3 +240,8 @@
 ## Version 4.0.0
 *Mon, 18 Jul 2022 19:43:07 +0000*
 - build with Symfony 6.1 bundle features, runs only with symfony 6.1
+
+
+## Version 4.0.1
+*Tue, 19 Jul 2022 10:52:23 +0000*
+- Improved EaLogStatMonthlyCrudController
