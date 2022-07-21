@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.0.2";
-$message = "Improved EA Controllers";
+$version = "4.0.3";
+$message = "licence year update";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
