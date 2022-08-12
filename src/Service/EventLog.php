@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use donatj\UserAgent\UserAgentParser;
 use Exception;
 use Svc\LogBundle\Entity\SvcLog;
-use Svc\LogBundle\Exception\IpSavingNotEnabledException;
+use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
@@ -154,7 +154,7 @@ class EventLog
   public function batchFillLocation(bool $force, SymfonyStyle $io): int
   {
     if (!$this->enableIPSaving) {
-      throw new IpSavingNotEnabledException();
+      throw new DeleteAllLogsForbidden();
     }
 
     $successCnt = 0;

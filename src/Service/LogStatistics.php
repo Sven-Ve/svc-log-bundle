@@ -4,7 +4,7 @@ namespace Svc\LogBundle\Service;
 
 use DateInterval;
 use DateTime;
-use Svc\LogBundle\Exception\IpSavingNotEnabledException;
+use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
@@ -139,7 +139,7 @@ class LogStatistics
       return [];
     }
     if (!$this->enableIPSaving) {
-      throw new IpSavingNotEnabledException();
+      throw new DeleteAllLogsForbidden();
     }
 
     return $this->svcLogRep->aggrLogsByCountry($sourceID, $sourceType, $logLevel);
@@ -162,7 +162,7 @@ class LogStatistics
 
     $result = [];
     if (!$this->enableIPSaving) {
-      throw new IpSavingNotEnabledException();
+      throw new DeleteAllLogsForbidden();
     }
     $chartLabels = [];
     $chartData = [];
@@ -196,7 +196,7 @@ class LogStatistics
 
     $results = [];
     if (!$this->enableIPSaving) {
-      throw new IpSavingNotEnabledException();
+      throw new DeleteAllLogsForbidden();
     }
     $chartArray = $this->getCountriesForChartJS($sourceID, $sourceType, $logLevel, $maxEntries);
     $results['labels'] = implode('|', $chartArray['labels']);

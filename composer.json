@@ -26,7 +26,8 @@
         "twig/intl-extra": "^3.0",
         "donatj/phpuseragentparser": "^1.6",
         "svc/util-bundle": "^4|dev-main",
-        "svc/param-bundle": "^4|dev-main"
+        "svc/param-bundle": "^4|dev-main",
+        "doctrine/orm": "^2.13"
     },
     "suggest": {
         "symfony/security-bundle": "if you want to store information about the logged in user in the logs",

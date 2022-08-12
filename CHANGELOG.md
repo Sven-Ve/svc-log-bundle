@@ -255,3 +255,8 @@
 ## Version 4.0.3
 *Thu, 21 Jul 2022 18:36:37 +0000*
 - licence year update
+
+
+## Version 4.1.0
+*Fri, 12 Aug 2022 14:04:36 +0000*
+- added function to delete logs in SvcLogRepository

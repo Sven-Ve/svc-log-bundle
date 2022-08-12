@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Service\EventLog;
 
 /**
@@ -181,5 +182,41 @@ class SvcLogRepository extends ServiceEntityRepository
       ->getQuery();
 
     return $query->execute();
+  }
+
+  /**
+   * @throws DeleteAllLogsForbidden
+   */
+  public function batchDelete(?int $sourceID = null, ?int $sourceType = null, ?int $userID = null, ?int $logLevel = null): int
+  {
+    if (!($sourceID . $sourceType . $userID . $logLevel)) {
+      throw new DeleteAllLogsForbidden();
+    }
+
+    $query = $this->createQueryBuilder('l')
+      ->delete();
+
+    if ($sourceID !== null) {
+      $query->andWhere('l.sourceID = :sourceID')
+        ->setParameter('sourceID', $sourceID);
+    }
+
+    if ($sourceType !== null) {
+      $query->andWhere('l.sourceType = :sourceType')
+        ->setParameter('sourceType', $sourceType);
+    }
+
+    if ($userID !== null) {
+      $query->andWhere('l.userID = :userID')
+        ->setParameter('userID', $userID);
+    }
+
+    if ($logLevel !== null) {
+      $query->andWhere('l.logLevel = :logLevel')
+        ->setParameter('logLevel', $logLevel);
+    }
+
+    return $query->getQuery()
+      ->execute();
   }
 }

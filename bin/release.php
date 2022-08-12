@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.0.3";
-$message = "licence year update";
+$version = "4.1.0";
+$message = "added function to delete logs in SvcLogRepository";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
