@@ -77,7 +77,6 @@ class EventLog
     }
 
     $log = new SvcLog();
-    $log->setLogDate(new DateTime());
     $log->setSourceID($sourceID);
     $log->setSourceType($sourceType);
 

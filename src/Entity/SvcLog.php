@@ -21,7 +21,7 @@ class SvcLog
   private ?int $sourceID = null;
 
   #[ORM\Column()]
-  private ?\DateTime $logDate = null;
+  private \DateTime $logDate;
 
   #[ORM\Column()]
   private int $logLevel = EventLog::LEVEL_DATA;
@@ -65,6 +65,11 @@ class SvcLog
   private ?string $sourceIDText = null;
 
   private ?string $sourceTypeText = null;
+
+  public function __construct()
+  {
+    $this->logDate = new \DateTime();
+  }
 
   public function getId(): ?int
   {
@@ -120,7 +125,7 @@ class SvcLog
     return $this;
   }
 
-  public function getLogDate(): ?\DateTimeInterface
+  public function getLogDate(): \DateTimeInterface
   {
     return $this->logDate;
   }
