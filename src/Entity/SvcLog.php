@@ -132,7 +132,7 @@ class SvcLog
 
   public function setLogDate(\DateTimeInterface $logDate): self
   {
-    $this->logDate = $logDate;
+    $this->logDate = \DateTime::createFromInterface($logDate);
 
     return $this;
   }

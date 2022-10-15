@@ -13,40 +13,33 @@ use Svc\LogBundle\Service\EventLog;
  */
 final class SvcLogTest extends TestCase
 {
-  public function testLogLevelError(): void
+  /**
+   * @dataProvider logLevelDataProvider
+   */
+  public function testLogLevelSetCorrectAttributes(int $logLevel, string $bgColor, string $fgColor, string $name): void
   {
     $svcLog = new SvcLog();
-    $svcLog->setLogLevel(EventLog::LEVEL_ERROR);
+    $svcLog->setLogLevel($logLevel);
 
-    $this->assertSame(EventLog::LEVEL_ERROR, $svcLog->getLogLevel());
-    $this->assertSame('danger', $svcLog->getLogLevelBGColor());
-    $this->assertSame('white', $svcLog->getLogLevelFGColor());
-    $this->assertSame('bg-danger text-white', $svcLog->getLogLevelBootstrap5Class());
+    $this->assertSame($logLevel, $svcLog->getLogLevel(), 'Testing logLevel ' . $name);
+    $this->assertSame($bgColor, $svcLog->getLogLevelBGColor(), 'Testing logLevel ' . $name);
+    $this->assertSame($fgColor, $svcLog->getLogLevelFGColor(), 'Testing logLevel ' . $name);
+    $this->assertSame('bg-' . $bgColor . ' text-' . $fgColor, $svcLog->getLogLevelBootstrap5Class(), 'Testing logLevel ' . $name);
+    $this->assertSame($name, $svcLog->getLogLevelText(), 'Testing logLevel ' . $name);
   }
 
-  public function testLogLevelWarn(): void
+  private function logLevelDataProvider(): \Generator
   {
-    $svcLog = new SvcLog();
-    $svcLog->setLogLevel(EventLog::LEVEL_WARN);
-
-    $this->assertSame(EventLog::LEVEL_WARN, $svcLog->getLogLevel(), 'testing results for logLevel WARN');
-    $this->assertSame('warning', $svcLog->getLogLevelBGColor(), 'testing results for logLevel WARN');
-    $this->assertSame('dark', $svcLog->getLogLevelFGColor(), 'testing results for logLevel WARN');
-    $this->assertSame('bg-warning text-dark', $svcLog->getLogLevelBootstrap5Class(), 'testing results for logLevel WARN');
+    yield 'logLevel error' => [EventLog::LEVEL_ERROR, 'danger', 'white', 'error'];
+    yield 'logLevel warn' => [EventLog::LEVEL_WARN, 'warning', 'dark', 'warn'];
+    yield 'logLevel data' =>[EventLog::LEVEL_DATA, 'success', 'white', 'data'];
+    yield 'logLevel info' =>[EventLog::LEVEL_INFO, 'primary', 'white', 'info'];
+    yield 'logLevel debug' =>[EventLog::LEVEL_DEBUG, 'secondary', 'white', 'debug'];
+    yield 'logLevel fatal' =>[EventLog::LEVEL_FATAL, 'danger', 'white', 'fatal'];
+    yield 'logLevel 1000' =>[1000, 'secondary', 'white', '? (1000)'];
   }
 
-  public function testLogLevelData(): void
-  {
-    $svcLog = new SvcLog();
-    $svcLog->setLogLevel(EventLog::LEVEL_DATA);
-
-    $this->assertSame(EventLog::LEVEL_DATA, $svcLog->getLogLevel(), 'testing results for logLevel DATA');
-    $this->assertSame('success', $svcLog->getLogLevelBGColor(), 'testing results for logLevel DATA');
-    $this->assertSame('white', $svcLog->getLogLevelFGColor(), 'testing results for logLevel DATA');
-    $this->assertSame('bg-success text-white', $svcLog->getLogLevelBootstrap5Class(), 'testing results for logLevel DATA');
-  }
-
-  public function testLogDataSetCorrect(): void
+  public function testLogDateSetCorrect(): void
   {
     $svcLog = new SvcLog();
     $this->assertGreaterThan($svcLog->getLogDate(), new \DateTime(), 'LogDate has to be equal or greater than now');

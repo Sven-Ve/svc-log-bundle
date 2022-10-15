@@ -2,7 +2,6 @@
 
 namespace Svc\LogBundle\Service;
 
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use donatj\UserAgent\UserAgentParser;
 use Exception;
