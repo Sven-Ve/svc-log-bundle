@@ -260,3 +260,8 @@
 ## Version 4.1.0
 *Fri, 12 Aug 2022 14:04:36 +0000*
 - added function to delete logs in SvcLogRepository
+
+
+## Version 4.1.1
+*Sun, 16 Oct 2022 19:04:45 +0000*
+- added some unit tests

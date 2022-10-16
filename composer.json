@@ -52,7 +52,7 @@
         "symfony/test-pack": "^1.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/phpunit --testdox",
         "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
     },
     "config": {

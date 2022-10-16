@@ -32,17 +32,17 @@ final class SvcLogTest extends TestCase
   {
     yield 'logLevel error' => [EventLog::LEVEL_ERROR, 'danger', 'white', 'error'];
     yield 'logLevel warn' => [EventLog::LEVEL_WARN, 'warning', 'dark', 'warn'];
-    yield 'logLevel data' =>[EventLog::LEVEL_DATA, 'success', 'white', 'data'];
-    yield 'logLevel info' =>[EventLog::LEVEL_INFO, 'primary', 'white', 'info'];
-    yield 'logLevel debug' =>[EventLog::LEVEL_DEBUG, 'secondary', 'white', 'debug'];
-    yield 'logLevel fatal' =>[EventLog::LEVEL_FATAL, 'danger', 'white', 'fatal'];
-    yield 'logLevel 1000' =>[1000, 'secondary', 'white', '? (1000)'];
+    yield 'logLevel data' => [EventLog::LEVEL_DATA, 'success', 'white', 'data'];
+    yield 'logLevel info' => [EventLog::LEVEL_INFO, 'primary', 'white', 'info'];
+    yield 'logLevel debug' => [EventLog::LEVEL_DEBUG, 'secondary', 'white', 'debug'];
+    yield 'logLevel fatal' => [EventLog::LEVEL_FATAL, 'danger', 'white', 'fatal'];
+    yield 'logLevel 1000' => [1000, 'secondary', 'white', '? (1000)'];
   }
 
   public function testLogDateSetCorrect(): void
   {
     $svcLog = new SvcLog();
-    $this->assertGreaterThan($svcLog->getLogDate(), new \DateTime(), 'LogDate has to be equal or greater than now');
+    $this->assertGreaterThanOrEqual($svcLog->getLogDate(), new \DateTime(), 'LogDate has to be equal or greater than now');
 
     $currDate = new \DateTime();
     $svcLog->setLogDate($currDate);

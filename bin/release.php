@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.1.0";
-$message = "added function to delete logs in SvcLogRepository";
+$version = "4.1.1";
+$message = "added some unit tests";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
 if ($res>0) {
-  echo("\nError during execution phpstan. Releasing cannceled.\n");
+  echo("\nError during execution phpstan. Releasing canceled.\n");
   return 1;
 }
 
