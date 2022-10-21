@@ -13,14 +13,16 @@ use Svc\ParamBundle\Repository\ParamsRepository;
  */
 class StatsHelper
 {
-  public function __construct(private SvcLogStatMonthlyRepository $statMonRep, private ParamsRepository $paramsRep)
-  {
+  public function __construct(
+    private readonly SvcLogStatMonthlyRepository $statMonRep,
+    private readonly ParamsRepository $paramsRep
+  ) {
   }
 
   /**
    * aggregate data for monthly statistics.
    *
-   * @param bool $fresh should the data reloaded completly (truncate table before)
+   * @param bool $fresh should the data reloaded completely (truncate table before)
    */
   public function aggrMonthly(bool $fresh = false): array
   {

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.1.1";
-$message = "added some unit tests";
+$version = "4.2.0";
+$message = "use SvcParam version 5 with enum";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

@@ -13,7 +13,7 @@ use Svc\LogBundle\Repository\SvcLogRepository;
  */
 class PurgeHelper
 {
-  public function __construct(private SvcLogRepository $svcLogRep)
+  public function __construct(private readonly SvcLogRepository $svcLogRep)
   {
   }
 

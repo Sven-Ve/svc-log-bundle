@@ -265,3 +265,8 @@
 ## Version 4.1.1
 *Sun, 16 Oct 2022 19:04:45 +0000*
 - added some unit tests
+
+
+## Version 4.2.0
+*Fri, 21 Oct 2022 19:21:27 +0000*
+- use SvcParam version 5 with enum
