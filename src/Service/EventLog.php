@@ -45,12 +45,12 @@ class EventLog
 
   public function __construct(
     private bool $enableSourceType,  /** @phpstan-ignore-line */
-    private bool $enableIPSaving,
-    private bool $enableUserSaving,
-    private int $minLogLevel,
-    private Security $security,
-    private EntityManagerInterface $entityManager,
-    private SvcLogRepository $logRepo
+    private readonly bool $enableIPSaving,
+    private readonly bool $enableUserSaving,
+    private readonly int $minLogLevel,
+    private readonly Security $security,
+    private readonly EntityManagerInterface $entityManager,
+    private readonly SvcLogRepository $logRepo
   ) {
   }
 
