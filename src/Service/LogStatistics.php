@@ -2,8 +2,6 @@
 
 namespace Svc\LogBundle\Service;
 
-use DateInterval;
-use DateTime;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
@@ -94,10 +92,10 @@ class LogStatistics
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL, ?bool $addDailyStats = false): array
   {
-    $today = new DateTime();
-    $firstDay = new DateTime($today->format('Y-m-01'));
+    $today = new \DateTime();
+    $firstDay = new \DateTime($today->format('Y-m-01'));
 
-    $oneMonth = new DateInterval('P1M');
+    $oneMonth = new \DateInterval('P1M');
     $monthList = [];
     for ($i = 1; $i <= 5; ++$i) {
       $monthList[] = $firstDay->format('Y-m');

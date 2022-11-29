@@ -2,7 +2,6 @@
 
 namespace Svc\LogBundle\Service;
 
-use DateTime;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 use Svc\ParamBundle\Repository\ParamsRepository;
 
@@ -33,7 +32,7 @@ class StatsHelper
     } else {
       $lastRun = $this->paramsRep->getDateTime($paramName);
     }
-    $firstDay = $lastRun ? new DateTime($lastRun->format('Y-m-01')) : null;
+    $firstDay = $lastRun ? new \DateTime($lastRun->format('Y-m-01')) : null;
 
     if ($fresh) {
       $this->statMonRep->truncateStatMonthlyTable();
@@ -44,7 +43,7 @@ class StatsHelper
 
     $inserted = $this->statMonRep->aggrData($firstDay);
 
-    $this->paramsRep->setDateTime($paramName, new DateTime(), 'last aggregate refresh');
+    $this->paramsRep->setDateTime($paramName, new \DateTime(), 'last aggregate refresh');
 
     return ['deleted' => $deleted, 'inserted' => $inserted];
   }

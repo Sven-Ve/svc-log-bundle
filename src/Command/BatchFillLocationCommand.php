@@ -2,7 +2,6 @@
 
 namespace Svc\LogBundle\Command;
 
-use Exception;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Service\EventLog;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -59,7 +58,7 @@ class BatchFillLocationCommand extends Command
       $this->release();
 
       return Command::FAILURE;
-    } catch (Exception $e) { /* @phpstan-ignore-line */
+    } catch (\Exception $e) { /* @phpstan-ignore-line */
       $io->error($e->getMessage());
 
       $this->release();

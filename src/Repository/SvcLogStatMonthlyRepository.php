@@ -2,10 +2,8 @@
 
 namespace Svc\LogBundle\Repository;
 
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use Svc\LogBundle\Entity\SvcLogStatMonthly;
 use Svc\LogBundle\Service\EventLog;
 
@@ -38,7 +36,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * delete current period in statistic table.
    */
-  public function deleteCurrentData(?DateTime $startDate = null): int
+  public function deleteCurrentData(?\DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
     $sql = 'delete from svc_log_stat_monthly';
@@ -56,7 +54,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * aggregate and store logging data.
    */
-  public function aggrData(?DateTime $startDate = null): int
+  public function aggrData(?\DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
 
@@ -74,7 +72,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       }
 
       return $stmt->executeStatement();
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
       dump($e->getMessage());
 
       return -1;

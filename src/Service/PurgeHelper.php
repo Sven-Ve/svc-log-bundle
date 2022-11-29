@@ -2,8 +2,6 @@
 
 namespace Svc\LogBundle\Service;
 
-use DateInterval;
-use DateTime;
 use Svc\LogBundle\Repository\SvcLogRepository;
 
 /**
@@ -22,10 +20,10 @@ class PurgeHelper
    */
   public function purgeLogs(int $purgeMonth, bool $dryRun): int
   {
-    $today = new DateTime();
-    $firstDay = new DateTime($today->format('Y-m-01'));
+    $today = new \DateTime();
+    $firstDay = new \DateTime($today->format('Y-m-01'));
 
-    $subMonth = new DateInterval('P' . (string) $purgeMonth . 'M');
+    $subMonth = new \DateInterval('P' . (string) $purgeMonth . 'M');
 
     $firstDayToKeep = $firstDay->sub($subMonth);
 

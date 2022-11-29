@@ -25,7 +25,7 @@ interface DataProviderInterface
   public function getSourceIDTextsArray(): array;
 
   /**
-   * get all sourceTypess as array.
+   * get all sourceTypes as array.
    */
   public function getSourceTypeTextsArray(): array;
 }

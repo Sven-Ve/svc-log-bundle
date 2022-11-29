@@ -48,6 +48,8 @@ class EventLog
     private readonly bool $enableIPSaving,
     private readonly bool $enableUserSaving,
     private readonly int $minLogLevel,
+    private bool $enableSentry,
+    private readonly int $sentryMinLogLevel,
     private readonly Security $security,
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo
@@ -123,6 +125,29 @@ class EventLog
       $this->entityManager->flush();
     } catch (Exception) {
       return false;
+    }
+
+    if ($this->enableSentry and $this->sentryMinLogLevel <= $options['level']) {
+      $sentryState = false;
+      try {
+        $sentryHelper = new SentryHelper();
+        $sentryState = $sentryHelper->send($log);
+      } catch (\Throwable $e) {
+        dd($e->getMessage());
+      }
+
+      if (!$sentryState) {
+        $this->enableSentry = false;
+        $sentryLog = new SvcLog();
+        $sentryLog->setSourceID(0);
+        $sentryLog->setSourceType(0);
+        $sentryLog->setMessage('Cannot write to sentry.io');
+        $sentryLog->setLogLevel(self::LEVEL_ERROR);
+        $sentryLog->setUserID($log->getUserID());
+        $sentryLog->setUserName($log->getUserName());
+        $this->entityManager->persist($sentryLog);
+        $this->entityManager->flush();
+      }
     }
 
     return true;
@@ -202,8 +227,8 @@ class EventLog
 
     try {
       $this->entityManager->flush();
-    } catch (Exception $e) {
-      throw new Exception('Cannot save data: ' . $e->getMessage());
+    } catch (\Exception $e) {
+      throw new \Exception('Cannot save data: ' . $e->getMessage());
     }
 
     $progressBar->finish();

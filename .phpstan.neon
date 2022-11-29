@@ -2,6 +2,9 @@ parameters:
   ignoreErrors:
     - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
     - '#Else branch is unreachable because ternary operator condition is always true.#'
+    - '#Call to .*method .* on an unknown class Sentry\\.*#'
+    - '#Function Sentry\\.* not found.#'
+    - '#Parameter \$scope of anonymous function has invalid type Sentry\\State\\Scope.#'
   excludePaths:
     - 'src/Controller/EaLogCrudController'
     - 'src/Controller/EaLogStatMonthlyCrudController'
