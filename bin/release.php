@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "4.2.0";
-$message = "use SvcParam version 5 with enum";
+$version = "4.3.0";
+$message = "Fix deprecations for symfony 6.2";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

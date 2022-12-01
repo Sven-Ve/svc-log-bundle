@@ -6,9 +6,9 @@ use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * Helper class for displaying statistics.
@@ -18,15 +18,15 @@ use Symfony\Component\Security\Core\Security;
 class LogStatistics
 {
   public function __construct(
-    private bool $enableSourceType,  /** @phpstan-ignore-line */
-    private bool $enableIPSaving,
-    private string $offsetParamName,
-    private bool $needAdminForStats,
-    private SvcLogRepository $svcLogRep,
-    private SvcLogStatMonthlyRepository $statMonRep,
-    private RequestStack $requestStack,
-    private UrlGeneratorInterface $router,
-    private Security $security
+    private bool                                 $enableSourceType,  /** @phpstan-ignore-line */
+    private readonly bool                        $enableIPSaving,
+    private readonly string                      $offsetParamName,
+    private readonly bool                        $needAdminForStats,
+    private readonly SvcLogRepository            $svcLogRep,
+    private readonly SvcLogStatMonthlyRepository $statMonRep,
+    private readonly RequestStack                $requestStack,
+    private readonly UrlGeneratorInterface       $router,
+    private readonly Security $security
   ) {
   }
 

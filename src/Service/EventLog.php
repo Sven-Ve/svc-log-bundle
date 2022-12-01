@@ -10,10 +10,10 @@ use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * Helper class to log events.

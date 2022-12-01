@@ -270,3 +270,8 @@
 ## Version 4.2.0
 *Fri, 21 Oct 2022 19:21:27 +0000*
 - use SvcParam version 5 with enum
+
+
+## Version 4.3.0
+*Thu, 01 Dec 2022 20:45:12 +0000*
+- Fix deprecations for symfony 6.2
