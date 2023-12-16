@@ -28,7 +28,7 @@ final class SvcLogTest extends TestCase
     $this->assertSame($name, $svcLog->getLogLevelText(), 'Testing logLevel ' . $name);
   }
 
-  private function logLevelDataProvider(): \Generator
+  public static function logLevelDataProvider(): \Generator
   {
     yield 'logLevel error' => [EventLog::LEVEL_ERROR, 'danger', 'white', 'error'];
     yield 'logLevel warn' => [EventLog::LEVEL_WARN, 'warning', 'dark', 'warn'];

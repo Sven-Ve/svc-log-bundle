@@ -275,3 +275,8 @@
 ## Version 4.3.0
 *Thu, 01 Dec 2022 20:45:12 +0000*
 - Fix deprecations for symfony 6.2
+
+
+## Version 5.0.0
+*Sat, 16 Dec 2023 15:23:26 +0000*
+- ready for symfony 6.4 and 7
