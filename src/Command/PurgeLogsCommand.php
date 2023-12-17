@@ -30,7 +30,7 @@ class PurgeLogsCommand extends Command
     parent::__construct();
   }
 
-  protected function configure()
+  protected function configure(): void
   {
     $this
         ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Dry run - shows only the number of entries that would be deleted')
