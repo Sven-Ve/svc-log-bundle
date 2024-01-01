@@ -32,7 +32,7 @@ class GeneralDataProvider implements DataProviderInterface
   /**
    * get the text/description for a source ID / sourceType combination.
    */
-  public function getSourceIDText(int $sourceID, ?int $sourceType = null): string
+  public function getSourceIDText(int $sourceID, int $sourceType = null): string
   {
     if (!$this->isSourceIDsInitialized) {
       $this->initSourceIDs();

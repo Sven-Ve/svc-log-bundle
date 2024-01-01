@@ -4,7 +4,6 @@ namespace Svc\LogBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use donatj\UserAgent\UserAgentParser;
-use Exception;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
@@ -99,7 +98,7 @@ class EventLog
       $log->setBrowser($ua->browser());
       $log->setBrowserVersion($ua->browserVersion());
       $log->setReferer(NetworkHelper::getReferer());
-    } catch (Exception) {
+    } catch (\Exception) {
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
@@ -115,7 +114,7 @@ class EventLog
             $log->setUserName($user->getUserName()); /* @phpstan-ignore-line */
           }
         }
-      } catch (Exception) {
+      } catch (\Exception) {
         // ignore user record
       }
     }
@@ -123,7 +122,7 @@ class EventLog
     try {
       $this->entityManager->persist($log);
       $this->entityManager->flush();
-    } catch (Exception) {
+    } catch (\Exception) {
       return false;
     }
 
@@ -220,7 +219,7 @@ class EventLog
         } else {
           $entry->setCountry('-');
         }
-      } catch (Exception) {
+      } catch (\Exception) {
         $entry->setCountry('-');
       }
     }

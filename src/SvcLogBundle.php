@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle;
 
+use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -85,5 +86,35 @@ class SvcLogBundle extends AbstractBundle
     if (null !== $config['data_provider']) {
       $builder->setAlias('Svc\LogBundle\DataProvider\GeneralDataProvider', $config['data_provider']);
     }
+  }
+
+  public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void
+  {
+    if (!$this->isAssetMapperAvailable($containerBuilder)) {
+      return;
+    }
+
+    $containerBuilder->prependExtensionConfig('framework', [
+      'asset_mapper' => [
+        'paths' => [
+          __DIR__ . '/../assets/src' => '@svc/log-bundle',
+        ],
+      ],
+    ]);
+  }
+
+  private function isAssetMapperAvailable(ContainerBuilder $container): bool
+  {
+    if (!interface_exists(AssetMapperInterface::class)) {
+      return false;
+    }
+
+    // check that FrameworkBundle 6.3 or higher is installed
+    $bundlesMetadata = $container->getParameter('kernel.bundles_metadata');
+    if (!isset($bundlesMetadata['FrameworkBundle'])) {
+      return false;
+    }
+
+    return is_file($bundlesMetadata['FrameworkBundle']['path'] . '/Resources/config/asset_mapper.php');
   }
 }

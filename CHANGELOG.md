@@ -290,3 +290,8 @@
 ## Version 5.0.2
 *Sun, 17 Dec 2023 19:02:34 +0000*
 - ready for symfony 6.4 and 7 - fixed type declarations
+
+
+## Version 5.1.0
+*Mon, 01 Jan 2024 14:02:20 +0000*
+- ready for assetmapper

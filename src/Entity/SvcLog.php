@@ -30,31 +30,31 @@ class SvcLog
   private ?string $message = null;
 
   #[ORM\Column(length: 100, nullable: true)]
-  private ?string  $ip = null;
+  private ?string $ip = null;
 
   #[ORM\Column(nullable: true)]
-  private ?string  $userAgent = null;
+  private ?string $userAgent = null;
 
   #[ORM\Column(length: 50, nullable: true)]
-  private ?string  $country = null;
+  private ?string $country = null;
 
   #[ORM\Column(length: 50, nullable: true)]
-  private ?string  $city = null;
+  private ?string $city = null;
 
   #[ORM\Column(length: 50, nullable: true)]
-  private ?string  $platform = null;
+  private ?string $platform = null;
 
   #[ORM\Column(length: 50, nullable: true)]
-  private ?string  $browser = null;
+  private ?string $browser = null;
 
   #[ORM\Column(length: 50, nullable: true)]
-  private ?string  $browserVersion = null;
+  private ?string $browserVersion = null;
 
   #[ORM\Column(nullable: true)]
-  private ?string  $referer = null;
+  private ?string $referer = null;
 
   #[ORM\Column(nullable: true)]
-  private ?string  $userName = null;
+  private ?string $userName = null;
 
   #[ORM\Column(nullable: true)]
   private ?int $userID = 0;

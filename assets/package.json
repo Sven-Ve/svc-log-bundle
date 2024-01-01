@@ -2,11 +2,11 @@
   "name": "@svc/log-bundle",
   "description": "Bundle to log events and statistics in a database table",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "symfony": {
       "controllers": {
           "view": {
-              "main": "src/viewer.js",
+              "main": "src/viewer_controller.js",
               "fetch": "lazy",
               "enabled": true
           }

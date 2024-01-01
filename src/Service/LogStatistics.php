@@ -18,14 +18,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class LogStatistics
 {
   public function __construct(
-    private bool                                 $enableSourceType,  /** @phpstan-ignore-line */
-    private readonly bool                        $enableIPSaving,
-    private readonly string                      $offsetParamName,
-    private readonly bool                        $needAdminForStats,
-    private readonly SvcLogRepository            $svcLogRep,
+    private bool $enableSourceType,  /** @phpstan-ignore-line */
+    private readonly bool $enableIPSaving,
+    private readonly string $offsetParamName,
+    private readonly bool $needAdminForStats,
+    private readonly SvcLogRepository $svcLogRep,
     private readonly SvcLogStatMonthlyRepository $statMonRep,
-    private readonly RequestStack                $requestStack,
-    private readonly UrlGeneratorInterface       $router,
+    private readonly RequestStack $requestStack,
+    private readonly UrlGeneratorInterface $router,
     private readonly Security $security
   ) {
   }

@@ -27,7 +27,7 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * get a part of the logs for pagination.
    */
-  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): Paginator
+  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, int $logLevel = null): Paginator
   {
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
@@ -93,7 +93,7 @@ class SvcLogRepository extends ServiceEntityRepository
    *  2: ">"
    *  3: "<".
    */
-  private function getComparisonOp(?int $numValue = null): string
+  private function getComparisonOp(int $numValue = null): string
   {
     if ($numValue === 2) {
       return '>';
@@ -107,7 +107,7 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * aggregate log entries by country for a specific ID.
    */
-  public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): array
+  public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, int $logLevel = null): array
   {
     $query = $this->createQueryBuilder('s')
       ->select('s.country, count(s) as cntCountry')
@@ -131,7 +131,7 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * aggregate log entries for the current day.
    */
-  public function aggrLogsForCurrentDay(int $sourceType, ?int $logLevel = null): array
+  public function aggrLogsForCurrentDay(int $sourceType, int $logLevel = null): array
   {
     $query = $this->createQueryBuilder('s')
       ->select('s.sourceID, count(s) as cntDay')
@@ -186,7 +186,7 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * @throws DeleteAllLogsForbidden
    */
-  public function batchDelete(?int $sourceID = null, ?int $sourceType = null, ?int $userID = null, ?int $logLevel = null): int
+  public function batchDelete(int $sourceID = null, int $sourceType = null, int $userID = null, int $logLevel = null): int
   {
     if (!($sourceID . $sourceType . $userID . $logLevel)) {
       throw new DeleteAllLogsForbidden();
