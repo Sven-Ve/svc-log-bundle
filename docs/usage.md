@@ -12,13 +12,12 @@ Create tables (run `bin/console doctrine:schema:update --force`) or create a mig
 svc_log:
 
     # Minimal log level, see documentation for values
-    min_log_level:        1 # Required
+    min_log_level:        1
 
     # Should the ip address recorded? Please set to true only if this is allowed in your environment (personal data...)
     enable_ip_saving:     false
 
-
-    # Should the user id and name recorded? Please set to true only if this is allowed in your environment (personal data...) and the security bundle is installed
+    # Should the user id and name recorded? Please set to true only if this is allowed in your environment (personal data...)
     enable_user_saving:   false
 
     # Do you like different source types?
@@ -29,12 +28,30 @@ svc_log:
 
     # Need the user the role ROLE_ADMIN for get statistics (default yes)
     need_admin_for_stats: true
-    
+
     # We use offset as url parameter. If this in use, you can choose another name
     offset_param_name:    offset
 
-    # Class of your own data provider to get info about sourceType and sourceID
-    data_provider: Svc\LogBundle\DataProvider\GeneralDataProvider
+    # Class of your one data provider to get info about sourceType and sourceID, see documentation
+    data_provider:        null
+
+    # Optional configuration for sentry.io, see documentation
+    sentry:
+
+        # Write log entries to sentry.io too
+        use_sentry:           false
+
+        # Minimal log level to write to sentry, see documentation for values (only 4..6 allowed)
+        sentry_min_log_level: 6
+
+    # Optional configuration for default logger, see documentation
+    logger:
+
+        # Write log entries to default logger too
+        use_logger:           false
+
+        # Minimal log level to write to logger, see documentation for values (only 3..6 allowed)
+        logger_min_log_level: 6
 ```
 
 ### Recommended setting

@@ -49,11 +49,13 @@ class EventLog
     private readonly int $minLogLevel,
     private bool $enableSentry,
     private readonly int $sentryMinLogLevel,
+    private bool $enableLogger,
+    private readonly int $loggerMinLogLevel,
     private readonly Security $security,
     private readonly EntityManagerInterface $entityManager,
-    private readonly SvcLogRepository $logRepo
-  ) {
-  }
+    private readonly SvcLogRepository $logRepo,
+    private readonly LoggerHelper $loggerHelper,
+  ) {}
 
   /**
    * write a log record.
@@ -148,6 +150,13 @@ class EventLog
         $this->entityManager->flush();
       }
     }
+
+    if ($this->enableLogger 
+        and $this->loggerMinLogLevel <= $options['level'] 
+        and $options['level']!=self::LEVEL_DATA) {
+      $this->loggerHelper->send($log);
+    }
+
 
     return true;
   }

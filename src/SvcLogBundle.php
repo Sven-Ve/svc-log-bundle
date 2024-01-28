@@ -33,6 +33,12 @@ class SvcLogBundle extends AbstractBundle
             ->integerNode('sentry_min_log_level')->min(4)->max(6)->defaultValue(6)->info('Minimal log level to write to sentry, see documentation for values (only 4..6 allowed)')->end()
           ->end()
         ->end()
+        ->arrayNode('logger')->addDefaultsIfNotSet()->info('Optional configuration for default logger, see documentation')
+          ->children()
+            ->scalarNode('use_logger')->defaultFalse()->info('Write log entries to default logger too')->end()
+            ->integerNode('logger_min_log_level')->min(3)->max(6)->defaultValue(6)->info('Minimal log level to write to logger, see documentation for values (only 3..6 allowed)')->end()
+          ->end()
+        ->end()
       ->end();
   }
 
@@ -68,14 +74,9 @@ class SvcLogBundle extends AbstractBundle
       ->arg(2, $enableUserSaving)
       ->arg(3, $config['min_log_level'])
       ->arg(4, $enableSentry)
-      ->arg(5, $config['sentry']['sentry_min_log_level']);
-
-    $container->services()
-      ->get('Svc\LogBundle\Service\EventLog')
-      ->arg(0, $config['enable_source_type'])
-      ->arg(1, $config['enable_ip_saving'])
-      ->arg(2, $enableUserSaving)
-      ->arg(3, $config['min_log_level']);
+      ->arg(5, $config['sentry']['sentry_min_log_level'])
+      ->arg(6, $config['logger']['use_logger'])
+      ->arg(7, $config['logger']['logger_min_log_level']);
 
     $container->services()
       ->get('Svc\LogBundle\Controller\LogViewerController')
