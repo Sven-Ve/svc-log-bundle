@@ -31,6 +31,9 @@ class EventLog
   public const LEVEL_WARN = 4;
   public const LEVEL_ERROR = 5;
   public const LEVEL_FATAL = 6;
+  public const LEVEL_CRITICAL = 6; // same as FATAL
+  public const LEVEL_ALERT = 7;
+  public const LEVEL_EMERGENCY = 8;
 
   public const ARR_LEVEL_TEXT = [
     self::LEVEL_ALL => 'all',
@@ -40,6 +43,8 @@ class EventLog
     self::LEVEL_WARN => 'warn',
     self::LEVEL_ERROR => 'error',
     self::LEVEL_FATAL => 'fatal',
+    self::LEVEL_ALERT => 'alert',
+    self::LEVEL_EMERGENCY => 'emergency',
   ];
 
   public function __construct(
@@ -55,7 +60,8 @@ class EventLog
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
     private readonly LoggerHelper $loggerHelper,
-  ) {}
+  ) {
+  }
 
   /**
    * write a log record.
@@ -151,12 +157,11 @@ class EventLog
       }
     }
 
-    if ($this->enableLogger 
-        and $this->loggerMinLogLevel <= $options['level'] 
-        and $options['level']!=self::LEVEL_DATA) {
+    if ($this->enableLogger
+        and $this->loggerMinLogLevel <= $options['level']
+        and $options['level'] != self::LEVEL_DATA) {
       $this->loggerHelper->send($log);
     }
-
 
     return true;
   }

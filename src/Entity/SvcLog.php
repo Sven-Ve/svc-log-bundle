@@ -304,6 +304,8 @@ class SvcLog
       EventLog::LEVEL_WARN => 'warning',
       EventLog::LEVEL_ERROR => 'danger',
       EventLog::LEVEL_FATAL => 'danger',
+      EventLog::LEVEL_ALERT => 'danger',
+      EventLog::LEVEL_EMERGENCY => 'danger',
       default => 'secondary',
     };
   }

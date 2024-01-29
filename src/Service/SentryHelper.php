@@ -13,6 +13,8 @@ class SentryHelper
       EventLog::LEVEL_WARN => Severity::warning(),
       EventLog::LEVEL_ERROR => Severity::error(),
       EventLog::LEVEL_FATAL => Severity::fatal(),
+      EventLog::LEVEL_EMERGENCY => Severity::fatal(),
+      EventLog::LEVEL_ALERT => Severity::fatal(),
       default => Severity::info()
     };
 

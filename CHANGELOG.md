@@ -295,3 +295,8 @@
 ## Version 5.1.0
 *Mon, 01 Jan 2024 14:02:20 +0000*
 - ready for assetmapper
+
+
+## Version 5.2.0
+*Mon, 29 Jan 2024 20:46:30 +0000*
+- possibility to use logger/monolog too

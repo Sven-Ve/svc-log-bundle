@@ -80,6 +80,9 @@ class EventLog
   public const LEVEL_WARN = 4;
   public const LEVEL_ERROR = 5;
   public const LEVEL_FATAL = 6;
+  public const LEVEL_CRITICAL = 6; // same as FATAL
+  public const LEVEL_ALERT = 7;
+  public const LEVEL_EMERGENCY = 8;
 
   ...
 }
