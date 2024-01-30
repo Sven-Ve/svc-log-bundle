@@ -36,6 +36,8 @@ final class SvcLogTest extends TestCase
     yield 'logLevel info' => [EventLog::LEVEL_INFO, 'primary', 'white', 'info'];
     yield 'logLevel debug' => [EventLog::LEVEL_DEBUG, 'secondary', 'white', 'debug'];
     yield 'logLevel fatal' => [EventLog::LEVEL_FATAL, 'danger', 'white', 'fatal'];
+    yield 'logLevel alert' => [EventLog::LEVEL_ALERT, 'danger', 'white', 'alert'];
+    yield 'logLevel emergency' => [EventLog::LEVEL_EMERGENCY, 'danger', 'white', 'emergency'];
     yield 'logLevel 1000' => [1000, 'secondary', 'white', '? (1000)'];
   }
 

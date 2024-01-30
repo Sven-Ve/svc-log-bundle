@@ -38,6 +38,18 @@ class LoggerHelper
     if ($log->getSourceID()) {
       $extraData['source_id'] = $log->getSourceID();
     }
+    if ($log->getIp()) {
+      $extraData['ip'] = $log->getIp();
+    }
+    if ($log->getPlatform()) {
+      $extraData['platform'] = $log->getPlatform();
+    }
+    if ($log->getReferer()) {
+      $extraData['referer'] = $log->getReferer();
+    }
+    if ($log->getBrowser()) {
+      $extraData['browser'] = $log->getBrowser();
+    }
 
     $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
 

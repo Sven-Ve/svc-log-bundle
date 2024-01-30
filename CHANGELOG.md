@@ -300,3 +300,8 @@
 ## Version 5.2.0
 *Mon, 29 Jan 2024 20:46:30 +0000*
 - possibility to use logger/monolog too
+
+
+## Version 5.2.1
+*Tue, 30 Jan 2024 21:00:12 +0000*
+- add browser info to logger logging

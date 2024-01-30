@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.2.0";
-$message = "possibility to use logger/monolog too";
+$version = "5.2.1";
+$message = "add browser info to logger logging";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
