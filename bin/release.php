@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.2.1";
-$message = "add browser info to logger logging";
+$version = "5.3.0";
+$message = "better exception handling, allow doctrine/orm 3";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

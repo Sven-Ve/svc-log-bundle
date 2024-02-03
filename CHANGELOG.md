@@ -305,3 +305,8 @@
 ## Version 5.2.1
 *Tue, 30 Jan 2024 21:00:12 +0000*
 - add browser info to logger logging
+
+
+## Version 5.3.0
+*Sat, 03 Feb 2024 21:24:58 +0000*
+- better exception handling, allow doctrine/orm 3

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Unit\Entity;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Service\EventLog;
@@ -13,9 +14,7 @@ use Svc\LogBundle\Service\EventLog;
  */
 final class SvcLogTest extends TestCase
 {
-  /**
-   * @dataProvider logLevelDataProvider
-   */
+  #[DataProvider('logLevelDataProvider')]
   public function testLogLevelSetCorrectAttributes(int $logLevel, string $bgColor, string $fgColor, string $name): void
   {
     $svcLog = new SvcLog();

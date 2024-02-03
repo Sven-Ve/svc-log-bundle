@@ -48,7 +48,7 @@ class EventLog
   ];
 
   public function __construct(
-    private bool $enableSourceType,  /** @phpstan-ignore-line */
+    private bool $enableSourceType, /** @phpstan-ignore-line */
     private readonly bool $enableIPSaving,
     private readonly bool $enableUserSaving,
     private readonly int $minLogLevel,
@@ -76,6 +76,7 @@ class EventLog
    */
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
   {
+    $vErrors = false;
     $resolver = new OptionsResolver();
     $this->configureOptions($resolver);
     $options = $resolver->resolve($options);
@@ -131,7 +132,7 @@ class EventLog
       $this->entityManager->persist($log);
       $this->entityManager->flush();
     } catch (\Exception) {
-      return false;
+      $vErrors = true;
     }
 
     if ($this->enableSentry and $this->sentryMinLogLevel <= $options['level']) {
@@ -140,30 +141,38 @@ class EventLog
         $sentryHelper = new SentryHelper();
         $sentryState = $sentryHelper->send($log);
       } catch (\Throwable $e) {
-        dd($e->getMessage());
+        $vErrors = true;
       }
 
-      if (!$sentryState) {
-        $this->enableSentry = false;
-        $sentryLog = new SvcLog();
-        $sentryLog->setSourceID(0);
-        $sentryLog->setSourceType(0);
-        $sentryLog->setMessage('Cannot write to sentry.io');
-        $sentryLog->setLogLevel(self::LEVEL_ERROR);
-        $sentryLog->setUserID($log->getUserID());
-        $sentryLog->setUserName($log->getUserName());
-        $this->entityManager->persist($sentryLog);
-        $this->entityManager->flush();
+      try {
+        if (!$sentryState) {
+          $this->enableSentry = false;
+          $sentryLog = new SvcLog();
+          $sentryLog->setSourceID(0);
+          $sentryLog->setSourceType(0);
+          $sentryLog->setMessage('Cannot write to sentry.io');
+          $sentryLog->setLogLevel(self::LEVEL_ERROR);
+          $sentryLog->setUserID($log->getUserID());
+          $sentryLog->setUserName($log->getUserName());
+          $this->entityManager->persist($sentryLog);
+          $this->entityManager->flush();
+        }
+      } catch (\Exception) {
+        $vErrors = true;
       }
     }
 
-    if ($this->enableLogger
-        and $this->loggerMinLogLevel <= $options['level']
-        and $options['level'] != self::LEVEL_DATA) {
-      $this->loggerHelper->send($log);
+    if (
+      $this->enableLogger
+      and $this->loggerMinLogLevel <= $options['level']
+      and $options['level'] != self::LEVEL_DATA
+    ) {
+      if (!$this->loggerHelper->send($log)) {
+        $vErrors = true;
+      }
     }
 
-    return true;
+    return $vErrors;
   }
 
   /**

@@ -36,7 +36,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * delete current period in statistic table.
    */
-  public function deleteCurrentData(\DateTime $startDate = null): int
+  public function deleteCurrentData(?\DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
     $sql = 'delete from svc_log_stat_monthly';
@@ -54,7 +54,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * aggregate and store logging data.
    */
-  public function aggrData(\DateTime $startDate = null): int
+  public function aggrData(?\DateTime $startDate = null): int
   {
     $conn = $this->getEntityManager()->getConnection();
 

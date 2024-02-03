@@ -51,7 +51,11 @@ class LoggerHelper
       $extraData['browser'] = $log->getBrowser();
     }
 
-    $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
+    try {
+      $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
+    } catch (\Exception) {
+      return false;
+    }
 
     return true;
   }

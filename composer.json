@@ -25,9 +25,9 @@
         "symfony/twig-bundle": "^6.3|^7",
         "twig/intl-extra": "^3.3",
         "donatj/phpuseragentparser": "^1.6",
-        "svc/util-bundle": "^4.1|^5|dev-main",
+        "svc/util-bundle": "^5|dev-main",
         "svc/param-bundle": "^5|^6|dev-main",
-        "doctrine/orm": "^2.13"
+        "doctrine/orm": "^2.18 | ^3"
     },
     "suggest": {
         "symfony/security-bundle": "if you want to store information about the logged in user in the logs",
@@ -46,9 +46,9 @@
     "require-dev": {
         "symfony/browser-kit": "^6.3|^7",
         "phpstan/phpstan": "^1.10",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-doctrine": "^1.2",
-        "phpunit/phpunit": "^10.5"
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-doctrine": "^1.3",
+        "phpunit/phpunit": "^10.5 || ^11"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",
