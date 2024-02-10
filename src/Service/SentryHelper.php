@@ -28,6 +28,7 @@ class SentryHelper
         'source_type' => $log->getSourceType(),
         'log_level' => $log->getLogLevel() . ' ' . $log->getLogLevelText(),
         'message' => $log->getMessage(),
+        'error_text' => $log->getErrorText(),
       ]);
       \Sentry\captureMessage($log->getMessage() ?? 'SourceID=' . $log->getSourceID() . ', SourceType=' . $log->getSourceType(), $logLevel);
     });

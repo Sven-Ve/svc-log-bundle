@@ -105,6 +105,7 @@ class EventLog
    * @param array|null $options
    *  - int level
    *  - string message
+   *  - string errorText
    * @return boolean true if successfull
    */
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool

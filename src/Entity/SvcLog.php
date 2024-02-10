@@ -59,6 +59,9 @@ class SvcLog
   #[ORM\Column(nullable: true)]
   private ?int $userID = 0;
 
+  #[ORM\Column(nullable: true)]
+  private ?string $errorText = null;
+
   /**
    * not in database, only helper columns.
    */
@@ -289,6 +292,18 @@ class SvcLog
   public function setUserName(?string $userName): self
   {
     $this->userName = $userName;
+
+    return $this;
+  }
+
+  public function getErrorText(): ?string
+  {
+    return $this->errorText;
+  }
+
+  public function setErrorText(?string $errorText): self
+  {
+    $this->errorText = $errorText;
 
     return $this;
   }

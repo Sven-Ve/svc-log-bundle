@@ -71,6 +71,7 @@ class EventLog
    * @param array|null $options
    *                               - int level
    *                               - string message
+   *                               - string errorText
    *
    * @return bool true if successfully
    */
@@ -94,6 +95,9 @@ class EventLog
     }
     if ($options['level']) {
       $log->setLogLevel($options['level']);
+    }
+    if ($options['errorText']) {
+      $log->setErrorText($options['errorText']);
     }
 
     if ($this->enableIPSaving) {
@@ -183,10 +187,12 @@ class EventLog
     $resolver->setDefaults([
       'level' => self::LEVEL_DATA,
       'message' => null,
+      'errorText' => null,
     ]);
 
     $resolver->setAllowedTypes('level', ['int', 'null']);
     $resolver->setAllowedTypes('message', ['string', 'null']);
+    $resolver->setAllowedTypes('errorText', ['string', 'null']);
   }
 
   /**

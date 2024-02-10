@@ -6,6 +6,9 @@
     <tr><th>{% trans %}SourceType{% endtrans %}</th><td>{{ log.sourceTypeText }} (Type: {{ log.sourceType }})</td></tr>
     <tr><th>{% trans %}Level{% endtrans %}</th><td class='{{ log.getLogLevelBootstrap5Class }}'>{{ log.logLevelText }}</td></tr>
     <tr><th>{% trans %}Message{% endtrans %}</th><td>{{ log.message }}</td></tr>
+    {% if log.errorText %}
+      <tr><th>{% trans %}Error{% endtrans %}</th><td>{{ log.errorText }}</td></tr>
+    {% endif %}
     {% if enableIPSaving %}
       <tr><th>{% trans %}Country{% endtrans %}</th><td>{{ log.country }}</td></tr>
       <tr><th>{% trans %}City{% endtrans %}</th><td>{{ log.city }}</td></tr>

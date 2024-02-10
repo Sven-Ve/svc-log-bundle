@@ -50,7 +50,10 @@ class LoggerHelper
     if ($log->getBrowser()) {
       $extraData['browser'] = $log->getBrowser();
     }
-
+    if ($log->getErrorText()) {
+      $extraData['errorText'] = $log->getErrorText();
+    }
+    
     try {
       $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
     } catch (\Exception) {

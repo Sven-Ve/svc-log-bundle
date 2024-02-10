@@ -310,3 +310,8 @@
 ## Version 5.3.0
 *Sat, 03 Feb 2024 21:24:58 +0000*
 - better exception handling, allow doctrine/orm 3
+
+
+## Version 5.4.0
+*Sat, 10 Feb 2024 19:11:39 +0000*
+- add new parameter errorText to logging
