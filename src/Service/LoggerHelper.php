@@ -53,7 +53,7 @@ class LoggerHelper
     if ($log->getErrorText()) {
       $extraData['errorText'] = $log->getErrorText();
     }
-    
+
     try {
       $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
     } catch (\Exception) {

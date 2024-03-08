@@ -315,3 +315,8 @@
 ## Version 5.4.0
 *Sat, 10 Feb 2024 19:11:39 +0000*
 - add new parameter errorText to logging
+
+
+## Version 5.5.0
+*Fri, 08 Mar 2024 20:40:17 +0000*
+- runs with doctrine/orm ^3 too
