@@ -26,7 +26,7 @@
         "twig/intl-extra": "^3.3",
         "donatj/phpuseragentparser": "^1.6",
         "svc/util-bundle": "^5|dev-main",
-        "svc/param-bundle": "^5|^6|dev-main",
+        "svc/param-bundle": "^6.2|dev-main",
         "doctrine/orm": "^2.18 | ^3"
     },
     "suggest": {

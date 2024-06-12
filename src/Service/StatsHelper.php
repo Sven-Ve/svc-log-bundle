@@ -43,7 +43,7 @@ class StatsHelper
 
     $inserted = $this->statMonRep->aggrData($firstDay);
 
-    $this->paramsRep->setDateTime($paramName, new \DateTime(), 'last aggregate refresh');
+    $this->paramsRep->setDateTime($paramName, new \DateTime(), 'last aggregate refresh', true);
 
     return ['deleted' => $deleted, 'inserted' => $inserted];
   }

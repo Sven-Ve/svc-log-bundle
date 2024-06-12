@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.5.0";
-$message = "runs with doctrine/orm ^3 too";
+$version = "5.5.1";
+$message = "disable parameter editing for svcLog_lastRunAggrMonthly ";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

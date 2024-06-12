@@ -320,3 +320,8 @@
 ## Version 5.5.0
 *Fri, 08 Mar 2024 20:40:17 +0000*
 - runs with doctrine/orm ^3 too
+
+
+## Version 5.5.1
+*Wed, 12 Jun 2024 19:44:07 +0000*
+- disable parameter editing for svcLog_lastRunAggrMonthly 
