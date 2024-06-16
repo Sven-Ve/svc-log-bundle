@@ -325,3 +325,8 @@
 ## Version 5.5.1
 *Wed, 12 Jun 2024 19:44:07 +0000*
 - disable parameter editing for svcLog_lastRunAggrMonthly 
+
+
+## Version 5.5.2
+*Sun, 16 Jun 2024 16:01:52 +0000*
+- use twig component for logview modal

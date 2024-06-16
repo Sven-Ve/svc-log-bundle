@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.5.1";
-$message = "disable parameter editing for svcLog_lastRunAggrMonthly ";
+$version = "5.5.2";
+$message = "use twig component for logview modal";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
