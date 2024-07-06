@@ -20,7 +20,6 @@
         "symfony/http-kernel": "^6.3|^7",
         "symfony/lock": "^6.3|^7",
         "symfony/options-resolver": "^6.3|^7",
-        "symfony/security-bundle": "^6.3|^7",
         "symfony/translation": "^6.3|^7",
         "symfony/twig-bundle": "^6.3|^7",
         "twig/intl-extra": "^3.3",
@@ -28,10 +27,12 @@
         "svc/util-bundle": "^5.4|dev-main",
         "svc/param-bundle": "^6.2|dev-main",
         "doctrine/orm": "^2.18 | ^3",
-        "symfony/ux-twig-component": "^2.18"
+        "symfony/ux-twig-component": "^2.18",
+        "symfony/security-bundle": "^6.3|^7",
+        "symfony/stimulus-bundle": "^2.18",
+        "twig/extra-bundle": "^3"
     },
     "suggest": {
-        "symfony/security-bundle": "if you want to store information about the logged in user in the logs",
         "easycorp/easyadmin-bundle": "If the EasyAdmin log admin page is to be used"
     },
     "autoload": {
@@ -53,7 +54,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",
-        "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
+        "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse -c .phpstan.neon"
     },
     "config": {
         "allow-plugins": {

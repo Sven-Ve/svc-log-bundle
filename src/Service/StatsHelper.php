@@ -22,6 +22,8 @@ class StatsHelper
    * aggregate data for monthly statistics.
    *
    * @param bool $fresh should the data reloaded completely (truncate table before)
+   *
+   * @return array<mixed>
    */
   public function aggrMonthly(bool $fresh = false): array
   {

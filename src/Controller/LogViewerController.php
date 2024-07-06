@@ -16,7 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LogViewerController extends AbstractController
 {
-  public function __construct(private DataProviderInterface $dataProvider, private bool $enableUserSaving, private bool $enableIPSaving, private $needAdminForView)
+  public function __construct(
+    private DataProviderInterface $dataProvider,
+    private bool $enableUserSaving,
+    private bool $enableIPSaving,
+    private bool $needAdminForView)
   {
   }
 
@@ -43,15 +47,15 @@ class LogViewerController extends AbstractController
       $this->denyAccessUnlessGranted('ROLE_ADMIN');
     }
 
-    $offset = $this->checkParam($request->query->get('offset')) ?? 0;
-    $sourceID = $this->checkParam($request->query->get('sourceID'));
-    $sourceIDC = $this->checkParam($request->query->get('sourceIDC'));
-    $sourceType = $this->checkParam($request->query->get('sourceType'));
-    $sourceTypeC = $this->checkParam($request->query->get('sourceTypeC'));
-    $logLevel = $this->checkParam($request->query->get('logLevel'));
-    $logLevelC = $this->checkParam($request->query->get('logLevelC'));
-    $country = $request->query->get('country');
-    $hideSourceCols = $this->checkParam($request->query->get('hideSourceCols')) ?? 0;
+    $offset = $request->query->getInt('offset');
+    $sourceID = $this->checkParam($request->query->getString('sourceID'));
+    $sourceIDC = $this->checkParam($request->query->getString('sourceIDC'));
+    $sourceType = $this->checkParam($request->query->getString('sourceType'));
+    $sourceTypeC = $this->checkParam($request->query->getString('sourceTypeC'));
+    $logLevel = $this->checkParam($request->query->getString('logLevel'));
+    $logLevelC = $this->checkParam($request->query->getString('logLevelC'));
+    $country = $request->query->getString('country');
+    $hideSourceCols = $this->checkParam($request->query->getString('hideSourceCols')) ?? 0;
 
     $logs = $svcLogRep->getLogPaginatorForViewer($offset, $sourceID, $sourceIDC, $sourceType, $sourceTypeC, $logLevel, $logLevelC, $country);
 

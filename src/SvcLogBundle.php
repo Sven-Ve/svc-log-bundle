@@ -42,20 +42,23 @@ class SvcLogBundle extends AbstractBundle
       ->end();
   }
 
+  /**
+   * @param array<mixed> $config
+   */
   public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
   {
     $container->import('../config/services.yaml');
 
     (bool) $enableUserSaving = $config['enable_user_saving'];
-    if ($enableUserSaving) {
-      if (!array_key_exists('SecurityBundle', $builder->getParameter('kernel.bundles'))) {
-        throw new \Exception('If you set "enable_user_saving" to true (in svc_log.yaml) you have to install the SecurityBundle.');
-      }
-    }
+    // if ($enableUserSaving) {
+    //   if (!array_key_exists('SecurityBundle', $builder->getParameter('kernel.bundles'))) {
+    //     throw new \Exception('If you set "enable_user_saving" to true (in svc_log.yaml) you have to install the SecurityBundle.');
+    //   }
+    // }
 
     (bool) $enableSentry = $config['sentry']['use_sentry'];
     if ($enableSentry) {
-      if (!array_key_exists('SentryBundle', $builder->getParameter('kernel.bundles'))) {
+      if (!array_key_exists('SentryBundle', (array) $builder->getParameter('kernel.bundles'))) {
         throw new \Exception('If you enable sentry (in svc_log.yaml) you have to install the SentryBundle.');
       }
     }
@@ -111,7 +114,7 @@ class SvcLogBundle extends AbstractBundle
     }
 
     // check that FrameworkBundle 6.3 or higher is installed
-    $bundlesMetadata = $container->getParameter('kernel.bundles_metadata');
+    $bundlesMetadata = (array) $container->getParameter('kernel.bundles_metadata');
     if (!isset($bundlesMetadata['FrameworkBundle'])) {
       return false;
     }

@@ -32,6 +32,8 @@ class LogStatistics
 
   /**
    * give an array with log entries for one sourceID.
+   *
+   * @return array<mixed>
    */
   public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
   {
@@ -40,7 +42,7 @@ class LogStatistics
     }
 
     $request = $this->requestStack->getCurrentRequest();
-    $offset = $request->query->get($this->offsetParamName) ?? 0;
+    $offset = $request->query->getInt($this->offsetParamName);
 
     $logEntries = $this->svcLogRep->getLogPaginator($offset, $sourceID, $sourceType, $logLevel);
     if ((is_countable($logEntries) ? count($logEntries) : 0) == 0) {
@@ -89,6 +91,8 @@ class LogStatistics
   /**
    * pivot the data for a specific sourceType for the last 5 month
    * if access for non-admins not allowed to create the array with headers but without data.
+   *
+   * @return array<mixed>
    */
   public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL, ?bool $addDailyStats = false): array
   {
@@ -129,6 +133,8 @@ class LogStatistics
   /**
    * get an array with countries and counts/country for an specific sourceID.
    *
+   * @return array<mixed>
+   *
    * @throws LogExceptionInterface
    */
   public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
@@ -149,6 +155,8 @@ class LogStatistics
    * @param int|null $sourceType (Default 0)
    * @param int|null $logLevel   (Default DATA)
    * @param int|null $maxEntries (Default 5)
+   *
+   * @return array<mixed>
    *
    * @throws LogExceptionInterface
    */
@@ -183,6 +191,8 @@ class LogStatistics
 
   /**
    * format counts/country as array for direct chart.js integration per yarn.
+   *
+   * @return array<mixed>
    *
    * @throws LogExceptionInterface
    */

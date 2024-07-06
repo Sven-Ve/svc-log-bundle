@@ -66,12 +66,12 @@ class EventLog
   /**
    * write a log record.
    *
-   * @param int        $sourceID   the ID of the source object
-   * @param int|null   $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param array|null $options
-   *                               - int level
-   *                               - string message
-   *                               - string errorText
+   * @param int               $sourceID   the ID of the source object
+   * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param array<mixed>|null $options
+   *                                      - int level
+   *                                      - string message
+   *                                      - string errorText
    *
    * @return bool true if successfully
    */
@@ -264,6 +264,9 @@ class EventLog
     return $successCnt;
   }
 
+  /**
+   * @return array<mixed>
+   */
   public static function getLevelsForChoices(bool $includeAll = false): array
   {
     $choices = [];

@@ -36,7 +36,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * delete current period in statistic table.
    */
-  public function deleteCurrentData(?\DateTime $startDate = null): int
+  public function deleteCurrentData(?\DateTime $startDate = null): int|string
   {
     $conn = $this->getEntityManager()->getConnection();
     $sql = 'delete from svc_log_stat_monthly';
@@ -54,7 +54,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * aggregate and store logging data.
    */
-  public function aggrData(?\DateTime $startDate = null): int
+  public function aggrData(?\DateTime $startDate = null): int|string
   {
     $conn = $this->getEntityManager()->getConnection();
 
@@ -82,7 +82,9 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
   /**
    * fetch and pivot the statistic data.
    *
-   * @param array $months array with month like ['2021-06', ...]
+   * @param array<string> $months array with month like ['2021-06', ...]
+   *
+   * @return array<mixed>
    */
   public function pivotData(array $months, int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
   {

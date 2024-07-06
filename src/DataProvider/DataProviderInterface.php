@@ -21,11 +21,15 @@ interface DataProviderInterface
 
   /**
    * get all sourceIDs as array.
+   *
+   * @return array<int,string>
    */
   public function getSourceIDTextsArray(): array;
 
   /**
    * get all sourceTypes as array.
+   *
+   * @return array<int,string>
    */
   public function getSourceTypeTextsArray(): array;
 }

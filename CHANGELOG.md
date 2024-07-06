@@ -330,3 +330,8 @@
 ## Version 5.5.2
 *Sun, 16 Jun 2024 16:01:52 +0000*
 - use twig component for logview modal
+
+
+## Version 5.6.0
+*Sat, 06 Jul 2024 10:22:49 +0000*
+- added test, phpstan level 7, fixed all phpstan errors

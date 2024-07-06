@@ -7,6 +7,9 @@ namespace Svc\LogBundle\Exception;
  */
 final class IpSavingNotEnabledException extends \Exception implements LogExceptionInterface
 {
+  /**
+   * @var string
+   */
   protected $message = 'IP saving is disabled. This function is not allowed.';
 
   public function getReason(): string

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.5.2";
-$message = "use twig component for logview modal";
+$version = "5.6.0";
+$message = "added test, phpstan level 7, fixed all phpstan errors";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

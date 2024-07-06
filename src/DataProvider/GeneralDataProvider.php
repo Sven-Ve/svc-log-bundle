@@ -9,10 +9,16 @@ namespace Svc\LogBundle\DataProvider;
  */
 class GeneralDataProvider implements DataProviderInterface
 {
+  /**
+   * @var array<int,string>
+   */
   protected array $sourceTypes = [];
 
   protected bool $isSourceTypesInitialized = false;
 
+  /**
+   * @var array<int,string>
+   */
   protected array $sourceIDs = [];
 
   protected bool $isSourceIDsInitialized = false;
@@ -43,6 +49,8 @@ class GeneralDataProvider implements DataProviderInterface
 
   /**
    * get all sourceIDs as array.
+   *
+   * @return array<int,string>
    */
   public function getSourceIDTextsArray(): array
   {
