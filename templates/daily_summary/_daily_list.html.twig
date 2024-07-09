@@ -1,0 +1,18 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Source ID</th>
+    <th>Source type</th>
+    <th>Log level</th>
+    <th>Message</th>
+  </tr>
+  {% for log in daily_list | default(null) %}
+    <tr>
+      <td>{{ log.id }}</td>
+      <td>{{ log.getSourceIDText }}</td>
+      <td>{{ log.getSourceTypeText }}</td>
+      <td>{{ log.getLogLevelText }}</td>
+      <td>{{ log.message }}</td>
+    </tr>
+  {% endfor %}
+</table>

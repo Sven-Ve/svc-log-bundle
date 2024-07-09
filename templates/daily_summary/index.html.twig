@@ -1,0 +1,27 @@
+{% trans_default_domain 'LogBundle' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {% trans %}Daily summary{% endtrans %}
+{% endblock %}
+
+{% block body %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  padding: 3px;
+  border-collapse: collapse;
+}
+</style>
+
+  <h1>
+    <i class="fas fa-binoculars"></i>
+    {% trans %}Daily summary{% endtrans %}
+  </h1>
+
+  {% for daily_list in daily_lists | default(null) %}
+    <h3>{{ daily_list.title }}</h3>
+    {{ include("@SvcLog/daily_summary/_daily_list.html.twig", {daily_list: daily_list.logItems}) }}
+  {% endfor %}
+
+{% endblock %}

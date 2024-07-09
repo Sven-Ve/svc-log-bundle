@@ -9,6 +9,9 @@ services:
   Svc\LogBundle\Service\StatsHelper:
   Svc\LogBundle\Service\LoggerHelper:
   Svc\LogBundle\Service\PurgeHelper:
+  Svc\LogBundle\Service\DailySummaryHelper:
+    arguments:
+      - "@Svc\\LogBundle\\DataProvider\\GeneralDataProvider"
   Svc\LogBundle\DataProvider\GeneralDataProvider:
   Svc\LogBundle\Command\BatchFillLocationCommand:
   Svc\LogBundle\Command\StatMonthlyCommand:
@@ -18,6 +21,7 @@ services:
   Svc\LogBundle\Controller\LogViewerController:
     arguments:
       - "@Svc\\LogBundle\\DataProvider\\GeneralDataProvider"
+  Svc\LogBundle\Entity\DailySumDef:
 
   Svc\LogBundle\Controller\EaLogCrudController:
   Svc\LogBundle\Controller\EaLogStatMonthlyCrudController:

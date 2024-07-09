@@ -6,6 +6,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Enum\ComparisonOperator;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Service\EventLog;
 
@@ -51,7 +53,6 @@ class SvcLogRepository extends ServiceEntityRepository
 
   public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC, ?string $country): Paginator
   {
-    // dd($sourceIDC);
 
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
@@ -222,4 +223,40 @@ class SvcLogRepository extends ServiceEntityRepository
     return $query->getQuery()
       ->execute();
   }
+
+  /**
+   * @return SvcLog[]
+   */
+  public function getDailyLogDataList(
+    ?int $sourceID = null, 
+    ?int $sourceType = null, 
+    ?LogLevel $logLevel = null,
+    ?ComparisonOperator $logLevelC = null): array
+  {
+
+    $query = $this->createQueryBuilder('s')
+      ->orderBy('s.id', 'ASC');
+
+    if ($sourceID !== null) {
+      $query
+        ->andwhere('s.sourceID = :sourceID')
+        ->setParameter('sourceID', $sourceID);
+    }
+
+    if ($sourceType !== null) {
+      $query
+        ->andWhere('s.sourceType = :sourceType')
+        ->setParameter('sourceType', $sourceType);
+    }
+
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
+        ->setParameter('logLevel', $logLevel->value);
+    }
+
+    return $query->getQuery()->getResult();
+  }
+
+
 }
