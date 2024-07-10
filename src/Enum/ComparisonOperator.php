@@ -8,4 +8,5 @@ enum ComparisonOperator: string {
   case GREATER_THAN_OR_EQUAL = ">=";
   case LESS_THAN = "<";
   case LESS_THAN_OR_EQUA = "<=";
+  case NOT_EQUAL = "!=";
 }

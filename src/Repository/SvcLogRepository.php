@@ -258,5 +258,27 @@ class SvcLogRepository extends ServiceEntityRepository
     return $query->getQuery()->getResult();
   }
 
+  /**
+   * @return array<mixed>
+   */
+  public function getDailyAggrLogLevel(
+    ?LogLevel $logLevel = null,
+    ?ComparisonOperator $logLevelC = null): array
+  {
+
+    $query = $this->createQueryBuilder('s')
+      ->select('sum(s.logLevel) AS logLevelCount, s.logLevel')
+      ->addGroupBy('s.logLevel')
+      ->orderBy('s.logLevel', 'ASC');
+
+      if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+        $query
+          ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
+          ->setParameter('logLevel', $logLevel->value);
+      }
+
+      
+    return $query->getQuery()->getResult();
+  }
 
 }

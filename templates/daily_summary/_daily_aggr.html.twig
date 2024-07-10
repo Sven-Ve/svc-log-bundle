@@ -1,0 +1,13 @@
+<h3>{{ daily_aggr.title }}</h3>
+<table>
+  <tr>
+    <th>Log level</th>
+    <th>Count</th>
+  </tr>
+  {% for line in daily_aggr.data | default(null) %}
+    <tr>
+      <td>{{ line.logLevelText }}</td>
+      <td>{{ line.logLevelCount }}</td>
+    </tr>
+  {% endfor %}
+</table>

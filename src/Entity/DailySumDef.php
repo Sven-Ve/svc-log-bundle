@@ -3,13 +3,14 @@
 namespace Svc\LogBundle\Entity;
 
 use Svc\LogBundle\Enum\ComparisonOperator;
+use Svc\LogBundle\Enum\DailySummaryType;
 use Svc\LogBundle\Enum\LogLevel;
 
 
 
 class DailySumDef
 {
-  public function __construct(public string $title)
+  public function __construct(public string $title, public DailySummaryType $summaryType)
   {
     
   }
@@ -19,6 +20,6 @@ class DailySumDef
 
   public ?LogLevel $logLevel = null;
 
-  public ?ComparisonOperator $logLevelCompare = null;
+  public ?ComparisonOperator $logLevelCompare = ComparisonOperator::EQUAL;
 
 }

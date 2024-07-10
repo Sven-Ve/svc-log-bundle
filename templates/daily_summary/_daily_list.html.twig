@@ -1,3 +1,4 @@
+<h3>{{ daily_list.title }}</h3>
 <table>
   <tr>
     <th>ID</th>
@@ -6,7 +7,7 @@
     <th>Log level</th>
     <th>Message</th>
   </tr>
-  {% for log in daily_list | default(null) %}
+  {% for log in daily_list.logItems | default(null) %}
     <tr>
       <td>{{ log.id }}</td>
       <td>{{ log.getSourceIDText }}</td>
