@@ -326,12 +326,41 @@ class SvcLog
   }
 
   /**
+   * get the background color value per log level (use html values).
+   */
+  public function getLogLevelBGColorHTML(): string
+  {
+    return match ($this->logLevel) {
+      EventLog::LEVEL_INFO => '',
+      EventLog::LEVEL_DATA => 'green',
+      EventLog::LEVEL_WARN => 'yellow',
+      EventLog::LEVEL_ERROR => 'red',
+      EventLog::LEVEL_FATAL => 'red',
+      EventLog::LEVEL_ALERT => '#880808',
+      EventLog::LEVEL_EMERGENCY => '#880808',
+      default => 'gray',
+    };
+  }
+
+  /**
    * get the foreground color value per log level (use the background values from bootstrap 5).
    */
   public function getLogLevelFGColor(): string
   {
     return match ($this->logLevel) {
       EventLog::LEVEL_WARN => 'dark',
+      default => 'white',
+    };
+  }
+
+  /**
+   * get the foreground color value per log level (use html values).
+   */
+  public function getLogLevelFGColorHTML(): string
+  {
+    return match ($this->logLevel) {
+      EventLog::LEVEL_WARN => 'black',
+      EventLog::LEVEL_INFO => 'black',
       default => 'white',
     };
   }

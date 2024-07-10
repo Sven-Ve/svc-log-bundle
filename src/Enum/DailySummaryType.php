@@ -2,7 +2,8 @@
 
 namespace Svc\LogBundle\Enum;
 
-enum DailySummaryType {
+enum DailySummaryType
+{
   case LIST;
   case AGGR_LOG_LEVEL;
 }

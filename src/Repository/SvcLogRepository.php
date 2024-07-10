@@ -53,7 +53,6 @@ class SvcLogRepository extends ServiceEntityRepository
 
   public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC, ?string $country): Paginator
   {
-
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
       ->setMaxResults(self::PAGINATOR_PER_PAGE)
@@ -228,14 +227,19 @@ class SvcLogRepository extends ServiceEntityRepository
    * @return SvcLog[]
    */
   public function getDailyLogDataList(
-    ?int $sourceID = null, 
-    ?int $sourceType = null, 
+    \DateTimeImmutable $startDate,
+    \DateTimeImmutable $endDate,
+    ?int $sourceID = null,
+    ?int $sourceType = null,
     ?LogLevel $logLevel = null,
     ?ComparisonOperator $logLevelC = null): array
   {
-
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'ASC');
+
+    $query->add('where', $query->expr()->between('s.logDate', ':from', ':to'))
+      ->setParameter('from', $startDate)
+      ->setParameter('to', $endDate);
 
     if ($sourceID !== null) {
       $query
@@ -262,23 +266,26 @@ class SvcLogRepository extends ServiceEntityRepository
    * @return array<mixed>
    */
   public function getDailyAggrLogLevel(
+    \DateTimeImmutable $startDate,
+    \DateTimeImmutable $endDate,
     ?LogLevel $logLevel = null,
-    ?ComparisonOperator $logLevelC = null): array
-  {
-
+    ?ComparisonOperator $logLevelC = null,
+  ): array {
     $query = $this->createQueryBuilder('s')
-      ->select('sum(s.logLevel) AS logLevelCount, s.logLevel')
+      ->select('count(s.id) AS logLevelCount, s.logLevel')
       ->addGroupBy('s.logLevel')
       ->orderBy('s.logLevel', 'ASC');
 
-      if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
-        $query
-          ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
-          ->setParameter('logLevel', $logLevel->value);
-      }
+    $query->add('where', $query->expr()->between('s.logDate', ':from', ':to'))
+    ->setParameter('from', $startDate)
+    ->setParameter('to', $endDate);
 
-      
+    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+      $query
+        ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
+        ->setParameter('logLevel', $logLevel->value);
+    }
+
     return $query->getQuery()->getResult();
   }
-
 }
