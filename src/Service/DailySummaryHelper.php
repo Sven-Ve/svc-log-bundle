@@ -20,11 +20,17 @@ class SummaryList
 
 class DailySummaryHelper
 {
+  private \DateTimeImmutable $startDate;
+
+  private \DateTimeImmutable $endDate;
+
   public function __construct(
     private readonly DataProviderInterface $dataProvider,
     private readonly Environment $twig,
-    private readonly SvcLogRepository $svcLogRep)
-  {
+    private readonly SvcLogRepository $svcLogRep,
+  ) {
+    $this->startDate = new \DateTimeImmutable('yesterday');
+    $this->endDate = new \DateTimeImmutable('tomorrow');
   }
 
   /**
@@ -34,17 +40,14 @@ class DailySummaryHelper
   {
     $listData = [];
     $aggrData = [];
-
-    //    date_default_timezone_set('Europe/Zurich');
-    $startDate = new \DateTimeImmutable('yesterday');
-    $endDate = new \DateTimeImmutable('tomorrow');
+    $countDataSourceType = [];
 
     foreach ($definitions as $definition) {
       switch ($definition->summaryType) {
         case DailySummaryType::LIST:
           $logs = $this->svcLogRep->getDailyLogDataList(
-            $startDate,
-            $endDate,
+            $this->startDate,
+            $this->endDate,
             $definition->sourceID,
             $definition->sourceType,
             $definition->logLevel,
@@ -61,8 +64,8 @@ class DailySummaryHelper
 
         case DailySummaryType::AGGR_LOG_LEVEL:
           $data = $this->svcLogRep->getDailyAggrLogLevel(
-            $startDate,
-            $endDate,
+            $this->startDate,
+            $this->endDate,
             $definition->logLevel,
             $definition->logLevelCompare,
           );
@@ -71,11 +74,19 @@ class DailySummaryHelper
             if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
               $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
             } else {
-              // return '? (' . strval($this->logLevel) . ')';
+              $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
             }
           }
           $aggrData[] = ['title' => $definition->title, 'data' => $data];
 
+          break;
+
+        case DailySummaryType::COUNT_SOURCE_TYPE:
+          $data = $this->handleCountSourceType($definition);
+          if ($data) {
+            $countDataSourceType[] = $data;
+          }
+          
           break;
       }
     }
@@ -83,8 +94,36 @@ class DailySummaryHelper
     $result = $this->twig->render('@SvcLog/daily_summary/index.html.twig', [
       'daily_lists' => $listData,
       'daily_aggrs' => $aggrData,
+      'daily_counts_st' => $countDataSourceType,
     ]);
 
     return $result;
+  }
+
+  /**
+   * @return array<mixed>
+   */
+  private function handleCountSourceType(DailySumDef $definition): array
+  {
+    if (!isset($definition->countSourceTypeDef)) {
+      return [];
+    }
+
+    $data = [];
+    $data['title'] = $definition->title;
+    $data['data'] = [];
+
+    foreach ($definition->countSourceTypeDef as $cntDef) {
+      $rowcount = $this->svcLogRep->getDailyCountBySourceType(
+        $this->startDate,
+        $this->endDate,
+        $cntDef['sourceType'], /* @phpstan-ignore offsetAccess.nonOffsetAccessible */
+      );
+
+      /* @phpstan-ignore offsetAccess.nonOffsetAccessible */
+      $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
+    }
+
+    return $data;
   }
 }

@@ -27,4 +27,8 @@ table, th, td {
     {{ include("@SvcLog/daily_summary/_daily_list.html.twig", {daily_list: daily_list}) }}
   {% endfor %}
 
+  {% for daily_count in daily_counts_st | default(null) %}
+    {{ include("@SvcLog/daily_summary/_daily_counts.html.twig", {daily_count: daily_count}) }}
+  {% endfor %}
+
 {% endblock %}

@@ -1,0 +1,9 @@
+<h3>{{ daily_count.title }}</h3>
+<table>
+  {% for line in daily_count.data | default(null) %}
+    <tr>
+      <th>{{ line.item_title }}</th>
+      <td>{{ line.item_count }}</td>
+    </tr>
+  {% endfor %}
+</table>

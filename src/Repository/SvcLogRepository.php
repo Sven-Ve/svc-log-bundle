@@ -288,4 +288,21 @@ class SvcLogRepository extends ServiceEntityRepository
 
     return $query->getQuery()->getResult();
   }
+
+  public function getDailyCountBySourceType(
+    \DateTimeImmutable $startDate,
+    \DateTimeImmutable $endDate,
+    int $sourceType,
+  ): int {
+    $query = $this->createQueryBuilder('s')
+      ->select('count(s.id) AS sourceTypeCount');
+
+    $query->add('where', $query->expr()->between('s.logDate', ':from', ':to'))
+      ->setParameter('from', $startDate)
+      ->setParameter('to', $endDate)
+    ->andWhere('s.sourceType = :sourceType')
+      ->setParameter('sourceType', $sourceType);
+
+    return $query->getQuery()->getSingleResult()['sourceTypeCount'];
+  }
 }

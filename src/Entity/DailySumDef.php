@@ -19,4 +19,9 @@ class DailySumDef
   public ?LogLevel $logLevel = null;
 
   public ?ComparisonOperator $logLevelCompare = ComparisonOperator::EQUAL;
+
+  /**
+   * @var array{'sourceType': int, "title": string}
+   */
+  public ?array $countSourceTypeDef;
 }
