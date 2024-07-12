@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Tests;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Svc\LogBundle\SvcLogBundle;
 use Svc\ParamBundle\SvcParamBundle;
+use Svc\UtilBundle\SvcUtilBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -28,6 +29,7 @@ class SvcLogTestingKernel extends Kernel
     yield new FrameworkBundle();
     yield new TwigBundle();
     yield new SvcLogBundle();
+    yield new SvcUtilBundle();
     yield new DoctrineBundle();
     yield new SecurityBundle();
     yield new SvcParamBundle();

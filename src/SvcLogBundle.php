@@ -99,7 +99,7 @@ class SvcLogBundle extends AbstractBundle
 
     $container->services()
       ->get('Svc\LogBundle\Service\DailySummaryHelper')
-      ->arg(3, $config['daily_summary']['definition_class']);
+      ->arg(4, $config['daily_summary']['definition_class']);
   }
 
   public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void

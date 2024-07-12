@@ -9,6 +9,7 @@ use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotImplement;
 use Svc\LogBundle\Repository\SvcLogRepository;
+use Svc\UtilBundle\Service\MailerHelper;
 use Twig\Environment;
 
 class SummaryList
@@ -31,13 +32,27 @@ class DailySummaryHelper
     private readonly DataProviderInterface $dataProvider,
     private readonly Environment $twig,
     private readonly SvcLogRepository $svcLogRep,
+    private readonly MailerHelper $mailerHelper,
     private ?string $defClassName = null,
   ) {
     $this->startDate = new \DateTimeImmutable('yesterday');
     $this->endDate = new \DateTimeImmutable('tomorrow');
   }
 
-  public function createSummary(): string
+  public function mailSummary(): bool
+  {
+    $content = $this->createSummary();
+    $this->mailerHelper->send('technik@sv-systems.com', 'Subject Daily summary', $content);
+
+    return true;
+  }
+
+  public function getSummary(): string
+  {
+    return $this->createSummary();
+  }
+
+  private function createSummary(): string
   {
     if (!$this->defClassName) {
       throw new DailySummaryDefinitionNotDefined();

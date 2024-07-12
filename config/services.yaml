@@ -16,6 +16,7 @@ services:
   Svc\LogBundle\Command\BatchFillLocationCommand:
   Svc\LogBundle\Command\StatMonthlyCommand:
   Svc\LogBundle\Command\PurgeLogsCommand:
+  Svc\LogBundle\Command\MailDailySummary:
   Svc\LogBundle\Repository\SvcLogRepository:
   Svc\LogBundle\Repository\SvcLogStatMonthlyRepository:
   Svc\LogBundle\Controller\LogViewerController:
