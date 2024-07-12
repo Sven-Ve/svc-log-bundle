@@ -39,7 +39,13 @@ class SvcLogBundle extends AbstractBundle
             ->integerNode('logger_min_log_level')->min(3)->max(6)->defaultValue(6)->info('Minimal log level to write to logger, see documentation for values (only 3..6 allowed)')->end()
           ->end()
         ->end()
-      ->end();
+        ->arrayNode('daily_summary')->addDefaultsIfNotSet()->info('Definition of the daily summary report')
+          ->children()
+            ->scalarNode('definition_class')->defaultNull()->info('Class of your daily summary definition')->end()
+          ->end()
+        ->end()
+
+       ->end();
   }
 
   /**
@@ -90,6 +96,10 @@ class SvcLogBundle extends AbstractBundle
     if (null !== $config['data_provider']) {
       $builder->setAlias('Svc\LogBundle\DataProvider\GeneralDataProvider', $config['data_provider']);
     }
+
+    $container->services()
+      ->get('Svc\LogBundle\Service\DailySummaryHelper')
+      ->arg(3, $config['daily_summary']['definition_class']);
   }
 
   public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void

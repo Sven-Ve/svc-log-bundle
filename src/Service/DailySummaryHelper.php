@@ -5,6 +5,9 @@ namespace Svc\LogBundle\Service;
 use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Entity\DailySumDef;
 use Svc\LogBundle\Enum\DailySummaryType;
+use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
+use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
+use Svc\LogBundle\Exception\DailySummaryDefinitionNotImplement;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Twig\Environment;
 
@@ -28,16 +31,32 @@ class DailySummaryHelper
     private readonly DataProviderInterface $dataProvider,
     private readonly Environment $twig,
     private readonly SvcLogRepository $svcLogRep,
+    private ?string $defClassName = null,
   ) {
     $this->startDate = new \DateTimeImmutable('yesterday');
     $this->endDate = new \DateTimeImmutable('tomorrow');
   }
 
-  /**
-   * @param DailySumDef[] $definitions
-   */
-  public function createSummary(array $definitions): string
+  public function createSummary(): string
   {
+    if (!$this->defClassName) {
+      throw new DailySummaryDefinitionNotDefined();
+    }
+
+    if (!class_exists($this->defClassName)) {
+      throw new DailySummaryDefinitionNotExists();
+    }
+
+    /**
+     * @var DailySummaryDefinitionInterface
+     */
+    $defClass = new $this->defClassName();
+    if (!($defClass instanceof DailySummaryDefinitionInterface)) {
+      throw new DailySummaryDefinitionNotImplement();
+    }
+
+    $definitions = $defClass->getDefinition();
+
     $listData = [];
     $aggrData = [];
     $countDataSourceType = [];
@@ -86,7 +105,7 @@ class DailySummaryHelper
           if ($data) {
             $countDataSourceType[] = $data;
           }
-          
+
           break;
       }
     }
