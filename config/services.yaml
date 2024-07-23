@@ -22,7 +22,7 @@ services:
   Svc\LogBundle\Controller\LogViewerController:
     arguments:
       - "@Svc\\LogBundle\\DataProvider\\GeneralDataProvider"
-  Svc\LogBundle\Entity\DailySumDef:
-
+  Svc\LogBundle\Controller\DailySummaryController:
   Svc\LogBundle\Controller\EaLogCrudController:
   Svc\LogBundle\Controller\EaLogStatMonthlyCrudController:
+  Svc\LogBundle\Entity\DailySumDef:

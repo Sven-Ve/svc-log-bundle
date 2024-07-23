@@ -346,3 +346,8 @@
 ## Version 6.0.1
 *Tue, 23 Jul 2024 09:27:54 +0000*
 - fixed from return type in Svc\LogBundle\Settings\SvcLogSettings::getLastRunAggrMonthly()
+
+
+## Version 6.1.0
+*Tue, 23 Jul 2024 19:18:53 +0000*
+- added controller for viewing (testing) the daily summary

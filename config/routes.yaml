@@ -9,3 +9,7 @@ svc_log_viewer_view_data:
 svc_log_viewer_view_detail:
   path: /detail/{id}
   controller: Svc\LogBundle\Controller\LogViewerController::viewDetail
+
+svc_log_daily_summary_view:
+  path: /daily_summary
+  controller: Svc\LogBundle\Controller\DailySummaryController::view
