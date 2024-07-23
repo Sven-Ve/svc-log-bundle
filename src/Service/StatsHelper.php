@@ -2,8 +2,9 @@
 
 namespace Svc\LogBundle\Service;
 
+use Jbtronics\SettingsBundle\Manager\SettingsManagerInterface;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
-use Svc\ParamBundle\Repository\ParamsRepository;
+use Svc\LogBundle\Settings\SvcLogSettings;
 
 /**
  * Helper class for creating statistics.
@@ -14,7 +15,7 @@ class StatsHelper
 {
   public function __construct(
     private readonly SvcLogStatMonthlyRepository $statMonRep,
-    private readonly ParamsRepository $paramsRep
+    private readonly SettingsManagerInterface $settingsManager
   ) {
   }
 
@@ -27,13 +28,13 @@ class StatsHelper
    */
   public function aggrMonthly(bool $fresh = false): array
   {
-    $paramName = 'svcLog_lastRunAggrMonthly';
-
+    $logSettings = $this->settingsManager->get(SvcLogSettings::class);
     if ($fresh) {
       $lastRun = null;
     } else {
-      $lastRun = $this->paramsRep->getDateTime($paramName);
+      $lastRun = $logSettings->getLastRunAggrMonthly();
     }
+
     $firstDay = $lastRun ? new \DateTime($lastRun->format('Y-m-01')) : null;
 
     if ($fresh) {
@@ -45,7 +46,8 @@ class StatsHelper
 
     $inserted = $this->statMonRep->aggrData($firstDay);
 
-    $this->paramsRep->setDateTime($paramName, new \DateTime(), 'last aggregate refresh', true);
+    $logSettings->setLastRunAggrMonthlyToNow();
+    $this->settingsManager->save($logSettings);
 
     return ['deleted' => $deleted, 'inserted' => $inserted];
   }

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.6.0";
-$message = "added test, phpstan level 7, fixed all phpstan errors";
+$version = "6.0.0";
+$message = "switch to jbtronics/settings-bundle (break compotibility!), add daily summary";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

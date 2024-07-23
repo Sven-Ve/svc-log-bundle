@@ -8,6 +8,7 @@
 
 
 :warning: **Attention:** <br/>
+From version 6.0 the bundle use jbtronics/settings-bundle. Please see [Usage](docs/usage.md) for configuration.<br/><br/>
 From version 4.0 the bundle works only with Symfony >=6.1, because the new Bundle Configuration System is used.<br/>
 Please use version 3.x for older Symfony installations.
 
@@ -18,4 +19,5 @@ Please use version 3.x for older Symfony installations.
 * [Reports](docs/report.md)
 * [Statistics](docs/statistics.md)
 * [DataProvider](docs/data_provider.md)
+* [Daily summary](docs/daily_summary.md)
 * [Changelog](CHANGELOG.md)

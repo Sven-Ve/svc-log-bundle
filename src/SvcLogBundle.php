@@ -42,6 +42,8 @@ class SvcLogBundle extends AbstractBundle
         ->arrayNode('daily_summary')->addDefaultsIfNotSet()->info('Definition of the daily summary report')
           ->children()
             ->scalarNode('definition_class')->defaultNull()->info('Class of your daily summary definition')->end()
+            ->scalarNode('destination_email')->defaultNull()->info('Mail address for the daily summary mail')->end()
+            ->scalarNode('mail_subject')->defaultValue('Daily summary')->cannotBeEmpty()->info('Subject of the daily summary mail')->end()
           ->end()
         ->end()
 
@@ -99,7 +101,10 @@ class SvcLogBundle extends AbstractBundle
 
     $container->services()
       ->get('Svc\LogBundle\Service\DailySummaryHelper')
-      ->arg(4, $config['daily_summary']['definition_class']);
+      ->arg(6, $config['daily_summary']['mail_subject'])
+      ->arg(7, $config['daily_summary']['definition_class'])
+      ->arg(8, $config['daily_summary']['destination_email'])
+    ;
   }
 
   public function prependExtension(ContainerConfigurator $containerConfigurator, ContainerBuilder $containerBuilder): void

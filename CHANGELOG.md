@@ -335,3 +335,8 @@
 ## Version 5.6.0
 *Sat, 06 Jul 2024 10:22:49 +0000*
 - added test, phpstan level 7, fixed all phpstan errors
+
+
+## Version 6.0.0
+*Tue, 23 Jul 2024 08:36:22 +0000*
+- switch to jbtronics/settings-bundle (break compotibility!), add daily summary

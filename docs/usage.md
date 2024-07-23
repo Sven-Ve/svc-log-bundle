@@ -1,9 +1,19 @@
 # Usage
 
-## Entities
-Create tables (run `bin/console doctrine:schema:update --force`) or create a migration
+## Parameter persistence
+
+We use jbtronics/settings-bundle to store parameter/settings. This means, you have to define a storage adapter.
+
+Exemple:
 
 ## Enable/disable feature
+```yaml
+# /config/packages/jbtronics_settings.yaml
+jbtronics_settings:
+    default_storage_adapter: Jbtronics\SettingsBundle\Storage\JSONFileStorageAdapter
+```
+
+For more options (like storing in ORM) see the [package documentation](https://jbtronics.github.io/settings-bundle/)
 
 ### general
 

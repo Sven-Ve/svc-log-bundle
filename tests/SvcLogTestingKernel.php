@@ -3,8 +3,8 @@
 namespace Svc\LogBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Jbtronics\SettingsBundle\JbtronicsSettingsBundle;
 use Svc\LogBundle\SvcLogBundle;
-use Svc\ParamBundle\SvcParamBundle;
 use Svc\UtilBundle\SvcUtilBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -32,7 +32,7 @@ class SvcLogTestingKernel extends Kernel
     yield new SvcUtilBundle();
     yield new DoctrineBundle();
     yield new SecurityBundle();
-    yield new SvcParamBundle();
+    yield new JbtronicsSettingsBundle();
     yield new StimulusBundle();
     yield new TwigExtraBundle();
   }

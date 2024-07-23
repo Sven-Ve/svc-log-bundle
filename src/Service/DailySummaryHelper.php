@@ -2,14 +2,20 @@
 
 namespace Svc\LogBundle\Service;
 
+use Jbtronics\SettingsBundle\Manager\SettingsManagerInterface;
 use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Entity\DailySumDef;
 use Svc\LogBundle\Enum\DailySummaryType;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotImplement;
+use Svc\LogBundle\Exception\DailySummaryEmailNotDefined;
+use Svc\LogBundle\Exception\DailySummaryEmailNotValid;
 use Svc\LogBundle\Repository\SvcLogRepository;
+use Svc\LogBundle\Settings\SvcLogSettings;
 use Svc\UtilBundle\Service\MailerHelper;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
 class SummaryList
@@ -33,7 +39,11 @@ class DailySummaryHelper
     private readonly Environment $twig,
     private readonly SvcLogRepository $svcLogRep,
     private readonly MailerHelper $mailerHelper,
-    private ?string $defClassName = null,
+    private readonly SettingsManagerInterface $settingsManager,
+    private readonly ValidatorInterface $validator,
+    private readonly string $mailSubject,
+    private readonly ?string $defClassName = null,
+    private readonly ?string $destinationEmail = null,
   ) {
     $this->startDate = new \DateTimeImmutable('yesterday');
     $this->endDate = new \DateTimeImmutable('tomorrow');
@@ -41,8 +51,26 @@ class DailySummaryHelper
 
   public function mailSummary(): bool
   {
+    if (!$this->destinationEmail) {
+      throw new DailySummaryEmailNotDefined();
+    }
+
+    $emailConstraint = new Assert\Email();
+    $errors = $this->validator->validate(
+      $this->destinationEmail,
+      $emailConstraint
+    );
+
+    if ($errors->count()) {
+      throw new DailySummaryEmailNotValid();
+    }
+
     $content = $this->createSummary();
-    $this->mailerHelper->send('technik@sv-systems.com', 'Subject Daily summary', $content);
+    $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
+
+    $logSettings = $this->settingsManager->get(SvcLogSettings::class);
+    $logSettings->setLastRunDailySummaryToNow();
+    $this->settingsManager->save($logSettings);
 
     return true;
   }
