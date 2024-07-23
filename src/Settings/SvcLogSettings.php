@@ -18,7 +18,7 @@ class SvcLogSettings
   #[SettingsParameter(type: DatetimeType::class, label: 'SvcLog - last run of the daily summary mail', description: 'date/time of the last daily summary.', formOptions: ['disabled' => true])]
   private ?\DateTime $lastRunDailySummary = null;
 
-  public function getLastRunAggrMonthly(): \DateTime
+  public function getLastRunAggrMonthly(): ?\DateTime
   {
     return $this->lastRunAggrMonthly;
   }
@@ -30,7 +30,7 @@ class SvcLogSettings
     return $this->lastRunAggrMonthly;
   }
 
-  public function getLastRunDailySummary(): \DateTime
+  public function getLastRunDailySummary(): ?\DateTime
   {
     return $this->lastRunDailySummary;
   }

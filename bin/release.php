@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "6.0.0";
-$message = "switch to jbtronics/settings-bundle (break compotibility!), add daily summary";
+$version = "6.0.1";
+$message = "fixed from return type in Svc\LogBundle\Settings\SvcLogSettings::getLastRunAggrMonthly()";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

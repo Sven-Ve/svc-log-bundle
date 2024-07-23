@@ -339,4 +339,10 @@
 
 ## Version 6.0.0
 *Tue, 23 Jul 2024 08:36:22 +0000*
-- switch to jbtronics/settings-bundle (break compotibility!), add daily summary
+- switch to jbtronics/settings-bundle (break compotibility!)
+- add daily summary
+
+
+## Version 6.0.1
+*Tue, 23 Jul 2024 09:27:54 +0000*
+- fixed from return type in Svc\LogBundle\Settings\SvcLogSettings::getLastRunAggrMonthly()
