@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Controller;
 
 use Svc\LogBundle\Service\DailySummaryHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,10 +19,22 @@ class DailySummaryController extends AbstractController
   }
 
   /**
-   * show a log table (without data, only the construct).
+   * show the daily summary.
    */
-  public function view(): Response
+  public function view(Request $request): Response
   {
+    $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+    $raw = $request->query->getBoolean('raw');
+    if (!$raw) {
+      $summary = $this->dailySummary->getSummary();
+
+      return $this->render('@SvcLog/daily_summary/show.html.twig', [
+        'content' => $summary,
+        'header' => 'Daily summary',
+      ]);
+    }
+
     return new Response($this->dailySummary->getSummary());
   }
 }

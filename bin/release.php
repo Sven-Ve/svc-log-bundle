@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "6.1.0";
-$message = "added controller for viewing (testing) the daily summary";
+$version = "6.1.1";
+$message = "improving daily summary";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

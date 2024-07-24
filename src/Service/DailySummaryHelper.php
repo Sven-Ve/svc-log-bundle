@@ -153,10 +153,11 @@ class DailySummaryHelper
       }
     }
 
-    $result = $this->twig->render('@SvcLog/daily_summary/index.html.twig', [
+    $result = $this->twig->render('@SvcLog/daily_summary/summary.html.twig', [
       'daily_lists' => $listData,
       'daily_aggrs' => $aggrData,
       'daily_counts_st' => $countDataSourceType,
+      'header' => $this->mailSubject,
     ]);
 
     return $result;
@@ -179,10 +180,9 @@ class DailySummaryHelper
       $rowcount = $this->svcLogRep->getDailyCountBySourceType(
         $this->startDate,
         $this->endDate,
-        $cntDef['sourceType'], /* @phpstan-ignore offsetAccess.nonOffsetAccessible */
+        $cntDef['sourceType'], 
       );
 
-      /* @phpstan-ignore offsetAccess.nonOffsetAccessible */
       $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
     }
 

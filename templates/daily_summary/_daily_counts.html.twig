@@ -2,7 +2,7 @@
 <table>
   {% for line in daily_count.data | default(null) %}
     <tr>
-      <th>{{ line.item_title }}</th>
+      <td>{{ line.item_title }}</td>
       <td>{{ line.item_count }}</td>
     </tr>
   {% endfor %}

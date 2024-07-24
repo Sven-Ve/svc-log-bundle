@@ -1,0 +1,15 @@
+{{ include("@SvcLog/daily_summary/_style.css.twig") }}
+
+<h1>{{ header }}</h1>
+
+{% for daily_count in daily_counts_st | default(null) %}
+  {{ include("@SvcLog/daily_summary/_daily_counts.html.twig", {daily_count: daily_count}) }}
+{% endfor %}
+
+{% for daily_aggr in daily_aggrs | default(null) %}
+  {{ include("@SvcLog/daily_summary/_daily_aggr.html.twig", {daily_aggr: daily_aggr}) }}
+{% endfor %}
+
+{% for daily_list in daily_lists | default(null) %}
+  {{ include("@SvcLog/daily_summary/_daily_list.html.twig", {daily_list: daily_list}) }}
+{% endfor %}

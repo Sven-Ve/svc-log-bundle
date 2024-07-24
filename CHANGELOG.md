@@ -351,3 +351,8 @@
 ## Version 6.1.0
 *Tue, 23 Jul 2024 19:18:53 +0000*
 - added controller for viewing (testing) the daily summary
+
+
+## Version 6.1.1
+*Wed, 24 Jul 2024 08:27:20 +0000*
+- improving daily summary
