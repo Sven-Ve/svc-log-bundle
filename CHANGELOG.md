@@ -356,3 +356,8 @@
 ## Version 6.1.1
 *Wed, 24 Jul 2024 08:27:20 +0000*
 - improving daily summary
+
+
+## Version 6.1.2
+*Thu, 25 Jul 2024 19:40:16 +0000*
+- improving daily summary (add hideWhenEmpty and hideWhenZero)

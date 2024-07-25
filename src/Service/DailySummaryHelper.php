@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Service;
 use Jbtronics\SettingsBundle\Manager\SettingsManagerInterface;
 use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Entity\DailySumDef;
+use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\DailySummaryType;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
@@ -106,41 +107,19 @@ class DailySummaryHelper
 
     foreach ($definitions as $definition) {
       switch ($definition->summaryType) {
+
         case DailySummaryType::LIST:
-          $logs = $this->svcLogRep->getDailyLogDataList(
-            $this->startDate,
-            $this->endDate,
-            $definition->sourceID,
-            $definition->sourceType,
-            $definition->logLevel,
-            $definition->logLevelCompare,
-          );
-
-          foreach ($logs as $log) {
-            $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-            $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+          $logs = $this->handleLogList($definition);
+          if ($logs or !$definition->hideWhenEmpty) {
+            $listData[] = new SummaryList($definition->title, $logs);
           }
-
-          $listData[] = new SummaryList($definition->title, $logs);
           break;
 
         case DailySummaryType::AGGR_LOG_LEVEL:
-          $data = $this->svcLogRep->getDailyAggrLogLevel(
-            $this->startDate,
-            $this->endDate,
-            $definition->logLevel,
-            $definition->logLevelCompare,
-          );
-
-          foreach ($data as $key => $line) {
-            if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
-              $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
-            } else {
-              $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
-            }
+          $data = $this->handleAggrByLoglevel($definition);
+          if ($data) {
+            $aggrData[] = ['title' => $definition->title, 'data' => $data];
           }
-          $aggrData[] = ['title' => $definition->title, 'data' => $data];
-
           break;
 
         case DailySummaryType::COUNT_SOURCE_TYPE:
@@ -148,7 +127,6 @@ class DailySummaryHelper
           if ($data) {
             $countDataSourceType[] = $data;
           }
-
           break;
       }
     }
@@ -164,6 +142,61 @@ class DailySummaryHelper
   }
 
   /**
+   * list for DailySummaryType::LIST
+   *
+   * @return array<mixed>
+   */
+  private function handleLogList(DailySumDef $definition): array
+  {
+    $logs = $this->svcLogRep->getDailyLogDataList(
+      $this->startDate,
+      $this->endDate,
+      $definition->sourceID,
+      $definition->sourceType,
+      $definition->logLevel,
+      $definition->logLevelCompare,
+    );
+
+    foreach ($logs as $log) {
+      $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+      $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+    }
+
+    return $logs;
+  }
+
+  /**
+   * calculation for DailySummaryType::AGGR_LOG_LEVEL (aggregation by loglevel).
+   *
+   * @return array<mixed>
+   */
+  private function handleAggrByLoglevel(DailySumDef $definition): array
+  {
+    $data = $this->svcLogRep->getDailyAggrLogLevel(
+      $this->startDate,
+      $this->endDate,
+      $definition->logLevel,
+      $definition->logLevelCompare,
+    );
+
+    foreach ($data as $key => $line) {
+      if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
+        $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
+      } else {
+        $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
+      }
+      $tempLog = new SvcLog();
+      $tempLog->setLogLevel($line['logLevel']);
+      $data[$key]['logLevelBGColor'] = $tempLog->getLogLevelBGColorHTML();
+      $data[$key]['logLevelFGColor'] = $tempLog->getLogLevelFGColorHTML();
+    }
+
+    return $data;
+  }
+
+  /**
+   * calculation for DailySummaryType::COUNT_SOURCE_TYPE (count for a specific SOURCE_TYPE).
+   *
    * @return array<mixed>
    */
   private function handleCountSourceType(DailySumDef $definition): array
@@ -171,6 +204,7 @@ class DailySummaryHelper
     if (!isset($definition->countSourceTypeDef)) {
       return [];
     }
+    $dataFound = false;
 
     $data = [];
     $data['title'] = $definition->title;
@@ -180,12 +214,19 @@ class DailySummaryHelper
       $rowcount = $this->svcLogRep->getDailyCountBySourceType(
         $this->startDate,
         $this->endDate,
-        $cntDef['sourceType'], 
+        $cntDef['sourceType'],
       );
 
-      $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
+      if (!$definition->hideWhenZero or $rowcount > 0) {
+        $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
+        $dataFound = true;
+      }
     }
 
-    return $data;
+    if ($dataFound or !$definition->hideWhenEmpty) {
+      return $data;
+    } else {
+      return [];
+    }
   }
 }

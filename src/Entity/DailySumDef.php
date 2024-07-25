@@ -21,6 +21,16 @@ class DailySumDef
   public ?ComparisonOperator $logLevelCompare = ComparisonOperator::EQUAL;
 
   /**
+   * hide lines with result = 0.
+   */
+  public bool $hideWhenZero = false;
+
+  /**
+   * hide section when all results are zero.
+   */
+  public bool $hideWhenEmpty = false;
+
+  /**
    * @var array<mixed>
    */
   public ?array $countSourceTypeDef;

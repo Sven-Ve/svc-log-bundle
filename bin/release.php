@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "6.1.1";
-$message = "improving daily summary";
+$version = "6.1.2";
+$message = "improving daily summary (add hideWhenEmpty and hideWhenZero)";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

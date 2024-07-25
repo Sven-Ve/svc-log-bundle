@@ -6,7 +6,9 @@
   </tr>
   {% for line in daily_aggr.data | default(null) %}
     <tr>
-      <td>{{ line.logLevelText }}</td>
+      <td style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}">
+        {{ line.logLevelText }}
+      </td>
       <td>{{ line.logLevelCount }}</td>
     </tr>
   {% endfor %}
