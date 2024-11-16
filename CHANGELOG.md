@@ -361,3 +361,8 @@
 ## Version 6.1.2
 *Thu, 25 Jul 2024 19:40:16 +0000*
 - improving daily summary (add hideWhenEmpty and hideWhenZero)
+
+
+## Version 7.0.0
+*Sat, 16 Nov 2024 20:35:55 +0000*
+- Added Bot check. Data model changed!

@@ -8,7 +8,7 @@ use Svc\LogBundle\Entity\SvcLog;
 class LoggerHelper
 {
   public function __construct(
-    private readonly LoggerInterface $svclogLogger
+    private readonly LoggerInterface $svclogLogger,
   ) {
   }
 
@@ -22,7 +22,7 @@ class LoggerHelper
       EventLog::LEVEL_FATAL => 'critical',
       EventLog::LEVEL_ALERT => 'alert',
       EventLog::LEVEL_EMERGENCY => 'emergency',
-      default => 'info'
+      default => 'info',
     };
 
     $extraData = [

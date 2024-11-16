@@ -26,7 +26,7 @@ class LogStatistics
     private readonly SvcLogStatMonthlyRepository $statMonRep,
     private readonly RequestStack $requestStack,
     private readonly UrlGeneratorInterface $router,
-    private readonly Security $security
+    private readonly Security $security,
   ) {
   }
 

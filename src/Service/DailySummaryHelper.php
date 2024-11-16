@@ -107,7 +107,6 @@ class DailySummaryHelper
 
     foreach ($definitions as $definition) {
       switch ($definition->summaryType) {
-
         case DailySummaryType::LIST:
           $logs = $this->handleLogList($definition);
           if ($logs or !$definition->hideWhenEmpty) {
@@ -142,7 +141,7 @@ class DailySummaryHelper
   }
 
   /**
-   * list for DailySummaryType::LIST
+   * list for DailySummaryType::LIST.
    *
    * @return array<mixed>
    */

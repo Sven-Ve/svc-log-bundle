@@ -15,7 +15,7 @@ class SentryHelper
       EventLog::LEVEL_FATAL => Severity::fatal(),
       EventLog::LEVEL_EMERGENCY => Severity::fatal(),
       EventLog::LEVEL_ALERT => Severity::fatal(),
-      default => Severity::info()
+      default => Severity::info(),
     };
 
     \Sentry\withScope(function (\Sentry\State\Scope $scope) use ($log, $logLevel): void {

@@ -15,7 +15,7 @@ class StatsHelper
 {
   public function __construct(
     private readonly SvcLogStatMonthlyRepository $statMonRep,
-    private readonly SettingsManagerInterface $settingsManager
+    private readonly SettingsManagerInterface $settingsManager,
   ) {
   }
 

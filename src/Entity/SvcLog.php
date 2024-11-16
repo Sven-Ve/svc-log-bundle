@@ -62,6 +62,12 @@ class SvcLog
   #[ORM\Column(nullable: true)]
   private ?string $errorText = null;
 
+  #[ORM\Column(options: ['default' => false])]
+  private ?bool $bot = false;
+
+  #[ORM\Column(nullable: true)]
+  private ?string $botName = null;
+
   /**
    * not in database, only helper columns.
    */
@@ -304,6 +310,30 @@ class SvcLog
   public function setErrorText(?string $errorText): self
   {
     $this->errorText = $errorText;
+
+    return $this;
+  }
+
+  public function getBotName(): ?string
+  {
+    return $this->botName;
+  }
+
+  public function setBotName(?string $botName): self
+  {
+    $this->botName = $botName;
+
+    return $this;
+  }
+
+  public function isBot(): ?bool
+  {
+    return $this->bot;
+  }
+
+  public function setBot(bool $bot): static
+  {
+    $this->bot = $bot;
 
     return $this;
   }

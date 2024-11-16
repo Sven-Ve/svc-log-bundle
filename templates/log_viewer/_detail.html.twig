@@ -21,5 +21,8 @@
       <tr><th>{% trans %}User ID{% endtrans %}</th><td>{{ log.userID ? log.userID : '' }}</td></tr>
       <tr><th>{% trans %}User name{% endtrans %}</th><td>{{ log.userName }}</td></tr>
     {% endif %}
+    {% if log.bot %}
+      <tr><th class="bg-warning">{% trans %}Bot{% endtrans %}</th><td>{{ log.botName }}</td></tr>
+    {% endif %}
   </table>
 </div>

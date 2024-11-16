@@ -8,6 +8,7 @@ use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
+use Svc\UtilBundle\Service\BotChecker;
 use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -113,6 +114,13 @@ class EventLog
       $log->setReferer(NetworkHelper::getReferer());
     } catch (\Exception) {
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
+    }
+
+    $botCheck = new BotChecker();
+    $botResult = $botCheck->getBot();
+    if ($botResult) {
+      $log->setBot(true);
+      $log->setBotName($botResult['name']);
     }
 
     if ($this->enableUserSaving) {
