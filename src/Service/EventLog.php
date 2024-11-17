@@ -61,8 +61,7 @@ class EventLog
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
     private readonly LoggerHelper $loggerHelper,
-  ) {
-  }
+  ) {}
 
   /**
    * write a log record.
@@ -107,19 +106,21 @@ class EventLog
 
     try {
       $userAgent = NetworkHelper::getUserAgent();
-      $devDetector = new DeviceDetector($userAgent);
-      $devDetector->parse();
-      $log->setPlatform($devDetector->getBrandName());
-      $log->setBrowser($devDetector->getClient('name'));  /* @phpstan-ignore-line */
-      $log->setBrowserVersion($devDetector->getClient('version'));  /* @phpstan-ignore-line */
+      if ($userAgent) {
+        $devDetector = new DeviceDetector($userAgent);
+        $devDetector->parse();
+        $log->setPlatform($devDetector->getBrandName());
+        $log->setBrowser($devDetector->getClient('name'));  /* @phpstan-ignore-line */
+        $log->setBrowserVersion($devDetector->getClient('version'));  /* @phpstan-ignore-line */
 
-      $log->setOs($devDetector->getOs('name'));  /* @phpstan-ignore-line */
-      $log->setOsVersion($devDetector->getOs('version'));  /* @phpstan-ignore-line */
-      $log->setMobile($devDetector->isMobile());
+        $log->setOs($devDetector->getOs('name'));  /* @phpstan-ignore-line */
+        $log->setOsVersion($devDetector->getOs('version'));  /* @phpstan-ignore-line */
+        $log->setMobile($devDetector->isMobile());
 
-      if ($devDetector->isBot()) {
-        $log->setBot(true);
-        $log->setBotName($devDetector->getBot()['name']);  /* @phpstan-ignore-line */
+        if ($devDetector->isBot()) {
+          $log->setBot(true);
+          $log->setBotName($devDetector->getBot()['name']);  /* @phpstan-ignore-line */
+        }
       }
 
       $log->setReferer(NetworkHelper::getReferer());

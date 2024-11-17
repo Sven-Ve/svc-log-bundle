@@ -381,3 +381,8 @@
 ## Version 7.2.1
 *Sun, 17 Nov 2024 15:47:47 +0000*
 - removed wrong old code
+
+
+## Version 7.2.2
+*Sun, 17 Nov 2024 15:53:38 +0000*
+- errorhandling if no user agent found
