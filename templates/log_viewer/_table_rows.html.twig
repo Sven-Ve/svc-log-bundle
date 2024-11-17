@@ -15,7 +15,10 @@
         <i class="fas fa-user-tag" title="User info"></i>
       {% endif %}
       {% if log.bot %}
-        <i class="fa-solid fa-microchip bg-warning" title="Bot"></i>
+        <i class="fa-solid fa-microchip" title="Bot"></i>
+      {% endif %}
+      {% if log.mobile %}
+        <i class="fa-solid fa-mobile-screen-button" title="Mobile"></i>
       {% endif %}
     </td>
     {% if not hideSourceCols | default(false) %}

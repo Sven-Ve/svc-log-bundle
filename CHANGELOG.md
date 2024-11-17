@@ -371,3 +371,8 @@
 ## Version 7.1.0
 *Sun, 17 Nov 2024 09:35:52 +0000*
 - Added Bot information to daily summary
+
+
+## Version 7.2.0
+*Sun, 17 Nov 2024 15:34:36 +0000*
+- moved to matomo/device-detector bundle. better logging info, data model CHANGED

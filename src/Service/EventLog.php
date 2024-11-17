@@ -2,8 +2,8 @@
 
 namespace Svc\LogBundle\Service;
 
+use DeviceDetector\DeviceDetector;
 use Doctrine\ORM\EntityManagerInterface;
-use donatj\UserAgent\UserAgentParser;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
@@ -106,11 +106,22 @@ class EventLog
     }
 
     try {
-      $parser = new UserAgentParser();
-      $ua = $parser();
-      $log->setPlatform($ua->platform());
-      $log->setBrowser($ua->browser());
-      $log->setBrowserVersion($ua->browserVersion());
+      $userAgent = NetworkHelper::getUserAgent();
+      $devDetector = new DeviceDetector($userAgent);
+      $devDetector->parse();
+      $log->setPlatform($devDetector->getBrandName());
+      $log->setBrowser($devDetector->getClient('name'));  /* @phpstan-ignore-line */
+      $log->setBrowserVersion($devDetector->getClient('version'));  /* @phpstan-ignore-line */
+
+      $log->setOs($devDetector->getOs('name'));  /* @phpstan-ignore-line */
+      $log->setOsVersion($devDetector->getOs('version'));  /* @phpstan-ignore-line */
+      $log->setMobile($devDetector->isMobile());
+
+      if ($devDetector->isBot()) {
+        $log->setBot(true);
+        $log->setBotName($devDetector->getBot()['name']);  /* @phpstan-ignore-line */
+      }
+
       $log->setReferer(NetworkHelper::getReferer());
     } catch (\Exception) {
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.1.0";
-$message = "Added Bot information to daily summary";
+$version = "7.2.0";
+$message = "moved to matomo/device-detector bundle. better logging info, data model CHANGED";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

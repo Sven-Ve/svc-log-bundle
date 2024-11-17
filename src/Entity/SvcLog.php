@@ -50,6 +50,12 @@ class SvcLog
   #[ORM\Column(length: 50, nullable: true)]
   private ?string $browserVersion = null;
 
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string $os = null;
+
+  #[ORM\Column(length: 50, nullable: true)]
+  private ?string $osVersion = null;
+
   #[ORM\Column(nullable: true)]
   private ?string $referer = null;
 
@@ -67,6 +73,9 @@ class SvcLog
 
   #[ORM\Column(nullable: true)]
   private ?string $botName = null;
+
+  #[ORM\Column(options: ['default' => false])]
+  private ?bool $mobile = false;
 
   /**
    * not in database, only helper columns.
@@ -242,6 +251,30 @@ class SvcLog
     return $this;
   }
 
+  public function getOs(): ?string
+  {
+    return $this->os;
+  }
+
+  public function setOs(?string $os): self
+  {
+    $this->os = $os;
+
+    return $this;
+  }
+
+  public function getOsVersion(): ?string
+  {
+    return $this->osVersion;
+  }
+
+  public function setOsVersion(?string $osVersion): self
+  {
+    $this->osVersion = $osVersion;
+
+    return $this;
+  }
+
   public function getReferer(): ?string
   {
     return $this->referer;
@@ -326,7 +359,7 @@ class SvcLog
     return $this;
   }
 
-  public function isBot(): ?bool
+  public function isBot(): bool
   {
     return $this->bot;
   }
@@ -334,6 +367,18 @@ class SvcLog
   public function setBot(bool $bot): static
   {
     $this->bot = $bot;
+
+    return $this;
+  }
+
+  public function isMobile(): bool
+  {
+    return $this->mobile;
+  }
+
+  public function setMobile(bool $mobile): static
+  {
+    $this->mobile = $mobile;
 
     return $this;
   }

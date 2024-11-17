@@ -15,7 +15,8 @@
       <tr><th>{% trans %}IP{% endtrans %}</th><td>{{ log.ip }}</td></tr>
     {% endif %}
     <tr><th>{% trans %}Platform{% endtrans %}</th><td>{{ log.platform }}</td></tr>
-    <tr><th>{% trans %}Browser{% endtrans %}</th><td>{{ log.browser }}</td></tr>
+    <tr><th>{% trans %}Browser{% endtrans %}</th><td>{{ log.browser }} {{ log.browserVersion }}</td></tr>
+    <tr><th>{% trans %}OS{% endtrans %}</th><td>{{ log.os }} {{ log.osVersion }}</td></tr>
     <tr><th>{% trans %}Referer{% endtrans %}</th><td>{{ log.referer }}</td></tr>
     {% if enableUserSaving %}
       <tr><th>{% trans %}User ID{% endtrans %}</th><td>{{ log.userID ? log.userID : '' }}</td></tr>
@@ -23,6 +24,9 @@
     {% endif %}
     {% if log.bot %}
       <tr><th class="bg-warning">{% trans %}Bot{% endtrans %}</th><td>{{ log.botName }}</td></tr>
+    {% endif %}
+    {% if log.mobile %}
+      <tr><th>Mobile</th><td>yes</td></tr>
     {% endif %}
   </table>
 </div>
