@@ -366,3 +366,8 @@
 ## Version 7.0.0
 *Sat, 16 Nov 2024 20:35:55 +0000*
 - Added Bot check. Data model changed!
+
+
+## Version 7.1.0
+*Sun, 17 Nov 2024 09:35:52 +0000*
+- Added Bot information to daily summary

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.0.0";
-$message = "Added Bot check. Data model changed!";
+$version = "7.1.0";
+$message = "Added Bot information to daily summary";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

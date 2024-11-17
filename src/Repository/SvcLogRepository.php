@@ -293,6 +293,7 @@ class SvcLogRepository extends ServiceEntityRepository
     \DateTimeImmutable $startDate,
     \DateTimeImmutable $endDate,
     int $sourceType,
+    bool $onlyHuman = false,
   ): int {
     $query = $this->createQueryBuilder('s')
       ->select('count(s.id) AS sourceTypeCount');
@@ -302,6 +303,10 @@ class SvcLogRepository extends ServiceEntityRepository
       ->setParameter('to', $endDate)
     ->andWhere('s.sourceType = :sourceType')
       ->setParameter('sourceType', $sourceType);
+
+    if ($onlyHuman) {
+      $query->andWhere('s.bot = false');
+    }
 
     return $query->getQuery()->getSingleResult()['sourceTypeCount'];
   }

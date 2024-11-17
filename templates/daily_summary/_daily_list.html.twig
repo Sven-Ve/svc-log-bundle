@@ -6,6 +6,7 @@
     <th>Source ID</th>
     <th>Source type</th>
     <th>Log level</th>
+    <th>Bot</th>
     <th>Message</th>
   </tr>
   {% for log in daily_list.logItems | default(null) %}
@@ -17,6 +18,7 @@
       <td style="background-color:{{ log.getLogLevelBGColorHTML }}; color:{{log.getLogLevelFGColorHTML}}">
         {{ log.getLogLevelText }}
       </td>
+      <td>{{ log.botName }}</td>
       <td>{{ log.message }}</td>
     </tr>
   {% endfor %}

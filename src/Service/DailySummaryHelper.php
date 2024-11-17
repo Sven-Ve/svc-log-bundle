@@ -214,6 +214,7 @@ class DailySummaryHelper
         $this->startDate,
         $this->endDate,
         $cntDef['sourceType'],
+        $cntDef['onlyHuman'] ?? false,
       );
 
       if (!$definition->hideWhenZero or $rowcount > 0) {
