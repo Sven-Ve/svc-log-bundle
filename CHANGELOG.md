@@ -376,3 +376,8 @@
 ## Version 7.2.0
 *Sun, 17 Nov 2024 15:34:36 +0000*
 - moved to matomo/device-detector bundle. better logging info, data model CHANGED
+
+
+## Version 7.2.1
+*Sun, 17 Nov 2024 15:47:47 +0000*
+- removed wrong old code

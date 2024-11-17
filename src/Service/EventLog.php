@@ -127,13 +127,6 @@ class EventLog
       $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
     }
 
-    $botCheck = new BotChecker();
-    $botResult = $botCheck->getBot();
-    if ($botResult) {
-      $log->setBot(true);
-      $log->setBotName($botResult['name']);
-    }
-
     if ($this->enableUserSaving) {
       try {
         $user = $this->security->getUser();
