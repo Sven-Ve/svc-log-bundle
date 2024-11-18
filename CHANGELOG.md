@@ -386,3 +386,8 @@
 ## Version 7.2.2
 *Sun, 17 Nov 2024 15:53:38 +0000*
 - errorhandling if no user agent found
+
+
+## Version 7.2.3
+*Mon, 18 Nov 2024 20:38:57 +0000*
+- fix error with empty message

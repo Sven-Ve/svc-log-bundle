@@ -48,14 +48,17 @@ class LoggerHelper
       $extraData['referer'] = $log->getReferer();
     }
     if ($log->getBrowser()) {
-      $extraData['browser'] = $log->getBrowser();
+      $extraData['browser'] = $log->getBrowser() . ' ' . $log->getBrowserVersion();
+    }
+    if ($log->getOs()) {
+      $extraData['os'] = $log->getOs() . ' ' . $log->getOsVersion();
     }
     if ($log->getErrorText()) {
       $extraData['errorText'] = $log->getErrorText();
     }
 
     try {
-      $this->svclogLogger->$logLevel($log->getMessage(), $extraData);
+      $this->svclogLogger->$logLevel($log->getMessage() ?? $log->getLogLevelText(), $extraData);
     } catch (\Exception) {
       return false;
     }

@@ -8,7 +8,6 @@ use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
-use Svc\UtilBundle\Service\BotChecker;
 use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -61,7 +60,8 @@ class EventLog
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
     private readonly LoggerHelper $loggerHelper,
-  ) {}
+  ) {
+  }
 
   /**
    * write a log record.

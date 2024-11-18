@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.2.2";
-$message = "errorhandling if no user agent found";
+$version = "7.2.3";
+$message = "fix error with empty message";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
