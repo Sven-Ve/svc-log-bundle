@@ -391,3 +391,8 @@
 ## Version 7.2.3
 *Mon, 18 Nov 2024 20:38:57 +0000*
 - fix error with empty message
+
+
+## Version 7.3.0
+*Mon, 18 Nov 2024 21:22:03 +0000*
+- update to phpstan 2 and phpunit 11

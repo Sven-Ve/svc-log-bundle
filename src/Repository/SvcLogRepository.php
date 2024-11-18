@@ -253,6 +253,7 @@ class SvcLogRepository extends ServiceEntityRepository
         ->setParameter('sourceType', $sourceType);
     }
 
+    /** @phpstan-ignore notIdentical.alwaysTrue */
     if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
       $query
         ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
@@ -280,6 +281,7 @@ class SvcLogRepository extends ServiceEntityRepository
     ->setParameter('from', $startDate)
     ->setParameter('to', $endDate);
 
+    /** @phpstan-ignore notIdentical.alwaysTrue */
     if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
       $query
         ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
