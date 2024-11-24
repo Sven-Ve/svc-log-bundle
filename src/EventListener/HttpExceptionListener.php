@@ -44,6 +44,5 @@ class HttpExceptionListener
     }
 
     $this->eventLog->log($statuscode, $logType, ['message' => $message, 'level' => $level, 'errorText' => $errorText]);
-    dd('Hier');
   }
 }

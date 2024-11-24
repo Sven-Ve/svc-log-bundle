@@ -401,3 +401,8 @@
 ## Version 7.4.0
 *Sun, 24 Nov 2024 21:00:00 +0000*
 - added optional kernel exception logging (see documention)
+
+
+## Version 7.4.1
+*Sun, 24 Nov 2024 21:03:23 +0000*
+- remove dd...

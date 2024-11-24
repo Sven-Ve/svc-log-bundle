@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.4.0";
-$message = "added optional kernel exception logging (see documention)";
+$version = "7.4.1";
+$message = "remove dd...";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
