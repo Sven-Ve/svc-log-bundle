@@ -26,3 +26,4 @@ services:
   Svc\LogBundle\Controller\EaLogCrudController:
   Svc\LogBundle\Controller\EaLogStatMonthlyCrudController:
   Svc\LogBundle\Entity\DailySumDef:
+  Svc\LogBundle\EventListener\HttpExceptionListener:

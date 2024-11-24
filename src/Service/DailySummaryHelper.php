@@ -95,7 +95,7 @@ class DailySummaryHelper
      * @var DailySummaryDefinitionInterface
      */
     $defClass = new $this->defClassName();
-    /** @phpstan-ignore instanceof.alwaysTrue */
+    /* @phpstan-ignore instanceof.alwaysTrue */
     if (!($defClass instanceof DailySummaryDefinitionInterface)) {
       throw new DailySummaryDefinitionNotImplement();
     }

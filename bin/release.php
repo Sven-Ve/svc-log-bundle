@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.3.0";
-$message = "update to phpstan 2 and phpunit 11";
+$version = "7.4.0";
+$message = "added optional kernel exception logging (see documention)";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

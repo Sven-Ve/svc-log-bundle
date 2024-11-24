@@ -16,6 +16,7 @@ Please use version 3.x for older Symfony installations.
 
 * [installation](docs/installation.md)
 * [Usage](docs/usage.md)
+* [Kernel exception logger](docs/kernel_logger.md)
 * [Reports](docs/report.md)
 * [Statistics](docs/statistics.md)
 * [DataProvider](docs/data_provider.md)

@@ -46,6 +46,13 @@ class SvcLogBundle extends AbstractBundle
             ->scalarNode('mail_subject')->defaultValue('Daily summary')->cannotBeEmpty()->info('Subject of the daily summary mail')->end()
           ->end()
         ->end()
+        ->arrayNode('kernel_exception_logger')->addDefaultsIfNotSet()->info('Configuration for the (optional) kernel exception logger')
+          ->children()
+            ->scalarNode('use_kernel_logger')->defaultFalse()->info('enable the kernel exception logger')->end()
+            ->integerNode('default_level')->min(4)->max(8)->defaultValue(5)->info('Default log level (only 4..8 allowed)')->end()
+            ->integerNode('critical_level')->min(4)->max(8)->defaultValue(6)->info('Log level for critical errors - http code 500 (only 4..8 allowed)')->end()
+          ->end()
+        ->end()
 
        ->end();
   }
@@ -104,6 +111,13 @@ class SvcLogBundle extends AbstractBundle
       ->arg(6, $config['daily_summary']['mail_subject'])
       ->arg(7, $config['daily_summary']['definition_class'])
       ->arg(8, $config['daily_summary']['destination_email'])
+    ;
+
+    $container->services()
+    ->get('Svc\LogBundle\EventListener\HttpExceptionListener')
+    ->arg(1, $config['kernel_exception_logger']['use_kernel_logger'])
+    ->arg(2, $config['kernel_exception_logger']['default_level'])
+    ->arg(3, $config['kernel_exception_logger']['critical_level'])
     ;
   }
 

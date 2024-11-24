@@ -396,3 +396,8 @@
 ## Version 7.3.0
 *Mon, 18 Nov 2024 21:22:03 +0000*
 - update to phpstan 2 and phpunit 11
+
+
+## Version 7.4.0
+*Sun, 24 Nov 2024 21:00:00 +0000*
+- added optional kernel exception logging (see documention)

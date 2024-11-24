@@ -11,7 +11,6 @@ parameters:
     - '#Function Sentry\\.* not found.#'
     - '#Parameter \$scope of anonymous function has invalid type Sentry\\State\\Scope.#'
     - '#Method Svc\\LogBundle\\Tests\\SvcLogTestingKernel::configureRoutes\(\) is unused.#'
-    - '#Class Svc\\LogBundle\\.* extends generic class.*#'
     - identifier: doctrine.columnType
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
