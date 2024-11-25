@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.4.1";
-$message = "remove dd...";
+$version = "7.4.2";
+$message = "add internal source types to DailySummary";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

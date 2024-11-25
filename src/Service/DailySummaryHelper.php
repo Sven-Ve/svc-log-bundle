@@ -24,9 +24,7 @@ class SummaryList
   /**
    * @param \Svc\LogBundle\Entity\SvcLog[] $logItems
    */
-  public function __construct(public string $title, public array $logItems)
-  {
-  }
+  public function __construct(public string $title, public array $logItems) {}
 }
 
 class DailySummaryHelper
@@ -158,8 +156,13 @@ class DailySummaryHelper
     );
 
     foreach ($logs as $log) {
-      $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-      $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+      if ($log->getSourceType() >= 90000) { // internal handled sourceType
+        $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
+        $log->setSourceIDText((string) $log->getSourceID());
+      } else {
+        $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+        $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+      }
     }
 
     return $logs;

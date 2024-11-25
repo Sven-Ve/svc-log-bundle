@@ -406,3 +406,8 @@
 ## Version 7.4.1
 *Sun, 24 Nov 2024 21:03:23 +0000*
 - remove dd...
+
+
+## Version 7.4.2
+*Mon, 25 Nov 2024 16:11:32 +0000*
+- add internal source types to DailySummary
