@@ -56,6 +56,7 @@ class EventLog
     private readonly int $sentryMinLogLevel,
     private bool $enableLogger,
     private readonly int $loggerMinLogLevel,
+    private readonly bool $disable404Logger,
     private readonly Security $security,
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
@@ -69,9 +70,9 @@ class EventLog
    * @param int               $sourceID   the ID of the source object
    * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
    * @param array<mixed>|null $options
-   *                                      - int level
-   *                                      - string message
-   *                                      - string errorText
+   *                                      - ?int level
+   *                                      - ?string message
+   *                                      - ?string errorText
    *
    * @return bool true if successfully
    */
@@ -183,6 +184,7 @@ class EventLog
       $this->enableLogger
       and $this->loggerMinLogLevel <= $options['level']
       and $options['level'] != self::LEVEL_DATA
+      and (!$this->disable404Logger or $options['httpStatusCode']!=404)
     ) {
       if (!$this->loggerHelper->send($log)) {
         $vErrors = true;
@@ -201,11 +203,13 @@ class EventLog
       'level' => self::LEVEL_DATA,
       'message' => null,
       'errorText' => null,
+      'httpStatusCode' => null,
     ]);
 
     $resolver->setAllowedTypes('level', ['int', 'null']);
     $resolver->setAllowedTypes('message', ['string', 'null']);
     $resolver->setAllowedTypes('errorText', ['string', 'null']);
+    $resolver->setAllowedTypes('httpStatusCode', ['int', 'null']);
   }
 
   /**

@@ -74,6 +74,9 @@ svc_log:
 
         # Log level for critical errors - http code 500 (only 4..8 allowed)
         critical_level:       6
+
+        # do not send http 404 to logger (and maybe mail)
+        disable_404_to_logger: true
 ```
 
 ### Recommended setting

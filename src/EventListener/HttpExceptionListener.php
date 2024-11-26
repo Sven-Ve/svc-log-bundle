@@ -43,6 +43,6 @@ class HttpExceptionListener
       $errorText = 'Internal server error';
     }
 
-    $this->eventLog->log($statuscode, $logType, ['message' => $message, 'level' => $level, 'errorText' => $errorText]);
+    $this->eventLog->log($statuscode, $logType, ['message' => $message, 'level' => $level, 'errorText' => $errorText, 'httpStatusCode' => $statuscode]);
   }
 }

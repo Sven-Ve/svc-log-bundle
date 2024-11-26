@@ -411,3 +411,8 @@
 ## Version 7.4.2
 *Mon, 25 Nov 2024 16:11:32 +0000*
 - add internal source types to DailySummary
+
+
+## Version 7.5.0
+*Tue, 26 Nov 2024 21:20:19 +0000*
+- sending 404 errors configurable

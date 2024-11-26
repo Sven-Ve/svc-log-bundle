@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Svc\LogBundle\Entity\SvcLog;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LoggerHelper
 {
@@ -56,6 +57,10 @@ class LoggerHelper
     if ($log->getErrorText()) {
       $extraData['errorText'] = $log->getErrorText();
     }
+    // if ($httpStatusCode == 404) {
+    //   $extraData['exception'] = new NotFoundHttpException();
+    // }
+
 
     try {
       $this->svclogLogger->$logLevel($log->getMessage() ?? $log->getLogLevelText(), $extraData);

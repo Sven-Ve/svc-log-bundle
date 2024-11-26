@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.4.2";
-$message = "add internal source types to DailySummary";
+$version = "7.5.0";
+$message = "sending 404 errors configurable";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
