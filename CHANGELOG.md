@@ -378,3 +378,8 @@
 ## Version 7.5.0
 *Wed, 25 Dec 2024 08:29:03 +0000*
 - sending 404 errors configurable
+
+
+## Version 7.6.0
+*Wed, 25 Dec 2024 08:29:31 +0000*
+- add extra sleep time for 404 errors

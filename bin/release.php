@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.5.0";
-$message = "sending 404 errors configurable";
+$version = "7.6.0";
+$message = "add extra sleep time for 404 errors";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
