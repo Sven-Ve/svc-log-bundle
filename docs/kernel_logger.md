@@ -21,4 +21,7 @@ kernel_exception_logger:
 
     # do not send http 404 to logger (and maybe mail)
     disable_404_to_logger: true
+
+    # adds an extra sleep after every 404 error (in seconds, max. 5)
+    extra_sleep_time:     0    
 ```

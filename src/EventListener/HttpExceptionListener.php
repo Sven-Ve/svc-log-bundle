@@ -16,6 +16,7 @@ class HttpExceptionListener
     private bool $enableLogger,
     private int $logLevelDefault,
     private int $logLevelCritical,
+    private int $extraSleepTime,
     private EventLog $eventLog)
   {
   }
@@ -35,6 +36,10 @@ class HttpExceptionListener
       $message = $exception->getMessage();
       $level = $this->logLevelDefault;
       $errorText = 'HTTP error ' . $statuscode;
+
+      if ($this->extraSleepTime && $statuscode == 404) {
+        sleep($this->extraSleepTime);
+      }
     } else {
       $logType = AppConstants::LOG_TYPE_CRITICAL_KERNEL_EXCEPTION;
       $statuscode = Response::HTTP_INTERNAL_SERVER_ERROR;

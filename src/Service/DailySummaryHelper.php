@@ -22,9 +22,11 @@ use Twig\Environment;
 class SummaryList
 {
   /**
-   * @param \Svc\LogBundle\Entity\SvcLog[] $logItems
+   * @param SvcLog[] $logItems
    */
-  public function __construct(public string $title, public array $logItems) {}
+  public function __construct(public string $title, public array $logItems)
+  {
+  }
 }
 
 class DailySummaryHelper

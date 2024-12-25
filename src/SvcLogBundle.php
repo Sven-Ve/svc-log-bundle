@@ -52,6 +52,7 @@ class SvcLogBundle extends AbstractBundle
             ->integerNode('default_level')->min(4)->max(8)->defaultValue(5)->info('Default log level (only 4..8 allowed)')->end()
             ->integerNode('critical_level')->min(4)->max(8)->defaultValue(6)->info('Log level for critical errors - http code 500 (only 4..8 allowed)')->end()
             ->scalarNode('disable_404_to_logger')->defaultFalse()->info('do not send http 404 to logger (and maybe mail)')->end()
+            ->integerNode('extra_sleep_time')->min(0)->max(5)->defaultValue(0)->info('adds an extra sleep after every 404 error (in seconds, max. 5)')->end()
           ->end()
         ->end()
 
@@ -97,7 +98,7 @@ class SvcLogBundle extends AbstractBundle
       ->arg(6, $config['logger']['use_logger'])
       ->arg(7, $config['logger']['logger_min_log_level'])
       ->arg(8, $config['kernel_exception_logger']['disable_404_to_logger'])
-      ;
+    ;
 
     $container->services()
       ->get('Svc\LogBundle\Controller\LogViewerController')
@@ -121,6 +122,7 @@ class SvcLogBundle extends AbstractBundle
     ->arg(1, $config['kernel_exception_logger']['use_kernel_logger'])
     ->arg(2, $config['kernel_exception_logger']['default_level'])
     ->arg(3, $config['kernel_exception_logger']['critical_level'])
+    ->arg(4, $config['kernel_exception_logger']['extra_sleep_time'])
     ;
   }
 

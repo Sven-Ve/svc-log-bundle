@@ -184,7 +184,7 @@ class EventLog
       $this->enableLogger
       and $this->loggerMinLogLevel <= $options['level']
       and $options['level'] != self::LEVEL_DATA
-      and (!$this->disable404Logger or $options['httpStatusCode']!=404)
+      and (!$this->disable404Logger or $options['httpStatusCode'] != 404)
     ) {
       if (!$this->loggerHelper->send($log)) {
         $vErrors = true;

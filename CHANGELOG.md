@@ -343,25 +343,9 @@
 - add daily summary
 
 
-## Version 6.0.1
-*Tue, 23 Jul 2024 09:27:54 +0000*
-- fixed from return type in Svc\LogBundle\Settings\SvcLogSettings::getLastRunAggrMonthly()
-
-
 ## Version 6.1.0
 *Tue, 23 Jul 2024 19:18:53 +0000*
 - added controller for viewing (testing) the daily summary
-
-
-## Version 6.1.1
-*Wed, 24 Jul 2024 08:27:20 +0000*
-- improving daily summary
-
-
-## Version 6.1.2
-*Thu, 25 Jul 2024 19:40:16 +0000*
-- improving daily summary (add hideWhenEmpty and hideWhenZero)
-
 
 ## Version 7.0.0
 *Sat, 16 Nov 2024 20:35:55 +0000*
@@ -372,26 +356,9 @@
 *Sun, 17 Nov 2024 09:35:52 +0000*
 - Added Bot information to daily summary
 
-
 ## Version 7.2.0
 *Sun, 17 Nov 2024 15:34:36 +0000*
 - moved to matomo/device-detector bundle. better logging info, data model CHANGED
-
-
-## Version 7.2.1
-*Sun, 17 Nov 2024 15:47:47 +0000*
-- removed wrong old code
-
-
-## Version 7.2.2
-*Sun, 17 Nov 2024 15:53:38 +0000*
-- errorhandling if no user agent found
-
-
-## Version 7.2.3
-*Mon, 18 Nov 2024 20:38:57 +0000*
-- fix error with empty message
-
 
 ## Version 7.3.0
 *Mon, 18 Nov 2024 21:22:03 +0000*
@@ -403,16 +370,11 @@
 - added optional kernel exception logging (see documention)
 
 
-## Version 7.4.1
-*Sun, 24 Nov 2024 21:03:23 +0000*
-- remove dd...
-
-
-## Version 7.4.2
-*Mon, 25 Nov 2024 16:11:32 +0000*
-- add internal source types to DailySummary
+## Version 7.5.0
+*Tue, 26 Nov 2024 21:20:19 +0000*
+- sending 404 errors configurable
 
 
 ## Version 7.5.0
-*Tue, 26 Nov 2024 21:20:19 +0000*
+*Wed, 25 Dec 2024 08:29:03 +0000*
 - sending 404 errors configurable
