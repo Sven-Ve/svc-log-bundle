@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.6.0";
-$message = "add extra sleep time for 404 errors";
+$version = "7.7.0";
+$message = "rename AppConstants to LogAppConstants, add LOG_TYPE_HACKING_ATTEMPT";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

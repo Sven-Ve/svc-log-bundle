@@ -2,8 +2,8 @@
 
 namespace Svc\LogBundle\EventListener;
 
-use Svc\LogBundle\Service\AppConstants;
 use Svc\LogBundle\Service\EventLog;
+use Svc\LogBundle\Service\LogAppConstants;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -31,7 +31,7 @@ class HttpExceptionListener
     $exception = $event->getThrowable();
 
     if ($exception instanceof HttpExceptionInterface) {
-      $logType = AppConstants::LOG_TYPE_KERNEL_EXCEPTION;
+      $logType = LogAppConstants::LOG_TYPE_KERNEL_EXCEPTION;
       $statuscode = $exception->getStatusCode();
       $message = $exception->getMessage();
       $level = $this->logLevelDefault;
@@ -41,7 +41,7 @@ class HttpExceptionListener
         sleep($this->extraSleepTime);
       }
     } else {
-      $logType = AppConstants::LOG_TYPE_CRITICAL_KERNEL_EXCEPTION;
+      $logType = LogAppConstants::LOG_TYPE_CRITICAL_KERNEL_EXCEPTION;
       $statuscode = Response::HTTP_INTERNAL_SERVER_ERROR;
       $message = $exception->getMessage();
       $level = $this->logLevelCritical;

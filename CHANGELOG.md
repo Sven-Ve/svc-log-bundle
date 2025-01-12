@@ -383,3 +383,8 @@
 ## Version 7.6.0
 *Wed, 25 Dec 2024 08:29:31 +0000*
 - add extra sleep time for 404 errors
+
+
+## Version 7.7.0
+*Sun, 12 Jan 2025 14:59:08 +0000*
+- rename AppConstants to LogAppConstants, add LOG_TYPE_HACKING_ATTEMPT

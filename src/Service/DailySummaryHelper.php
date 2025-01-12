@@ -158,13 +158,13 @@ class DailySummaryHelper
     );
 
     foreach ($logs as $log) {
-      if ($log->getSourceType() >= 90000) { // internal handled sourceType
-        $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
-        $log->setSourceIDText((string) $log->getSourceID());
-      } else {
-        $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-        $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-      }
+      // if ($log->getSourceType() >= 90000) { // internal handled sourceType
+      //   $log->setSourceTypeText(LogAppConstants::getSourceTypeText($log->getSourceType()));
+      //   $log->setSourceIDText((string) $log->getSourceID());
+      // } else {
+      $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+      $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+      //      }
     }
 
     return $logs;

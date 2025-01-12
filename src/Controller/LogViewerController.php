@@ -4,7 +4,6 @@ namespace Svc\LogBundle\Controller;
 
 use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
-use Svc\LogBundle\Service\AppConstants;
 use Svc\LogBundle\Service\EventLog;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,13 +61,13 @@ class LogViewerController extends AbstractController
 
     if (!$hideSourceCols) {
       foreach ($logs as $log) {
-        if ($log->getSourceType() >= 90000) { // internal handled sourceType
-          $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
-          $log->setSourceIDText($log->getSourceID());
-        } else {
-          $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-          $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-        }
+        //   if ($log->getSourceType() >= 90000) { // internal handled sourceType
+        //     $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
+        //     $log->setSourceIDText($log->getSourceID());
+        //   } else {
+        $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+        $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+        // }
       }
     }
 
@@ -92,13 +91,13 @@ class LogViewerController extends AbstractController
   public function viewDetail(int $id, SvcLogRepository $svcLogRep): Response
   {
     $log = $svcLogRep->find($id);
-    if ($log->getSourceType() >= 90000) { // internal handled sourceType
-      $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
-      $log->setSourceIDText((string) $log->getSourceID());
-    } else {
-      $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-      $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-    }
+    // if ($log->getSourceType() >= 90000) { // internal handled sourceType
+    //   $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
+    //   $log->setSourceIDText((string) $log->getSourceID());
+    // } else {
+    $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+    $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+    // }
 
     return $this->render('@SvcLog/log_viewer/_detail.html.twig', [
       'log' => $log,

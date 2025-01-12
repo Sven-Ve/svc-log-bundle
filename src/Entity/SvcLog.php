@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
+use Svc\LogBundle\Service\LogAppConstants;
 
 #[ORM\Entity(repositoryClass: SvcLogRepository::class)]
 class SvcLog
@@ -301,6 +302,10 @@ class SvcLog
 
   public function getSourceTypeText(): ?string
   {
+    if ($this->sourceType >= LogAppConstants::LOG_TYPE_INTERNAL_MIN) {
+      return LogAppConstants::getSourceTypeText($this->sourceType);
+    }
+
     return $this->sourceTypeText;
   }
 
