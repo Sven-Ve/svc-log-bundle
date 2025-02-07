@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "7.7.0";
-$message = "rename AppConstants to LogAppConstants, add LOG_TYPE_HACKING_ATTEMPT";
+$version = "8.0.0";
+$message = "Deprecated EventLog::log, use EventLog::WriteLog and named parameter, require php 8.4";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

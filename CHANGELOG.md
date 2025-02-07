@@ -388,3 +388,8 @@
 ## Version 7.7.0
 *Sun, 12 Jan 2025 14:59:08 +0000*
 - rename AppConstants to LogAppConstants, add LOG_TYPE_HACKING_ATTEMPT
+
+
+## Version 8.0.0
+*Fri, 07 Feb 2025 21:36:44 +0000*
+- Deprecated EventLog::log, use EventLog::WriteLog and named parameter, require php 8.4

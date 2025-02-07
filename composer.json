@@ -13,7 +13,7 @@
         "symfony-ux"
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "doctrine/doctrine-bundle": "^2.10",
         "symfony/framework-bundle": "^6.3|^7",
         "symfony/validator": "^6.3|^7",
@@ -50,7 +50,7 @@
         "phpstan/phpstan": "^2",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-doctrine": "^2",
-        "phpunit/phpunit": "^11"
+        "phpunit/phpunit": "^12"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",

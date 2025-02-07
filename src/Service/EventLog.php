@@ -48,58 +48,46 @@ class EventLog
   ];
 
   public function __construct(
-    private bool $enableSourceType, /** @phpstan-ignore-line */
     private readonly bool $enableIPSaving,
     private readonly bool $enableUserSaving,
     private readonly int $minLogLevel,
     private bool $enableSentry,
     private readonly int $sentryMinLogLevel,
-    private bool $enableLogger,
+    private readonly bool $enableLogger,
     private readonly int $loggerMinLogLevel,
     private readonly bool $disable404Logger,
     private readonly Security $security,
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
     private readonly LoggerHelper $loggerHelper,
-  ) {
-  }
+  ) {}
 
   /**
    * write a log record.
    *
    * @param int               $sourceID   the ID of the source object
    * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param array<mixed>|null $options
-   *                                      - ?int level
-   *                                      - ?string message
-   *                                      - ?string errorText
-   *
    * @return bool true if successfully
    */
-  public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
-  {
+  public function writeLog(
+    int $sourceID,
+    ?int $sourceType = 0,
+    int $level = self::LEVEL_DATA,
+    ?string $message = null,
+    ?string $errorText = null
+  ): bool {
     $vErrors = false;
-    $resolver = new OptionsResolver();
-    $this->configureOptions($resolver);
-    $options = $resolver->resolve($options);
 
-    if ($options['level'] < $this->minLogLevel) {
+    if ($level < $this->minLogLevel) {
       return true;
     }
 
     $log = new SvcLog();
     $log->setSourceID($sourceID);
     $log->setSourceType($sourceType);
-
-    if ($options['message']) {
-      $log->setMessage($options['message']);
-    }
-    if ($options['level']) {
-      $log->setLogLevel($options['level']);
-    }
-    if ($options['errorText']) {
-      $log->setErrorText($options['errorText']);
-    }
+    $log->setMessage($message);
+    $log->setLogLevel($level);
+    $log->setErrorText($errorText);
 
     if ($this->enableIPSaving) {
       $log->setIp(NetworkHelper::getIP());
@@ -153,7 +141,7 @@ class EventLog
       $vErrors = true;
     }
 
-    if ($this->enableSentry and $this->sentryMinLogLevel <= $options['level']) {
+    if ($this->enableSentry and $this->sentryMinLogLevel <= $level) {
       $sentryState = false;
       try {
         $sentryHelper = new SentryHelper();
@@ -182,9 +170,9 @@ class EventLog
 
     if (
       $this->enableLogger
-      and $this->loggerMinLogLevel <= $options['level']
-      and $options['level'] != self::LEVEL_DATA
-      and (!$this->disable404Logger or $options['httpStatusCode'] != 404)
+      and $this->loggerMinLogLevel <= $level
+      and $level != self::LEVEL_DATA
+      and (!$this->disable404Logger)
     ) {
       if (!$this->loggerHelper->send($log)) {
         $vErrors = true;
@@ -192,6 +180,16 @@ class EventLog
     }
 
     return $vErrors;
+  }
+
+  #[\Deprecated('use writeLog instead', '1.8')]
+  public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
+  {
+    $resolver = new OptionsResolver();
+    $this->configureOptions($resolver);
+    $options = $resolver->resolve($options);
+
+    return $this->writeLog($sourceID, $sourceType, $options['level'], $options['message'], $options['errorText']);
   }
 
   /**

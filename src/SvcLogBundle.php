@@ -89,15 +89,14 @@ class SvcLogBundle extends AbstractBundle
 
     $container->services()
       ->get('Svc\LogBundle\Service\EventLog')
-      ->arg(0, $config['enable_source_type'])
-      ->arg(1, $config['enable_ip_saving'])
-      ->arg(2, $enableUserSaving)
-      ->arg(3, $config['min_log_level'])
-      ->arg(4, $enableSentry)
-      ->arg(5, $config['sentry']['sentry_min_log_level'])
-      ->arg(6, $config['logger']['use_logger'])
-      ->arg(7, $config['logger']['logger_min_log_level'])
-      ->arg(8, $config['kernel_exception_logger']['disable_404_to_logger'])
+      ->arg(0, $config['enable_ip_saving'])
+      ->arg(1, $enableUserSaving)
+      ->arg(2, $config['min_log_level'])
+      ->arg(3, $enableSentry)
+      ->arg(4, $config['sentry']['sentry_min_log_level'])
+      ->arg(5, $config['logger']['use_logger'])
+      ->arg(6, $config['logger']['logger_min_log_level'])
+      ->arg(7, $config['kernel_exception_logger']['disable_404_to_logger'])
     ;
 
     $container->services()
