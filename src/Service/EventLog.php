@@ -67,6 +67,7 @@ class EventLog
    *
    * @param int               $sourceID   the ID of the source object
    * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param int               $level      one of the EventLog::LEVEL constants
    * @return bool true if successfully
    */
   public function writeLog(

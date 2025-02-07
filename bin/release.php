@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "8.0.0";
-$message = "Deprecated EventLog::log, use EventLog::WriteLog and named parameter, require php 8.4";
+$version = "8.0.1";
+$message = "update doc";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

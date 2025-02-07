@@ -123,15 +123,18 @@ namespace Svc\LogBundle\Service;
 class EventLog
 {
   /**
-   * write a log record
+   * write a log record.
    *
-   * @param integer $sourceID the ID of the source object
-   * @param integer|null $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param array|null $options
-   *  - int level
-   *  - string message
-   *  - string errorText
-   * @return boolean true if successfull
+   * @param int               $sourceID   the ID of the source object
+   * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param int               $level      one of the EventLog::LEVEL constants
+   * @return bool true if successfully
    */
-  public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
+  public function writeLog(
+    int $sourceID,
+    ?int $sourceType = 0,
+    int $level = self::LEVEL_DATA,
+    ?string $message = null,
+    ?string $errorText = null
+  ): bool
 ```
