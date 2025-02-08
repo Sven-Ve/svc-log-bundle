@@ -398,3 +398,8 @@
 ## Version 8.0.1
 *Fri, 07 Feb 2025 21:53:11 +0000*
 - update doc
+
+
+## Version 8.0.2
+*Sat, 08 Feb 2025 19:41:57 +0000*
+- fix internal deprecation

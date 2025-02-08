@@ -60,14 +60,16 @@ class EventLog
     private readonly EntityManagerInterface $entityManager,
     private readonly SvcLogRepository $logRepo,
     private readonly LoggerHelper $loggerHelper,
-  ) {}
+  ) {
+  }
 
   /**
    * write a log record.
    *
-   * @param int               $sourceID   the ID of the source object
-   * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param int               $level      one of the EventLog::LEVEL constants
+   * @param int      $sourceID   the ID of the source object
+   * @param int|null $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param int      $level      one of the EventLog::LEVEL constants
+   *
    * @return bool true if successfully
    */
   public function writeLog(
@@ -75,7 +77,8 @@ class EventLog
     ?int $sourceType = 0,
     int $level = self::LEVEL_DATA,
     ?string $message = null,
-    ?string $errorText = null
+    ?string $errorText = null,
+    ?int $httpStatusCode = null,
   ): bool {
     $vErrors = false;
 
@@ -173,7 +176,7 @@ class EventLog
       $this->enableLogger
       and $this->loggerMinLogLevel <= $level
       and $level != self::LEVEL_DATA
-      and (!$this->disable404Logger)
+      and (!$this->disable404Logger or ($httpStatusCode ?? 0) != 404)
     ) {
       if (!$this->loggerHelper->send($log)) {
         $vErrors = true;
@@ -190,7 +193,12 @@ class EventLog
     $this->configureOptions($resolver);
     $options = $resolver->resolve($options);
 
-    return $this->writeLog($sourceID, $sourceType, $options['level'], $options['message'], $options['errorText']);
+    return $this->writeLog($sourceID, $sourceType,
+      level: $options['level'],
+      message: $options['message'],
+      errorText: $options['errorText'],
+      httpStatusCode: $options['httpStatusCode']
+    );
   }
 
   /**

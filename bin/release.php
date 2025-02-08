@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "8.0.1";
-$message = "update doc";
+$version = "8.0.2";
+$message = "fix internal deprecation";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

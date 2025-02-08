@@ -17,8 +17,8 @@ class HttpExceptionListener
     private int $logLevelDefault,
     private int $logLevelCritical,
     private int $extraSleepTime,
-    private EventLog $eventLog)
-  {
+    private EventLog $eventLog,
+  ) {
   }
 
   public function onKernelException(ExceptionEvent $event): void
@@ -48,6 +48,13 @@ class HttpExceptionListener
       $errorText = 'Internal server error';
     }
 
-    $this->eventLog->log($statuscode, $logType, ['message' => $message, 'level' => $level, 'errorText' => $errorText, 'httpStatusCode' => $statuscode]);
+    $this->eventLog->writeLog(
+      $statuscode,
+      $logType,
+      $level,
+      message: $message,
+      errorText: $errorText,
+      httpStatusCode: $statuscode
+    );
   }
 }
