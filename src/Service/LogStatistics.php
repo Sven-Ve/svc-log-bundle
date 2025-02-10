@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle\Service;
 
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
@@ -35,7 +36,7 @@ class LogStatistics
    *
    * @return array<mixed>
    */
-  public function reportOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
+  public function reportOneId(int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null): array
   {
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
@@ -94,7 +95,7 @@ class LogStatistics
    *
    * @return array<mixed>
    */
-  public function pivotMonthly(int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL, ?bool $addDailyStats = false): array
+  public function pivotMonthly(int $sourceType, ?LogLevel $logLevel = null, ?bool $addDailyStats = false): array
   {
     $today = new \DateTime();
     $firstDay = new \DateTime($today->format('Y-m-01'));
@@ -137,7 +138,7 @@ class LogStatistics
    *
    * @throws LogExceptionInterface
    */
-  public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA): array
+  public function getCountriesForOneId(int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null): array
   {
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
@@ -152,15 +153,15 @@ class LogStatistics
   /**
    * format counts/country for symfony/ux-chartjs.
    *
-   * @param int|null $sourceType (Default 0)
-   * @param int|null $logLevel   (Default DATA)
-   * @param int|null $maxEntries (Default 5)
+   * @param int|null      $sourceType (Default 0)
+   * @param LogLevel|null $logLevel   (Default null)
+   * @param int|null      $maxEntries (Default 5)
    *
    * @return array<mixed>
    *
    * @throws LogExceptionInterface
    */
-  public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
+  public function getCountriesForChartJS(int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null, ?int $maxEntries = 5): array
   {
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];
@@ -196,7 +197,7 @@ class LogStatistics
    *
    * @throws LogExceptionInterface
    */
-  public function getCountriesForChartJS1(int $sourceID, ?int $sourceType = 0, ?int $logLevel = EventLog::LEVEL_DATA, ?int $maxEntries = 5): array
+  public function getCountriesForChartJS1(int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null, ?int $maxEntries = 5): array
   {
     if ($this->needAdminForStats && !$this->security->isGranted('ROLE_ADMIN')) {
       return [];

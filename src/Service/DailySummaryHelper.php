@@ -185,15 +185,16 @@ class DailySummaryHelper
     );
 
     foreach ($data as $key => $line) {
-      if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
-        $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
-      } else {
-        $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
-      }
+      // if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
+      //   $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
+      // } else {
+      //   $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
+      // }
       $tempLog = new SvcLog();
       $tempLog->setLogLevel($line['logLevel']);
       $data[$key]['logLevelBGColor'] = $tempLog->getLogLevelBGColorHTML();
       $data[$key]['logLevelFGColor'] = $tempLog->getLogLevelFGColorHTML();
+      $data[$key]['logLevelText'] = $tempLog->getLogLevelText();
     }
 
     return $data;

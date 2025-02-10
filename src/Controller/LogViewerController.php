@@ -3,6 +3,7 @@
 namespace Svc\LogBundle\Controller;
 
 use Svc\LogBundle\DataProvider\DataProviderInterface;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\EventLog;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class LogViewerController extends AbstractController
     }
 
     return $this->render('@SvcLog/log_viewer/viewer.html.twig', [
-      'levelArray' => EventLog::ARR_LEVEL_TEXT,
+      'levelArray' => EventLog::getLevelsForChoices(true),
     ]);
   }
 
@@ -52,7 +53,7 @@ class LogViewerController extends AbstractController
     $sourceIDC = $this->checkParam($request->query->getString('sourceIDC'));
     $sourceType = $this->checkParam($request->query->getString('sourceType'));
     $sourceTypeC = $this->checkParam($request->query->getString('sourceTypeC'));
-    $logLevel = $this->checkParam($request->query->getString('logLevel'));
+    $logLevel = LogLevel::getLogLevelfromInt($this->checkParam($request->query->getString('logLevel')), null);
     $logLevelC = $this->checkParam($request->query->getString('logLevelC'));
     $country = $request->query->getString('country');
     $hideSourceCols = $this->checkParam($request->query->getString('hideSourceCols')) ?? 0;
@@ -61,10 +62,6 @@ class LogViewerController extends AbstractController
 
     if (!$hideSourceCols) {
       foreach ($logs as $log) {
-        //   if ($log->getSourceType() >= 90000) { // internal handled sourceType
-        //     $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
-        //     $log->setSourceIDText($log->getSourceID());
-        //   } else {
         $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
         $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
         // }

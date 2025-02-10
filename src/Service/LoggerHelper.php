@@ -14,20 +14,11 @@ class LoggerHelper
 
   public function send(SvcLog $log): bool
   {
-    $logLevel = match ($log->getLogLevel()) {
-      EventLog::LEVEL_DEBUG => 'debug',
-      EventLog::LEVEL_INFO => 'info',
-      EventLog::LEVEL_WARN => 'warning',
-      EventLog::LEVEL_ERROR => 'error',
-      EventLog::LEVEL_FATAL => 'critical',
-      EventLog::LEVEL_ALERT => 'alert',
-      EventLog::LEVEL_EMERGENCY => 'emergency',
-      default => 'info',
-    };
+    $logLevel = $log->getLogLevelText();
 
     $extraData = [
       'sender' => 'svc_log',
-      'log_level' => $log->getLogLevel() . ' ' . $log->getLogLevelText(),
+      'log_level' => $log->getLogLevel()->value . ' ' . $log->getLogLevelText(),
     ];
     if ($log->getUserName()) {
       $extraData['user'] = $log->getUserName();

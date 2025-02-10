@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Repository\SvcLogStatMonthlyRepository;
 
 #[ORM\Entity(repositoryClass: SvcLogStatMonthlyRepository::class)]
@@ -25,7 +26,7 @@ class SvcLogStatMonthly
   private int $sourceType = 0;
 
   #[ORM\Column()]
-  private ?int $logLevel = null;
+  private ?LogLevel $logLevel = null;
 
   #[ORM\Column()]
   private ?int $logCount = null;
@@ -71,12 +72,12 @@ class SvcLogStatMonthly
     return $this;
   }
 
-  public function getLogLevel(): ?int
+  public function getLogLevel(): ?LogLevel
   {
     return $this->logLevel;
   }
 
-  public function setLogLevel(int $logLevel): self
+  public function setLogLevel(LogLevel $logLevel): self
   {
     $this->logLevel = $logLevel;
 

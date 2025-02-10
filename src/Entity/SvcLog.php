@@ -3,8 +3,8 @@
 namespace Svc\LogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Repository\SvcLogRepository;
-use Svc\LogBundle\Service\EventLog;
 use Svc\LogBundle\Service\LogAppConstants;
 
 #[ORM\Entity(repositoryClass: SvcLogRepository::class)]
@@ -25,7 +25,7 @@ class SvcLog
   private \DateTime $logDate;
 
   #[ORM\Column()]
-  private int $logLevel = EventLog::LEVEL_DATA;
+  private LogLevel $logLevel = LogLevel::DATA;
 
   #[ORM\Column(nullable: true)]
   private ?string $message = null;
@@ -119,25 +119,17 @@ class SvcLog
     return $this;
   }
 
-  public function getLogLevel(): ?int
+  public function getLogLevel(): LogLevel
   {
     return $this->logLevel;
   }
 
   public function getLogLevelText(): string
   {
-    if ($this->logLevel == null) {
-      return '?';
-    }
-
-    if (array_key_exists($this->logLevel, EventLog::ARR_LEVEL_TEXT)) {
-      return EventLog::ARR_LEVEL_TEXT[$this->logLevel];
-    } else {
-      return '? (' . strval($this->logLevel) . ')';
-    }
+    return $this->logLevel->label();
   }
 
-  public function setLogLevel(int $logLevel): self
+  public function setLogLevel(LogLevel $logLevel): self
   {
     $this->logLevel = $logLevel;
 
@@ -394,13 +386,13 @@ class SvcLog
   public function getLogLevelBGColor(): string
   {
     return match ($this->logLevel) {
-      EventLog::LEVEL_INFO => 'primary',
-      EventLog::LEVEL_DATA => 'success',
-      EventLog::LEVEL_WARN => 'warning',
-      EventLog::LEVEL_ERROR => 'danger',
-      EventLog::LEVEL_FATAL => 'danger',
-      EventLog::LEVEL_ALERT => 'danger',
-      EventLog::LEVEL_EMERGENCY => 'danger',
+      LogLevel::INFO => 'primary',
+      LogLevel::DATA => 'success',
+      LogLevel::WARN => 'warning',
+      LogLevel::ERROR => 'danger',
+      LogLevel::CRITICAL => 'danger',
+      LogLevel::ALERT => 'danger',
+      LogLevel::EMERGENCY => 'danger',
       default => 'secondary',
     };
   }
@@ -411,13 +403,13 @@ class SvcLog
   public function getLogLevelBGColorHTML(): string
   {
     return match ($this->logLevel) {
-      EventLog::LEVEL_INFO => '',
-      EventLog::LEVEL_DATA => 'green',
-      EventLog::LEVEL_WARN => 'yellow',
-      EventLog::LEVEL_ERROR => 'red',
-      EventLog::LEVEL_FATAL => 'red',
-      EventLog::LEVEL_ALERT => '#880808',
-      EventLog::LEVEL_EMERGENCY => '#880808',
+      LogLevel::INFO => '',
+      LogLevel::DATA => 'green',
+      LogLevel::WARN => 'yellow',
+      LogLevel::ERROR => 'red',
+      LogLevel::CRITICAL => 'red',
+      LogLevel::ALERT => '#880808',
+      LogLevel::EMERGENCY => '#880808',
       default => 'gray',
     };
   }
@@ -428,7 +420,7 @@ class SvcLog
   public function getLogLevelFGColor(): string
   {
     return match ($this->logLevel) {
-      EventLog::LEVEL_WARN => 'dark',
+      LogLevel::WARN => 'dark',
       default => 'white',
     };
   }
@@ -439,8 +431,8 @@ class SvcLog
   public function getLogLevelFGColorHTML(): string
   {
     return match ($this->logLevel) {
-      EventLog::LEVEL_WARN => 'black',
-      EventLog::LEVEL_INFO => 'black',
+      LogLevel::WARN => 'black',
+      LogLevel::INFO => 'black',
       default => 'white',
     };
   }

@@ -5,6 +5,7 @@ namespace Svc\LogBundle\Service;
 use DeviceDetector\DeviceDetector;
 use Doctrine\ORM\EntityManagerInterface;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
 use Svc\LogBundle\Exception\LogExceptionInterface;
 use Svc\LogBundle\Repository\SvcLogRepository;
@@ -12,7 +13,6 @@ use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Helper class to log events.
@@ -21,13 +21,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EventLog
 {
+  /*
   public const LEVEL_ALL = 0;
   public const LEVEL_DEBUG = 1;
   public const LEVEL_INFO = 2;
-  /**
-   * data is a special log level to store access data (page views, ...).
-   */
-  public const LEVEL_DATA = 3;
+  public const LEVEL_DATA = 3; // data is a special log level to store access data (page views, ...).
   public const LEVEL_WARN = 4;
   public const LEVEL_ERROR = 5;
   public const LEVEL_FATAL = 6;
@@ -47,14 +45,14 @@ class EventLog
     self::LEVEL_EMERGENCY => 'emergency',
   ];
 
+  */
+
   public function __construct(
     private readonly bool $enableIPSaving,
     private readonly bool $enableUserSaving,
-    private readonly int $minLogLevel,
-    private bool $enableSentry,
-    private readonly int $sentryMinLogLevel,
+    private readonly LogLevel $minLogLevel,
     private readonly bool $enableLogger,
-    private readonly int $loggerMinLogLevel,
+    private readonly LogLevel $loggerMinLogLevel,
     private readonly bool $disable404Logger,
     private readonly Security $security,
     private readonly EntityManagerInterface $entityManager,
@@ -68,21 +66,20 @@ class EventLog
    *
    * @param int      $sourceID   the ID of the source object
    * @param int|null $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param int      $level      one of the EventLog::LEVEL constants
    *
    * @return bool true if successfully
    */
   public function writeLog(
     int $sourceID,
     ?int $sourceType = 0,
-    int $level = self::LEVEL_DATA,
+    LogLevel $level = LogLevel::DATA,
     ?string $message = null,
     ?string $errorText = null,
     ?int $httpStatusCode = null,
   ): bool {
     $vErrors = false;
 
-    if ($level < $this->minLogLevel) {
+    if ($level->value < $this->minLogLevel->value) {
       return true;
     }
 
@@ -145,37 +142,10 @@ class EventLog
       $vErrors = true;
     }
 
-    if ($this->enableSentry and $this->sentryMinLogLevel <= $level) {
-      $sentryState = false;
-      try {
-        $sentryHelper = new SentryHelper();
-        $sentryState = $sentryHelper->send($log);
-      } catch (\Throwable $e) {
-        $vErrors = true;
-      }
-
-      try {
-        if (!$sentryState) {
-          $this->enableSentry = false;
-          $sentryLog = new SvcLog();
-          $sentryLog->setSourceID(0);
-          $sentryLog->setSourceType(0);
-          $sentryLog->setMessage('Cannot write to sentry.io');
-          $sentryLog->setLogLevel(self::LEVEL_ERROR);
-          $sentryLog->setUserID($log->getUserID());
-          $sentryLog->setUserName($log->getUserName());
-          $this->entityManager->persist($sentryLog);
-          $this->entityManager->flush();
-        }
-      } catch (\Exception) {
-        $vErrors = true;
-      }
-    }
-
     if (
       $this->enableLogger
-      and $this->loggerMinLogLevel <= $level
-      and $level != self::LEVEL_DATA
+      and $this->loggerMinLogLevel->value <= $level->value
+      and $level != LogLevel::DATA
       and (!$this->disable404Logger or ($httpStatusCode ?? 0) != 404)
     ) {
       if (!$this->loggerHelper->send($log)) {
@@ -186,6 +156,7 @@ class EventLog
     return $vErrors;
   }
 
+  /*
   #[\Deprecated('use writeLog instead', '1.8')]
   public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
   {
@@ -194,16 +165,14 @@ class EventLog
     $options = $resolver->resolve($options);
 
     return $this->writeLog($sourceID, $sourceType,
-      level: $options['level'],
+      level: LogLevel::getLogLevelfromInt($options['level']),
       message: $options['message'],
       errorText: $options['errorText'],
       httpStatusCode: $options['httpStatusCode']
     );
   }
 
-  /**
-   * configure options for log entries.
-   */
+
   private function configureOptions(OptionsResolver $resolver): void
   {
     $resolver->setDefaults([
@@ -218,6 +187,7 @@ class EventLog
     $resolver->setAllowedTypes('errorText', ['string', 'null']);
     $resolver->setAllowedTypes('httpStatusCode', ['int', 'null']);
   }
+  */
 
   /**
    * fill the location info, called in batch because timing.
@@ -294,11 +264,12 @@ class EventLog
   public static function getLevelsForChoices(bool $includeAll = false): array
   {
     $choices = [];
-    foreach (self::ARR_LEVEL_TEXT as $key => $name) {
-      if (!$includeAll and $key == self::LEVEL_ALL) {
-        continue;
-      }
-      $choices[$name] = $key;
+    if ($includeAll) {
+      $choices[0] = 'all';
+    }
+
+    foreach (LogLevel::cases() as $level) {
+      $choices[$level->value] = $level->label();
     }
 
     return $choices;

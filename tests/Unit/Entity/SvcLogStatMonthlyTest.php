@@ -6,7 +6,7 @@ namespace Svc\LogBundle\Tests\Unit\Entity;
 
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Entity\SvcLogStatMonthly;
-use Svc\LogBundle\Service\EventLog;
+use Svc\LogBundle\Enum\LogLevel;
 
 /**
  * testing the SvcLogStatMonthly entity class.
@@ -23,8 +23,8 @@ final class SvcLogStatMonthlyTest extends TestCase
     $svcLogStat->setSourceType(11);
     $this->assertSame($svcLogStat->getSourceType(), 11, 'Check SourceType');
 
-    $svcLogStat->setLogLevel(EventLog::LEVEL_ERROR);
-    $this->assertSame($svcLogStat->getLogLevel(), EventLog::LEVEL_ERROR, 'Check LogLevel');
+    $svcLogStat->setLogLevel(LogLevel::ERROR);
+    $this->assertSame($svcLogStat->getLogLevel(), LogLevel::ERROR, 'Check LogLevel');
 
     $svcLogStat->setLogCount(12);
     $this->assertSame($svcLogStat->getLogCount(), 12, 'Check LogCount');

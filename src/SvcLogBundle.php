@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle;
 
+use Svc\LogBundle\Enum\LogLevel;
 use Symfony\Component\AssetMapper\AssetMapperInterface;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,12 +28,6 @@ class SvcLogBundle extends AbstractBundle
         ->booleanNode('need_admin_for_stats')->defaultTrue()->info('Need the user the role ROLE_ADMIN for get statistics (default yes)')->end()
         ->scalarNode('offset_param_name')->cannotBeEmpty()->defaultValue('offset')->info('We use offset as url parameter. If this in use, you can choose another name')->end()
         ->scalarNode('data_provider')->defaultNull()->info('Class of your one data provider to get info about sourceType and sourceID, see documentation')->end()
-        ->arrayNode('sentry')->addDefaultsIfNotSet()->info('Optional configuration for sentry.io, see documentation')
-          ->children()
-            ->scalarNode('use_sentry')->defaultFalse()->info('Write log entries to sentry.io too')->end()
-            ->integerNode('sentry_min_log_level')->min(4)->max(6)->defaultValue(6)->info('Minimal log level to write to sentry, see documentation for values (only 4..6 allowed)')->end()
-          ->end()
-        ->end()
         ->arrayNode('logger')->addDefaultsIfNotSet()->info('Optional configuration for default logger, see documentation')
           ->children()
             ->scalarNode('use_logger')->defaultFalse()->info('Write log entries to default logger too')->end()
@@ -73,13 +68,6 @@ class SvcLogBundle extends AbstractBundle
     //   }
     // }
 
-    (bool) $enableSentry = $config['sentry']['use_sentry'];
-    if ($enableSentry) {
-      if (!array_key_exists('SentryBundle', (array) $builder->getParameter('kernel.bundles'))) {
-        throw new \Exception('If you enable sentry (in svc_log.yaml) you have to install the SentryBundle.');
-      }
-    }
-
     $container->services()
       ->get('Svc\LogBundle\Service\LogStatistics')
       ->arg(0, $config['enable_source_type'])
@@ -91,12 +79,10 @@ class SvcLogBundle extends AbstractBundle
       ->get('Svc\LogBundle\Service\EventLog')
       ->arg(0, $config['enable_ip_saving'])
       ->arg(1, $enableUserSaving)
-      ->arg(2, $config['min_log_level'])
-      ->arg(3, $enableSentry)
-      ->arg(4, $config['sentry']['sentry_min_log_level'])
-      ->arg(5, $config['logger']['use_logger'])
-      ->arg(6, $config['logger']['logger_min_log_level'])
-      ->arg(7, $config['kernel_exception_logger']['disable_404_to_logger'])
+      ->arg(2, LogLevel::getLogLevelfromInt($config['min_log_level']))
+      ->arg(3, $config['logger']['use_logger'])
+      ->arg(4, LogLevel::getLogLevelfromInt($config['logger']['logger_min_log_level']))
+      ->arg(5, $config['kernel_exception_logger']['disable_404_to_logger'])
     ;
 
     $container->services()
@@ -119,8 +105,8 @@ class SvcLogBundle extends AbstractBundle
     $container->services()
     ->get('Svc\LogBundle\EventListener\HttpExceptionListener')
     ->arg(1, $config['kernel_exception_logger']['use_kernel_logger'])
-    ->arg(2, $config['kernel_exception_logger']['default_level'])
-    ->arg(3, $config['kernel_exception_logger']['critical_level'])
+    ->arg(2, LogLevel::getLogLevelfromInt($config['kernel_exception_logger']['default_level']))
+    ->arg(3, LogLevel::getLogLevelfromInt($config['kernel_exception_logger']['critical_level']))
     ->arg(4, $config['kernel_exception_logger']['extra_sleep_time'])
     ;
   }

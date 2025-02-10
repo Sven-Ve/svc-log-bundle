@@ -5,7 +5,7 @@ namespace Svc\LogBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Svc\LogBundle\Entity\SvcLogStatMonthly;
-use Svc\LogBundle\Service\EventLog;
+use Svc\LogBundle\Enum\LogLevel;
 
 /**
  * @method SvcLogStatMonthly|null find($id, $lockMode = null, $lockVersion = null)
@@ -86,7 +86,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
    *
    * @return array<mixed>
    */
-  public function pivotData(array $months, int $sourceType, ?int $logLevel = EventLog::LEVEL_ALL): array
+  public function pivotData(array $months, int $sourceType, ?LogLevel $logLevel = null): array
   {
     $query = $this->createQueryBuilder('s')
       ->select("s.sourceID,
@@ -100,7 +100,7 @@ class SvcLogStatMonthlyRepository extends ServiceEntityRepository
       ->where('s.sourceType = :sourceType')
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andwhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);

@@ -4,7 +4,6 @@ namespace Svc\LogBundle\Enum;
 
 enum LogLevel: int
 {
-  case ALL = 0;
   case DEBUG = 1;
   case INFO = 2;
   /*
@@ -13,18 +12,33 @@ enum LogLevel: int
   case DATA = 3;
   case WARN = 4;
   case ERROR = 5;
-  case FATAL = 6;
+  case CRITICAL = 6;
+  case ALERT = 7;
+  case EMERGENCY = 8;
 
   public function label(): string
   {
-    return match ($this) {
-      LogLevel::ALL => 'all',
+    return static::getLabel($this);
+  }
+
+  public static function getLabel(self $value): string
+  {
+    return match ($value) {
       LogLevel::DEBUG => 'debug',
       LogLevel::INFO => 'info',
       LogLevel::DATA => 'data',
       LogLevel::WARN => 'warn',
       LogLevel::ERROR => 'error',
-      LogLevel::FATAL => 'fatal',
+      LogLevel::CRITICAL => 'critical',
+      LogLevel::ALERT => 'alert',
+      LogLevel::EMERGENCY => 'emergency',
     };
+  }
+
+  public static function getLogLevelfromInt(?int $logLevelInt, ?LogLevel $defaultLogLevel = null): ?LogLevel
+  {
+    $logLevel = self::tryFrom($logLevelInt);
+
+    return $logLevel ?? $defaultLogLevel;
   }
 }

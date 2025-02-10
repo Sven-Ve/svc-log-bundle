@@ -7,7 +7,7 @@ namespace Svc\LogBundle\Tests\Unit\Entity;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Entity\SvcLog;
-use Svc\LogBundle\Service\EventLog;
+use Svc\LogBundle\Enum\LogLevel;
 
 /**
  * testing the SvcLog entity class.
@@ -15,7 +15,7 @@ use Svc\LogBundle\Service\EventLog;
 final class SvcLogTest extends TestCase
 {
   #[DataProvider('logLevelDataProvider')]
-  public function testLogLevelSetCorrectAttributes(int $logLevel, string $bgColor, string $fgColor, string $name): void
+  public function testLogLevelSetCorrectAttributes(LogLevel $logLevel, string $bgColor, string $fgColor, string $name): void
   {
     $svcLog = new SvcLog();
     $svcLog->setLogLevel($logLevel);
@@ -29,15 +29,14 @@ final class SvcLogTest extends TestCase
 
   public static function logLevelDataProvider(): \Generator
   {
-    yield 'logLevel error' => [EventLog::LEVEL_ERROR, 'danger', 'white', 'error'];
-    yield 'logLevel warn' => [EventLog::LEVEL_WARN, 'warning', 'dark', 'warn'];
-    yield 'logLevel data' => [EventLog::LEVEL_DATA, 'success', 'white', 'data'];
-    yield 'logLevel info' => [EventLog::LEVEL_INFO, 'primary', 'white', 'info'];
-    yield 'logLevel debug' => [EventLog::LEVEL_DEBUG, 'secondary', 'white', 'debug'];
-    yield 'logLevel fatal' => [EventLog::LEVEL_FATAL, 'danger', 'white', 'fatal'];
-    yield 'logLevel alert' => [EventLog::LEVEL_ALERT, 'danger', 'white', 'alert'];
-    yield 'logLevel emergency' => [EventLog::LEVEL_EMERGENCY, 'danger', 'white', 'emergency'];
-    yield 'logLevel 1000' => [1000, 'secondary', 'white', '? (1000)'];
+    yield 'logLevel error' => [LogLevel::ERROR, 'danger', 'white', 'error'];
+    yield 'logLevel warn' => [LogLevel::WARN, 'warning', 'dark', 'warn'];
+    yield 'logLevel data' => [LogLevel::DATA, 'success', 'white', 'data'];
+    yield 'logLevel info' => [LogLevel::INFO, 'primary', 'white', 'info'];
+    yield 'logLevel debug' => [LogLevel::DEBUG, 'secondary', 'white', 'debug'];
+    yield 'logLevel fatal' => [LogLevel::CRITICAL, 'danger', 'white', 'critical'];
+    yield 'logLevel alert' => [LogLevel::ALERT, 'danger', 'white', 'alert'];
+    yield 'logLevel emergency' => [LogLevel::EMERGENCY, 'danger', 'white', 'emergency'];
   }
 
   public function testLogDateSetCorrect(): void

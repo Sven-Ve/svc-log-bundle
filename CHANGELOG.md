@@ -403,3 +403,8 @@
 ## Version 8.0.2
 *Sat, 08 Feb 2025 19:41:57 +0000*
 - fix internal deprecation
+
+
+## Version 8.1.0
+*Mon, 10 Feb 2025 20:33:19 +0000*
+- remove EventLog->log, use writeLog instead, change LogLevel to enum

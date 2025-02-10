@@ -9,7 +9,6 @@ use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\ComparisonOperator;
 use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
-use Svc\LogBundle\Service\EventLog;
 
 /**
  * @method SvcLog|null find($id, $lockMode = null, $lockVersion = null)
@@ -29,7 +28,7 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * get a part of the logs for pagination.
    */
-  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): Paginator
+  public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null): Paginator
   {
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
@@ -40,7 +39,7 @@ class SvcLogRepository extends ServiceEntityRepository
       ->setParameter('sourceID', $sourceID)
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);
@@ -51,7 +50,7 @@ class SvcLogRepository extends ServiceEntityRepository
     return new Paginator($query);
   }
 
-  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?int $logLevel, ?int $logLevelC, ?string $country): Paginator
+  public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?LogLevel $logLevel, ?int $logLevelC, ?string $country): Paginator
   {
     $query = $this->createQueryBuilder('s')
       ->orderBy('s.id', 'DESC')
@@ -70,7 +69,7 @@ class SvcLogRepository extends ServiceEntityRepository
         ->setParameter('sourceType', $sourceType);
     }
 
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel  ' . $this->getComparisonOp($logLevelC) . '  :logLevel')
         ->setParameter('logLevel', $logLevel);
@@ -109,7 +108,7 @@ class SvcLogRepository extends ServiceEntityRepository
    *
    * @return array<mixed>
    */
-  public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?int $logLevel = null): array
+  public function aggrLogsByCountry(int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null): array
   {
     $query = $this->createQueryBuilder('s')
       ->select('s.country, count(s) as cntCountry')
@@ -120,7 +119,7 @@ class SvcLogRepository extends ServiceEntityRepository
       ->setParameter('sourceID', $sourceID)
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);
@@ -135,7 +134,7 @@ class SvcLogRepository extends ServiceEntityRepository
    *
    * @return array<mixed>
    */
-  public function aggrLogsForCurrentDay(int $sourceType, ?int $logLevel = null): array
+  public function aggrLogsForCurrentDay(int $sourceType, ?LogLevel $logLevel = null): array
   {
     $query = $this->createQueryBuilder('s')
       ->select('s.sourceID, count(s) as cntDay')
@@ -144,7 +143,7 @@ class SvcLogRepository extends ServiceEntityRepository
       ->andWhere('s.logDate >= CURRENT_DATE()')
       ->setParameter('sourceType', $sourceType);
 
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel = :logLevel')
         ->setParameter('logLevel', $logLevel);
@@ -190,9 +189,9 @@ class SvcLogRepository extends ServiceEntityRepository
   /**
    * @throws DeleteAllLogsForbidden
    */
-  public function batchDelete(?int $sourceID = null, ?int $sourceType = null, ?int $userID = null, ?int $logLevel = null): int
+  public function batchDelete(?int $sourceID = null, ?int $sourceType = null, ?int $userID = null, ?LogLevel $logLevel = null): int
   {
-    if (!($sourceID . $sourceType . $userID . $logLevel)) {
+    if (!($sourceID . $sourceType . $userID) and !$logLevel) {
       throw new DeleteAllLogsForbidden();
     }
 
@@ -253,8 +252,7 @@ class SvcLogRepository extends ServiceEntityRepository
         ->setParameter('sourceType', $sourceType);
     }
 
-    /* @phpstan-ignore notIdentical.alwaysTrue */
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
         ->setParameter('logLevel', $logLevel->value);
@@ -281,8 +279,7 @@ class SvcLogRepository extends ServiceEntityRepository
     ->setParameter('from', $startDate)
     ->setParameter('to', $endDate);
 
-    /* @phpstan-ignore notIdentical.alwaysTrue */
-    if ($logLevel !== null and $logLevel !== EventLog::LEVEL_ALL) {
+    if ($logLevel !== null) {
       $query
         ->andWhere('s.logLevel  ' . $logLevelC->value . '  :logLevel')
         ->setParameter('logLevel', $logLevel->value);

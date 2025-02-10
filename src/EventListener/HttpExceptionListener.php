@@ -2,6 +2,7 @@
 
 namespace Svc\LogBundle\EventListener;
 
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Service\EventLog;
 use Svc\LogBundle\Service\LogAppConstants;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -14,8 +15,8 @@ class HttpExceptionListener
 {
   public function __construct(
     private bool $enableLogger,
-    private int $logLevelDefault,
-    private int $logLevelCritical,
+    private LogLevel $logLevelDefault,
+    private LogLevel $logLevelCritical,
     private int $extraSleepTime,
     private EventLog $eventLog,
   ) {
