@@ -27,7 +27,7 @@ enum LogLevel: int
       LogLevel::DEBUG => 'debug',
       LogLevel::INFO => 'info',
       LogLevel::DATA => 'data',
-      LogLevel::WARN => 'warn',
+      LogLevel::WARN => 'warning',
       LogLevel::ERROR => 'error',
       LogLevel::CRITICAL => 'critical',
       LogLevel::ALERT => 'alert',

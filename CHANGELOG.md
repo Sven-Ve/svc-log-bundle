@@ -408,3 +408,8 @@
 ## Version 8.1.0
 *Mon, 10 Feb 2025 20:33:19 +0000*
 - remove EventLog->log, use writeLog instead, change LogLevel to enum
+
+
+## Version 8.1.1
+*Mon, 10 Feb 2025 20:53:53 +0000*
+- fix monolog conversation

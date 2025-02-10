@@ -30,7 +30,7 @@ final class SvcLogTest extends TestCase
   public static function logLevelDataProvider(): \Generator
   {
     yield 'logLevel error' => [LogLevel::ERROR, 'danger', 'white', 'error'];
-    yield 'logLevel warn' => [LogLevel::WARN, 'warning', 'dark', 'warn'];
+    yield 'logLevel warn' => [LogLevel::WARN, 'warning', 'dark', 'warning'];
     yield 'logLevel data' => [LogLevel::DATA, 'success', 'white', 'data'];
     yield 'logLevel info' => [LogLevel::INFO, 'primary', 'white', 'info'];
     yield 'logLevel debug' => [LogLevel::DEBUG, 'secondary', 'white', 'debug'];

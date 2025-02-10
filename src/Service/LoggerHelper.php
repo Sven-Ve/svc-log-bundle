@@ -4,6 +4,7 @@ namespace Svc\LogBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Svc\LogBundle\Entity\SvcLog;
+use Svc\LogBundle\Enum\LogLevel;
 
 class LoggerHelper
 {
@@ -14,7 +15,16 @@ class LoggerHelper
 
   public function send(SvcLog $log): bool
   {
-    $logLevel = $log->getLogLevelText();
+    $logLevel = match ($log->getLogLevel()) {
+      LogLevel::DEBUG => 'debug',
+      LogLevel::INFO => 'info',
+      LogLevel::WARN => 'warning',
+      LogLevel::ERROR => 'error',
+      LogLevel::CRITICAL => 'critical',
+      LogLevel::ALERT => 'alert',
+      LogLevel::EMERGENCY => 'emergency',
+      default => 'info',
+    };
 
     $extraData = [
       'sender' => 'svc_log',
