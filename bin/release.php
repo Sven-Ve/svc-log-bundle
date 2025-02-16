@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "8.1.1";
-$message = "fix monolog conversation";
+$version = "8.2.0";
+$message = "Load stimulus controller @svc/log-bundle/view eager because of change in symfony/stimulus-bundle";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

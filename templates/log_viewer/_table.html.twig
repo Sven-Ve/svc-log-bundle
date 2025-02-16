@@ -1,6 +1,6 @@
 {% trans_default_domain 'LogBundle' %}
 <div
-  {{ stimulus_controller("svc--log-bundle--view", {
+  {{ stimulus_controller("@svc/log-bundle/view", {
     url: path('svc_log_viewer_view_data'),
     showFilter: showFilter | default(0),
     defaultSourceId: sourceID | default(''),
@@ -9,7 +9,7 @@
     hideSourceCols: hideSourceCols | default(0)
   }) }}
 >
-  <form {{ stimulus_action("svc--log-bundle--view", "onSubmit") }}>
+  <form {{ stimulus_action("@svc/log-bundle/view", "onSubmit") }}>
     <div class='table-responsive'>
       <table class="table table-hover table-sm">
         <thead>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col">
                   <input type="text" class="form-control form-control-sm" name="sourceID"
-                         value="{{ sourceID | default('') }}" {{ stimulus_target("svc--log-bundle--view", "sourceID") }}
+                         value="{{ sourceID | default('') }}" {{ stimulus_target("@svc/log-bundle/view", "sourceID") }}
                          placeholder="ID">
                 </div>
               </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col">
                   <input type="text" class="form-control form-control-sm" name="sourceType"
-                         value="{{ sourceType | default('') }}" {{ stimulus_target("svc--log-bundle--view", "sourceType") }}
+                         value="{{ sourceType | default('') }}" {{ stimulus_target("@svc/log-bundle/view", "sourceType") }}
                          placeholder="type">
                 </div>
               </div>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="col">
                   <select class="form-select form-select-sm" name="logLevel"
-                      {{ stimulus_target("svc--log-bundle--view", "logLevel") }}
-                      {{ stimulus_action("svc--log-bundle--view", "onSubmit") }}
+                      {{ stimulus_target("@svc/log-bundle/view", "logLevel") }}
+                      {{ stimulus_action("@svc/log-bundle/view", "onSubmit") }}
                   >
                     {% for key, level in levelArray %}
                       <option value="{{ key }}">{{ level }}</option>
@@ -60,7 +60,7 @@
             <td></td>
             <td>
               <input type="text" class="form-control form-control-sm" name="country"
-                {{ stimulus_target("svc--log-bundle--view", "country") }}
+                {{ stimulus_target("@svc/log-bundle/view", "country") }}
                      placeholder="country">
             </td>
             <td>
@@ -86,7 +86,7 @@
           {% endif %}
         </tr>
         </thead>
-        <tbody {{ stimulus_target("svc--log-bundle--view", "content") }} >
+        <tbody {{ stimulus_target("@svc/log-bundle/view", "content") }} >
         {{ include("@SvcLog/log_viewer/_table_rows.html.twig", {'init': true}) }}
         </tbody>
       </table>
@@ -94,32 +94,31 @@
   </form>
 
   <small>
-    {% trans %}Row{% endtrans %} <span {{ stimulus_target("svc--log-bundle--view", "fromDisplay") }} ></span>
-    {% trans %}to{% endtrans %} <span {{ stimulus_target("svc--log-bundle--view", "toDisplay") }} ></span>
-    {% trans %}from a total of{% endtrans %} <span {{ stimulus_target("svc--log-bundle--view", "countDisplay") }} ></span>
+    {% trans %}Row{% endtrans %} <span {{ stimulus_target("@svc/log-bundle/view", "fromDisplay") }} ></span>
+    {% trans %}to{% endtrans %} <span {{ stimulus_target("@svc/log-bundle/view", "toDisplay") }} ></span>
+    {% trans %}from a total of{% endtrans %} <span {{ stimulus_target("@svc/log-bundle/view", "countDisplay") }} ></span>
   </small>
   <nav aria-label="Page navigation">
     <ul class="pagination">
-      <li class="page-item disabled" {{ stimulus_target("svc--log-bundle--view", "firstBtn") }}>
+      <li class="page-item disabled" {{ stimulus_target("@svc/log-bundle/view", "firstBtn") }}>
         <a class="page-link" title='{% trans %}First{% endtrans %}'
-           {{ stimulus_action("svc--log-bundle--view", "first") }}>&laquo;</a>
+           {{ stimulus_action("@svc/log-bundle/view", "first") }}>&laquo;</a>
       </li>
-      <li class="page-item disabled" {{ stimulus_target("svc--log-bundle--view", "prevBtn") }}>
+      <li class="page-item disabled" {{ stimulus_target("@svc/log-bundle/view", "prevBtn") }}>
         <a class='page-link' title='{% trans %}Previous{% endtrans %}'
-           {{ stimulus_action("svc--log-bundle--view", "prev") }}>&lsaquo;</a>
+           {{ stimulus_action("@svc/log-bundle/view", "prev") }}>&lsaquo;</a>
       </li>
-      <li class="page-item" {{ stimulus_target("svc--log-bundle--view", "nextBtn") }}>
+      <li class="page-item" {{ stimulus_target("@svc/log-bundle/view", "nextBtn") }}>
         <a class='page-link' title='{% trans %}Next{% endtrans %}'
-           {{ stimulus_action("svc--log-bundle--view", "next") }}>&rsaquo;</a>
+           {{ stimulus_action("@svc/log-bundle/view", "next") }}>&rsaquo;</a>
       </li>
-      <li class="page-item" {{ stimulus_target("svc--log-bundle--view", "lastBtn") }}>
+      <li class="page-item" {{ stimulus_target("@svc/log-bundle/view", "lastBtn") }}>
         <a class='page-link' title='{% trans %}Last{% endtrans %}'
-           {{ stimulus_action("svc--log-bundle--view", "last") }}>&raquo;</a>
+           {{ stimulus_action("@svc/log-bundle/view", "last") }}>&raquo;</a>
       </li>
     </ul>
   </nav>
 
 </div>
 
-{# include("@SvcUtil/elements/_modal.html.twig") #}
 <twig:SvcUtil-ModalDialog />

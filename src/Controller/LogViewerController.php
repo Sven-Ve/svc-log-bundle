@@ -64,7 +64,6 @@ class LogViewerController extends AbstractController
       foreach ($logs as $log) {
         $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
         $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-        // }
       }
     }
 
@@ -88,10 +87,6 @@ class LogViewerController extends AbstractController
   public function viewDetail(int $id, SvcLogRepository $svcLogRep): Response
   {
     $log = $svcLogRep->find($id);
-    // if ($log->getSourceType() >= 90000) { // internal handled sourceType
-    //   $log->setSourceTypeText(AppConstants::getSourceTypeText($log->getSourceType()));
-    //   $log->setSourceIDText((string) $log->getSourceID());
-    // } else {
     $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
     $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
     // }

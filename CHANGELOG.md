@@ -413,3 +413,8 @@
 ## Version 8.1.1
 *Mon, 10 Feb 2025 20:53:53 +0000*
 - fix monolog conversation
+
+
+## Version 8.2.0
+*Sun, 16 Feb 2025 17:37:09 +0000*
+- Load stimulus controller @svc/log-bundle/view eager because of change in symfony/stimulus-bundle
