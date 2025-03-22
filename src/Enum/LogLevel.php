@@ -37,9 +37,9 @@ enum LogLevel: int
 
   public static function getLogLevelfromInt(?int $logLevelInt, ?LogLevel $defaultLogLevel = null): ?LogLevel
   {
-    if(!$logLevelInt) {
+    if (!$logLevelInt) {
       return $defaultLogLevel;
-    };
+    }
 
     $logLevel = self::tryFrom($logLevelInt);
 

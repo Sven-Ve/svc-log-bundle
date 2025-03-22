@@ -418,3 +418,8 @@
 ## Version 8.2.0
 *Sun, 16 Feb 2025 17:37:09 +0000*
 - Load stimulus controller @svc/log-bundle/view eager because of change in symfony/stimulus-bundle
+
+
+## Version 8.2.1
+*Sat, 22 Mar 2025 18:48:47 +0000*
+- Load stimulus controller @svc/log-bundle/view eager because of change in symfony/stimulus-bundle (in the controller too
