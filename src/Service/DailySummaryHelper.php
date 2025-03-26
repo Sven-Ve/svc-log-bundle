@@ -7,6 +7,7 @@ use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Entity\DailySumDef;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\DailySummaryType;
+use Svc\LogBundle\Exception\DailySummaryCannotSendMail;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotImplement;
@@ -67,7 +68,12 @@ class DailySummaryHelper
     }
 
     $content = $this->createSummary();
-    $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
+
+    $result = $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
+
+    if (!$result) {
+      throw new DailySummaryCannotSendMail();
+    }
 
     $logSettings = $this->settingsManager->get(SvcLogSettings::class);
     $logSettings->setLastRunDailySummaryToNow();

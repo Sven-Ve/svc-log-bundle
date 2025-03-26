@@ -423,3 +423,8 @@
 ## Version 8.2.1
 *Sat, 22 Mar 2025 18:48:47 +0000*
 - Load stimulus controller @svc/log-bundle/view eager because of change in symfony/stimulus-bundle (in the controller too
+
+
+## Version 8.2.2
+*Wed, 26 Mar 2025 15:56:03 +0000*
+- Throw an exception if not possible to send daily summary mail
