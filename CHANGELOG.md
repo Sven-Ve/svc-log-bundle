@@ -428,3 +428,8 @@
 ## Version 8.2.2
 *Wed, 26 Mar 2025 15:56:03 +0000*
 - Throw an exception if not possible to send daily summary mail
+
+
+## Version 8.2.3
+*Sun, 08 Jun 2025 07:41:02 +0000*
+- Log an exception if not possible to send daily summary mail

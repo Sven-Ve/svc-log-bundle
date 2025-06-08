@@ -7,6 +7,7 @@ use Svc\LogBundle\DataProvider\DataProviderInterface;
 use Svc\LogBundle\Entity\DailySumDef;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\DailySummaryType;
+use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DailySummaryCannotSendMail;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotDefined;
 use Svc\LogBundle\Exception\DailySummaryDefinitionNotExists;
@@ -43,6 +44,7 @@ class DailySummaryHelper
     private readonly MailerHelper $mailerHelper,
     private readonly SettingsManagerInterface $settingsManager,
     private readonly ValidatorInterface $validator,
+    private readonly EventLog $eventLog,
     private readonly string $mailSubject,
     private readonly ?string $defClassName = null,
     private readonly ?string $destinationEmail = null,
@@ -72,6 +74,13 @@ class DailySummaryHelper
     $result = $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
 
     if (!$result) {
+      $this->eventLog->writeLog(
+        sourceID: 500, 
+        sourceType: LogAppConstants::LOG_TYPE_APP_ERROR,
+        level: LogLevel::ERROR,
+        message: 'Cannot send daily summary email',
+        errorText: $this->mailerHelper->getLastSendError(),
+      );
       throw new DailySummaryCannotSendMail();
     }
 

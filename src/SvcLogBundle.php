@@ -97,9 +97,9 @@ class SvcLogBundle extends AbstractBundle
 
     $container->services()
       ->get('Svc\LogBundle\Service\DailySummaryHelper')
-      ->arg(6, $config['daily_summary']['mail_subject'])
-      ->arg(7, $config['daily_summary']['definition_class'])
-      ->arg(8, $config['daily_summary']['destination_email'])
+      ->arg(7, $config['daily_summary']['mail_subject'])
+      ->arg(8, $config['daily_summary']['definition_class'])
+      ->arg(9, $config['daily_summary']['destination_email'])
     ;
 
     $container->services()

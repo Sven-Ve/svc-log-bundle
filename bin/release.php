@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "8.2.2";
-$message = "Throw an exception if not possible to send daily summary mail";
+$version = "8.2.3";
+$message = "Log an exception if not possible to send daily summary mail";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
