@@ -433,3 +433,8 @@
 ## Version 8.2.3
 *Sun, 08 Jun 2025 07:41:02 +0000*
 - Log an exception if not possible to send daily summary mail
+
+
+## Version 8.2.4
+*Tue, 10 Jun 2025 19:50:29 +0000*
+- show http 404 error for sitemap* requests in log as warning

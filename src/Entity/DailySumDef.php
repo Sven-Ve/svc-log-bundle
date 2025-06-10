@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the SvcLog bundle.
+ *
+ * (c) Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\LogBundle\Entity;
 
 use Svc\LogBundle\Enum\ComparisonOperator;
@@ -8,30 +17,30 @@ use Svc\LogBundle\Enum\LogLevel;
 
 class DailySumDef
 {
-  public function __construct(public string $title, public DailySummaryType $summaryType)
-  {
-  }
+    public function __construct(public string $title, public DailySummaryType $summaryType)
+    {
+    }
 
-  public ?int $sourceID = null;
+    public ?int $sourceID = null;
 
-  public ?int $sourceType = null;
+    public ?int $sourceType = null;
 
-  public ?LogLevel $logLevel = null;
+    public ?LogLevel $logLevel = null;
 
-  public ?ComparisonOperator $logLevelCompare = ComparisonOperator::EQUAL;
+    public ?ComparisonOperator $logLevelCompare = ComparisonOperator::EQUAL;
 
-  /**
-   * hide lines with result = 0.
-   */
-  public bool $hideWhenZero = false;
+    /**
+     * hide lines with result = 0.
+     */
+    public bool $hideWhenZero = false;
 
-  /**
-   * hide section when all results are zero.
-   */
-  public bool $hideWhenEmpty = false;
+    /**
+     * hide section when all results are zero.
+     */
+    public bool $hideWhenEmpty = false;
 
-  /**
-   * @var array<mixed>
-   */
-  public ?array $countSourceTypeDef;
+    /**
+     * @var array<mixed>
+     */
+    public ?array $countSourceTypeDef;
 }

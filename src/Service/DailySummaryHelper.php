@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the SvcLog bundle.
+ *
+ * (c) Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\LogBundle\Service;
 
 use Jbtronics\SettingsBundle\Manager\SettingsManagerInterface;
@@ -23,232 +32,233 @@ use Twig\Environment;
 
 class SummaryList
 {
-  /**
-   * @param SvcLog[] $logItems
-   */
-  public function __construct(public string $title, public array $logItems)
-  {
-  }
+    /**
+     * @param SvcLog[] $logItems
+     */
+    public function __construct(public string $title, public array $logItems)
+    {
+    }
 }
 
 class DailySummaryHelper
 {
-  private \DateTimeImmutable $startDate;
+    private \DateTimeImmutable $startDate;
 
-  private \DateTimeImmutable $endDate;
+    private \DateTimeImmutable $endDate;
 
-  public function __construct(
-    private readonly DataProviderInterface $dataProvider,
-    private readonly Environment $twig,
-    private readonly SvcLogRepository $svcLogRep,
-    private readonly MailerHelper $mailerHelper,
-    private readonly SettingsManagerInterface $settingsManager,
-    private readonly ValidatorInterface $validator,
-    private readonly EventLog $eventLog,
-    private readonly string $mailSubject,
-    private readonly ?string $defClassName = null,
-    private readonly ?string $destinationEmail = null,
-  ) {
-    $this->startDate = new \DateTimeImmutable('yesterday');
-    $this->endDate = new \DateTimeImmutable('tomorrow');
-  }
-
-  public function mailSummary(): bool
-  {
-    if (!$this->destinationEmail) {
-      throw new DailySummaryEmailNotDefined();
+    public function __construct(
+        private readonly DataProviderInterface $dataProvider,
+        private readonly Environment $twig,
+        private readonly SvcLogRepository $svcLogRep,
+        private readonly MailerHelper $mailerHelper,
+        private readonly SettingsManagerInterface $settingsManager,
+        private readonly ValidatorInterface $validator,
+        private readonly EventLog $eventLog,
+        private readonly string $mailSubject,
+        private readonly ?string $defClassName = null,
+        private readonly ?string $destinationEmail = null,
+    ) {
+        $this->startDate = new \DateTimeImmutable('yesterday');
+        $this->endDate = new \DateTimeImmutable('tomorrow');
     }
 
-    $emailConstraint = new Assert\Email();
-    $errors = $this->validator->validate(
-      $this->destinationEmail,
-      $emailConstraint
-    );
+    public function mailSummary(): bool
+    {
+        if (!$this->destinationEmail) {
+            throw new DailySummaryEmailNotDefined();
+        }
 
-    if ($errors->count()) {
-      throw new DailySummaryEmailNotValid();
+        $emailConstraint = new Assert\Email();
+        $errors = $this->validator->validate(
+            $this->destinationEmail,
+            $emailConstraint
+        );
+
+        if ($errors->count()) {
+            throw new DailySummaryEmailNotValid();
+        }
+
+        $content = $this->createSummary();
+
+        $result = $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
+
+        if (!$result) {
+            $this->eventLog->writeLog(
+                sourceID: 500,
+                sourceType: LogAppConstants::LOG_TYPE_APP_ERROR,
+                level: LogLevel::ERROR,
+                message: 'Cannot send daily summary email',
+                errorText: $this->mailerHelper->getLastSendError(),
+            );
+            throw new DailySummaryCannotSendMail();
+        }
+
+        $logSettings = $this->settingsManager->get(SvcLogSettings::class);
+        $logSettings->setLastRunDailySummaryToNow();
+        $this->settingsManager->save($logSettings);
+
+        return true;
     }
 
-    $content = $this->createSummary();
-
-    $result = $this->mailerHelper->send($this->destinationEmail, $this->mailSubject, $content);
-
-    if (!$result) {
-      $this->eventLog->writeLog(
-        sourceID: 500, 
-        sourceType: LogAppConstants::LOG_TYPE_APP_ERROR,
-        level: LogLevel::ERROR,
-        message: 'Cannot send daily summary email',
-        errorText: $this->mailerHelper->getLastSendError(),
-      );
-      throw new DailySummaryCannotSendMail();
+    public function getSummary(): string
+    {
+        return $this->createSummary();
     }
 
-    $logSettings = $this->settingsManager->get(SvcLogSettings::class);
-    $logSettings->setLastRunDailySummaryToNow();
-    $this->settingsManager->save($logSettings);
+    private function createSummary(): string
+    {
+        if (!$this->defClassName) {
+            throw new DailySummaryDefinitionNotDefined();
+        }
 
-    return true;
-  }
+        if (!class_exists($this->defClassName)) {
+            throw new DailySummaryDefinitionNotExists();
+        }
 
-  public function getSummary(): string
-  {
-    return $this->createSummary();
-  }
+        /**
+         * @var DailySummaryDefinitionInterface
+         */
+        $defClass = new $this->defClassName();
+        /* @phpstan-ignore instanceof.alwaysTrue */
+        if (!($defClass instanceof DailySummaryDefinitionInterface)) {
+            throw new DailySummaryDefinitionNotImplement();
+        }
 
-  private function createSummary(): string
-  {
-    if (!$this->defClassName) {
-      throw new DailySummaryDefinitionNotDefined();
-    }
+        $definitions = $defClass->getDefinition();
 
-    if (!class_exists($this->defClassName)) {
-      throw new DailySummaryDefinitionNotExists();
+        $listData = [];
+        $aggrData = [];
+        $countDataSourceType = [];
+
+        foreach ($definitions as $definition) {
+            switch ($definition->summaryType) {
+                case DailySummaryType::LIST:
+                    $logs = $this->handleLogList($definition);
+                    if ($logs or !$definition->hideWhenEmpty) {
+                        $listData[] = new SummaryList($definition->title, $logs);
+                    }
+                    break;
+
+                case DailySummaryType::AGGR_LOG_LEVEL:
+                    $data = $this->handleAggrByLoglevel($definition);
+                    if ($data) {
+                        $aggrData[] = ['title' => $definition->title, 'data' => $data];
+                    }
+                    break;
+
+                case DailySummaryType::COUNT_SOURCE_TYPE:
+                    $data = $this->handleCountSourceType($definition);
+                    if ($data) {
+                        $countDataSourceType[] = $data;
+                    }
+                    break;
+            }
+        }
+
+        $result = $this->twig->render('@SvcLog/daily_summary/summary.html.twig', [
+            'daily_lists' => $listData,
+            'daily_aggrs' => $aggrData,
+            'daily_counts_st' => $countDataSourceType,
+            'header' => $this->mailSubject,
+        ]);
+
+        return $result;
     }
 
     /**
-     * @var DailySummaryDefinitionInterface
+     * list for DailySummaryType::LIST.
+     *
+     * @return array<mixed>
      */
-    $defClass = new $this->defClassName();
-    /* @phpstan-ignore instanceof.alwaysTrue */
-    if (!($defClass instanceof DailySummaryDefinitionInterface)) {
-      throw new DailySummaryDefinitionNotImplement();
+    private function handleLogList(DailySumDef $definition): array
+    {
+        $logs = $this->svcLogRep->getDailyLogDataList(
+            $this->startDate,
+            $this->endDate,
+            $definition->sourceID,
+            $definition->sourceType,
+            $definition->logLevel,
+            $definition->logLevelCompare,
+        );
+
+        foreach ($logs as $log) {
+            // if ($log->getSourceType() >= 90000) { // internal handled sourceType
+            //   $log->setSourceTypeText(LogAppConstants::getSourceTypeText($log->getSourceType()));
+            //   $log->setSourceIDText((string) $log->getSourceID());
+            // } else {
+            $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
+            $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
+            //      }
+        }
+
+        return $logs;
     }
 
-    $definitions = $defClass->getDefinition();
+    /**
+     * calculation for DailySummaryType::AGGR_LOG_LEVEL (aggregation by loglevel).
+     *
+     * @return array<mixed>
+     */
+    private function handleAggrByLoglevel(DailySumDef $definition): array
+    {
+        $data = $this->svcLogRep->getDailyAggrLogLevel(
+            $this->startDate,
+            $this->endDate,
+            $definition->logLevel,
+            $definition->logLevelCompare,
+        );
 
-    $listData = [];
-    $aggrData = [];
-    $countDataSourceType = [];
+        foreach ($data as $key => $line) {
+            // if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
+            //   $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
+            // } else {
+            //   $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
+            // }
+            $tempLog = new SvcLog();
+            $tempLog->setLogLevel($line['logLevel']);
+            $data[$key]['logLevelBGColor'] = $tempLog->getLogLevelBGColorHTML();
+            $data[$key]['logLevelFGColor'] = $tempLog->getLogLevelFGColorHTML();
+            $data[$key]['logLevelText'] = $tempLog->getLogLevelText();
+        }
 
-    foreach ($definitions as $definition) {
-      switch ($definition->summaryType) {
-        case DailySummaryType::LIST:
-          $logs = $this->handleLogList($definition);
-          if ($logs or !$definition->hideWhenEmpty) {
-            $listData[] = new SummaryList($definition->title, $logs);
-          }
-          break;
-
-        case DailySummaryType::AGGR_LOG_LEVEL:
-          $data = $this->handleAggrByLoglevel($definition);
-          if ($data) {
-            $aggrData[] = ['title' => $definition->title, 'data' => $data];
-          }
-          break;
-
-        case DailySummaryType::COUNT_SOURCE_TYPE:
-          $data = $this->handleCountSourceType($definition);
-          if ($data) {
-            $countDataSourceType[] = $data;
-          }
-          break;
-      }
+        return $data;
     }
 
-    $result = $this->twig->render('@SvcLog/daily_summary/summary.html.twig', [
-      'daily_lists' => $listData,
-      'daily_aggrs' => $aggrData,
-      'daily_counts_st' => $countDataSourceType,
-      'header' => $this->mailSubject,
-    ]);
+    /**
+     * calculation for DailySummaryType::COUNT_SOURCE_TYPE (count for a specific SOURCE_TYPE).
+     *
+     * @return array<mixed>
+     */
+    private function handleCountSourceType(DailySumDef $definition): array
+    {
+        if (!isset($definition->countSourceTypeDef)) {
+            return [];
+        }
+        $dataFound = false;
 
-    return $result;
-  }
+        $data = [];
+        $data['title'] = $definition->title;
+        $data['data'] = [];
 
-  /**
-   * list for DailySummaryType::LIST.
-   *
-   * @return array<mixed>
-   */
-  private function handleLogList(DailySumDef $definition): array
-  {
-    $logs = $this->svcLogRep->getDailyLogDataList(
-      $this->startDate,
-      $this->endDate,
-      $definition->sourceID,
-      $definition->sourceType,
-      $definition->logLevel,
-      $definition->logLevelCompare,
-    );
+        foreach ($definition->countSourceTypeDef as $cntDef) {
+            $rowcount = $this->svcLogRep->getDailyCountBySourceType(
+                $this->startDate,
+                $this->endDate,
+                $cntDef['sourceType'],
+                $cntDef['onlyHuman'] ?? false,
+            );
 
-    foreach ($logs as $log) {
-      // if ($log->getSourceType() >= 90000) { // internal handled sourceType
-      //   $log->setSourceTypeText(LogAppConstants::getSourceTypeText($log->getSourceType()));
-      //   $log->setSourceIDText((string) $log->getSourceID());
-      // } else {
-      $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
-      $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-      //      }
+            if (!$definition->hideWhenZero or $rowcount > 0) {
+                $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
+                $dataFound = true;
+            }
+        }
+
+        if ($dataFound or !$definition->hideWhenEmpty) {
+            return $data;
+        }
+
+        return [];
+
     }
-
-    return $logs;
-  }
-
-  /**
-   * calculation for DailySummaryType::AGGR_LOG_LEVEL (aggregation by loglevel).
-   *
-   * @return array<mixed>
-   */
-  private function handleAggrByLoglevel(DailySumDef $definition): array
-  {
-    $data = $this->svcLogRep->getDailyAggrLogLevel(
-      $this->startDate,
-      $this->endDate,
-      $definition->logLevel,
-      $definition->logLevelCompare,
-    );
-
-    foreach ($data as $key => $line) {
-      // if (array_key_exists($line['logLevel'], EventLog::ARR_LEVEL_TEXT)) {
-      //   $data[$key]['logLevelText'] = EventLog::ARR_LEVEL_TEXT[$line['logLevel']];
-      // } else {
-      //   $data[$key]['logLevelText'] = '? (' . strval($line['logLevel']) . ')';
-      // }
-      $tempLog = new SvcLog();
-      $tempLog->setLogLevel($line['logLevel']);
-      $data[$key]['logLevelBGColor'] = $tempLog->getLogLevelBGColorHTML();
-      $data[$key]['logLevelFGColor'] = $tempLog->getLogLevelFGColorHTML();
-      $data[$key]['logLevelText'] = $tempLog->getLogLevelText();
-    }
-
-    return $data;
-  }
-
-  /**
-   * calculation for DailySummaryType::COUNT_SOURCE_TYPE (count for a specific SOURCE_TYPE).
-   *
-   * @return array<mixed>
-   */
-  private function handleCountSourceType(DailySumDef $definition): array
-  {
-    if (!isset($definition->countSourceTypeDef)) {
-      return [];
-    }
-    $dataFound = false;
-
-    $data = [];
-    $data['title'] = $definition->title;
-    $data['data'] = [];
-
-    foreach ($definition->countSourceTypeDef as $cntDef) {
-      $rowcount = $this->svcLogRep->getDailyCountBySourceType(
-        $this->startDate,
-        $this->endDate,
-        $cntDef['sourceType'],
-        $cntDef['onlyHuman'] ?? false,
-      );
-
-      if (!$definition->hideWhenZero or $rowcount > 0) {
-        $data['data'][] = ['item_title' => $cntDef['title'], 'item_count' => $rowcount];
-        $dataFound = true;
-      }
-    }
-
-    if ($dataFound or !$definition->hideWhenEmpty) {
-      return $data;
-    } else {
-      return [];
-    }
-  }
 }
