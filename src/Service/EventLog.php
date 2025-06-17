@@ -139,8 +139,8 @@ class EventLog
                         $log->setUserName($user->getUserName()); /* @phpstan-ignore-line */
                     }
                 }
-            } catch (\Exception) {
-                // ignore user record
+            } catch (\Exception $e) {
+                dump($e->getMessage());
             }
         }
 

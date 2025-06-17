@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '8.2.5';
-$message = 'fix error, if more then 255 characters in log or error message';
+$version = '8.2.6';
+$message = 'dump error message for storing in log';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
