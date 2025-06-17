@@ -448,3 +448,8 @@
 ## Version 8.2.6
 *Tue, 17 Jun 2025 16:00:00 +0000*
 - dump error message for storing in log
+
+
+## Version 8.2.7
+*Tue, 17 Jun 2025 17:40:18 +0000*
+- reopen entity manager in event log (if closed)

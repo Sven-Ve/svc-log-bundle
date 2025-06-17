@@ -13,6 +13,7 @@ namespace Svc\LogBundle\Service;
 
 use DeviceDetector\DeviceDetector;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
@@ -30,32 +31,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class EventLog
 {
-    /*
-    public const LEVEL_ALL = 0;
-    public const LEVEL_DEBUG = 1;
-    public const LEVEL_INFO = 2;
-    public const LEVEL_DATA = 3; // data is a special log level to store access data (page views, ...).
-    public const LEVEL_WARN = 4;
-    public const LEVEL_ERROR = 5;
-    public const LEVEL_FATAL = 6;
-    public const LEVEL_CRITICAL = 6; // same as FATAL
-    public const LEVEL_ALERT = 7;
-    public const LEVEL_EMERGENCY = 8;
-
-    public const ARR_LEVEL_TEXT = [
-      self::LEVEL_ALL => 'all',
-      self::LEVEL_DEBUG => 'debug',
-      self::LEVEL_INFO => 'info',
-      self::LEVEL_DATA => 'data',
-      self::LEVEL_WARN => 'warn',
-      self::LEVEL_ERROR => 'error',
-      self::LEVEL_FATAL => 'fatal',
-      self::LEVEL_ALERT => 'alert',
-      self::LEVEL_EMERGENCY => 'emergency',
-    ];
-
-    */
-
     public function __construct(
         private readonly bool $enableIPSaving,
         private readonly bool $enableUserSaving,
@@ -67,6 +42,7 @@ class EventLog
         private readonly EntityManagerInterface $entityManager,
         private readonly SvcLogRepository $logRepo,
         private readonly LoggerHelper $loggerHelper,
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -139,12 +115,15 @@ class EventLog
                         $log->setUserName($user->getUserName()); /* @phpstan-ignore-line */
                     }
                 }
-            } catch (\Exception $e) {
-                dump($e->getMessage());
+            } catch (\Exception) {
+                # ignore errors here, because the user may not be available
             }
         }
 
         try {
+            if (!$this->entityManager->isOpen()) {
+                $this->managerRegistry->resetManager(); // reset the manager to ensure a new one is created
+            };
             $this->entityManager->persist($log);
             $this->entityManager->flush();
         } catch (\Exception) {

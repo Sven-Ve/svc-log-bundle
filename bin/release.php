@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '8.2.6';
-$message = 'dump error message for storing in log';
+$version = '8.2.7';
+$message = 'reopen entity manager in event log (if closed)';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
