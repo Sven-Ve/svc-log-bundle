@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '8.2.4';
-$message = 'show http 404 error for sitemap* requests in log as warning';
+$version = '8.2.5';
+$message = 'fix error, if more then 255 characters in log or error message';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

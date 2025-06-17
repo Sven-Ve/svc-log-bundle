@@ -95,9 +95,9 @@ class EventLog
         $log = new SvcLog();
         $log->setSourceID($sourceID);
         $log->setSourceType($sourceType);
-        $log->setMessage($message);
+        $log->setMessage($message !== null ? mb_substr($message, 0, 254) : null);
         $log->setLogLevel($level);
-        $log->setErrorText($errorText);
+        $log->setErrorText($errorText !== null ? mb_substr($errorText, 0, 254) : null);
 
         if ($this->enableIPSaving) {
             $log->setIp(NetworkHelper::getIP());

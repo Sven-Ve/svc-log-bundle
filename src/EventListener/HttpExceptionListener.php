@@ -28,7 +28,8 @@ class HttpExceptionListener
         private LogLevel $logLevelCritical,
         private int $extraSleepTime,
         private EventLog $eventLog,
-    ) {}
+    ) {
+    }
 
     public function onKernelException(ExceptionEvent $event): void
     {

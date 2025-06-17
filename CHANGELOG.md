@@ -438,3 +438,8 @@
 ## Version 8.2.4
 *Tue, 10 Jun 2025 19:50:29 +0000*
 - show http 404 error for sitemap* requests in log as warning
+
+
+## Version 8.2.5
+*Tue, 17 Jun 2025 15:28:07 +0000*
+- fix error, if more then 255 characters in log or error message
