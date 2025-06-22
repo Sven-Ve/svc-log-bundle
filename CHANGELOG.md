@@ -453,3 +453,8 @@
 ## Version 8.2.7
 *Tue, 17 Jun 2025 17:40:18 +0000*
 - reopen entity manager in event log (if closed)
+
+
+## Version 8.2.8
+*Sun, 22 Jun 2025 20:08:37 +0000*
+- reenable paging buttons in log table

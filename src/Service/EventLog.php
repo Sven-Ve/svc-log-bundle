@@ -116,14 +116,14 @@ class EventLog
                     }
                 }
             } catch (\Exception) {
-                # ignore errors here, because the user may not be available
+                // ignore errors here, because the user may not be available
             }
         }
 
         try {
             if (!$this->entityManager->isOpen()) {
                 $this->managerRegistry->resetManager(); // reset the manager to ensure a new one is created
-            };
+            }
             $this->entityManager->persist($log);
             $this->entityManager->flush();
         } catch (\Exception) {

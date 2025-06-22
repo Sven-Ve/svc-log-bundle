@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '8.2.7';
-$message = 'reopen entity manager in event log (if closed)';
+$version = '8.2.8';
+$message = 'reenable paging buttons in log table';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

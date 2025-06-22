@@ -122,7 +122,6 @@ export default class extends Controller {
    * enable or disable the pagination buttons
    */
   enableDisableButton() {
-    return;
     if (this.hidePrevTarget.value != "1") {
       this.firstBtnTarget.classList.remove('disabled');
       this.prevBtnTarget.classList.remove('disabled');
