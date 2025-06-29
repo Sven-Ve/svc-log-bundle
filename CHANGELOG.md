@@ -458,3 +458,8 @@
 ## Version 8.2.8
 *Sun, 22 Jun 2025 20:08:37 +0000*
 - reenable paging buttons in log table
+
+
+## Version 9.0.0
+*Sun, 29 Jun 2025 17:10:02 +0000*
+- switched to Symfony 7.3 (new command syntax), break compatibility with Symfony >7.3 and Twig 3.4

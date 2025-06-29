@@ -13,11 +13,9 @@ namespace Svc\LogBundle\Command;
 
 use Svc\LogBundle\Service\StatsHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -39,23 +37,17 @@ class StatMonthlyCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-          ->addOption('fresh', 'f', InputOption::VALUE_NONE, 'Reload all statistics (otherwise only rebuild current data)');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Option(shortcut: 'f', description: 'Reload all statistics (otherwise only rebuild current data)')] bool $fresh = false,
+    ): int {
 
         if (!$this->lock()) {
             $io->caution('The command is already running in another process.');
 
             return Command::FAILURE;
         }
-
-        $fresh = $input->getOption('fresh');
+        $io->title('Create monthly statistics');
 
         $res = $this->statsHelper->aggrMonthly($fresh);
         $io->success('Aggragation successfully runs. ' . $res['inserted'] . ' statistic records created.');

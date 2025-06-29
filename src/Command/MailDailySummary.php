@@ -15,8 +15,6 @@ use Svc\LogBundle\Service\DailySummaryHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -38,15 +36,9 @@ class MailDailySummary extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        // $this
-        //   ->addOption('fresh', 'f', InputOption::VALUE_NONE, 'Reload all statistics (otherwise only rebuild current data)');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
+    public function __invoke(
+        SymfonyStyle $io,
+    ): int {
 
         if (!$this->lock()) {
             $io->caution('The command is already running in another process.');
@@ -70,6 +62,5 @@ class MailDailySummary extends Command
         $io->error('Error during creating of Daily summary mail.');
 
         return Command::FAILURE;
-
     }
 }

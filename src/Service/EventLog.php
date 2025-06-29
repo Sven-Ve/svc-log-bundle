@@ -16,13 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\LogLevel;
-use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
-use Svc\LogBundle\Exception\LogExceptionInterface;
-use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\UtilBundle\Service\NetworkHelper;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Helper class to log events.
@@ -40,7 +35,6 @@ class EventLog
         private readonly bool $disable404Logger,
         private readonly Security $security,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SvcLogRepository $logRepo,
         private readonly LoggerHelper $loggerHelper,
         private readonly ManagerRegistry $managerRegistry,
     ) {
@@ -142,108 +136,6 @@ class EventLog
         }
 
         return $vErrors;
-    }
-
-    /*
-    #[\Deprecated('use writeLog instead', '1.8')]
-    public function log(int $sourceID, ?int $sourceType = 0, ?array $options = []): bool
-    {
-      $resolver = new OptionsResolver();
-      $this->configureOptions($resolver);
-      $options = $resolver->resolve($options);
-
-      return $this->writeLog($sourceID, $sourceType,
-        level: LogLevel::getLogLevelfromInt($options['level']),
-        message: $options['message'],
-        errorText: $options['errorText'],
-        httpStatusCode: $options['httpStatusCode']
-      );
-    }
-
-
-    private function configureOptions(OptionsResolver $resolver): void
-    {
-      $resolver->setDefaults([
-        'level' => self::LEVEL_DATA,
-        'message' => null,
-        'errorText' => null,
-        'httpStatusCode' => null,
-      ]);
-
-      $resolver->setAllowedTypes('level', ['int', 'null']);
-      $resolver->setAllowedTypes('message', ['string', 'null']);
-      $resolver->setAllowedTypes('errorText', ['string', 'null']);
-      $resolver->setAllowedTypes('httpStatusCode', ['int', 'null']);
-    }
-    */
-
-    /**
-     * fill the location info, called in batch because timing.
-     *
-     * @throws LogExceptionInterface
-     *
-     * @return int count of successful locations set
-     */
-    public function batchFillLocation(bool $force, SymfonyStyle $io): int
-    {
-        if (!$this->enableIPSaving) {
-            throw new DeleteAllLogsForbidden();
-        }
-
-        $successCnt = 0;
-        $counter = 0;
-        if ($force) {
-            $entries = $this->logRepo->findBy(['country' => '-']);
-        } else {
-            $entries = $this->logRepo->findBy(['country' => null]);
-        }
-
-        if (count($entries) == 0) {
-            return 0;
-        }
-
-        $progressBar = new ProgressBar($io, count($entries));
-        $progressBar->start();
-
-        foreach ($entries as $entry) {
-            $progressBar->advance();
-
-            try {
-                if (!$entry->getIp() or $entry->getIp() == '127.0.0.1') {
-                    $entry->setCountry('-');
-                    continue;
-                }
-
-                ++$counter;
-                if ($counter == 100) {
-                    $io->writeln(' Sleep 70 seconds because api limit on http://www.geoplugin.net (' . $successCnt . ' countries found).');
-                    $this->entityManager->flush();
-                    sleep(70);
-                    $counter = 0;
-                }
-
-                $location = NetworkHelper::getLocationInfoByIp($entry->getIp());
-                if ($location['country']) {
-                    $entry->setCountry($location['country']);
-                    $entry->setCity($location['city']);
-                    ++$successCnt;
-                } else {
-                    $entry->setCountry('-');
-                }
-            } catch (\Exception) {
-                $entry->setCountry('-');
-            }
-        }
-
-        try {
-            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            throw new \Exception('Cannot save data: ' . $e->getMessage());
-        }
-
-        $progressBar->finish();
-
-        return $successCnt;
     }
 
     /**

@@ -13,11 +13,9 @@ namespace Svc\LogBundle\Command;
 
 use Svc\LogBundle\Service\PurgeHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -39,46 +37,28 @@ class PurgeLogsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption('dryrun', 'd', InputOption::VALUE_NONE, 'Dry run - shows only the number of entries that would be deleted')
-            ->addOption('month', null, InputOption::VALUE_OPTIONAL, 'Number of month to keep (default = 6)')
-        ;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Option(shortcut: 'd', description: 'Dry run - shows only the number of entries that would be deleted')] bool $dryRun = false,
+        #[Option(description: 'Number of month to keep')] int $month = 6,
+    ): int {
         if (!$this->lock()) {
             $io->caution('The command is already running in another process.');
 
             return Command::FAILURE;
         }
 
-        $io->title('Purge old log events');
 
-        $dryRun = $input->getOption('dryrun');
-
-        $month = $input->getOption('month');
-
-        if ($month === null) {
-            $month = 6;
-        } elseif (!ctype_digit($month) or !is_numeric($month)) {
-            $io->error('Month must be an integer!');
-
-            return Command::FAILURE;
-        } else {
-            $month = intval($month);
-        }
 
         if ($month < 1) {
             $io->error('Month must be greather or equal 1!');
 
             return Command::FAILURE;
         }
+
+        $io->title('Purge old log events');
         $io->writeln('Keep Month:' . $month);
+        $io->writeln('Dry run: ' . ($dryRun ? 'yes' : 'no'));
 
         $count = $this->purgeHelper->purgeLogs($month, $dryRun);
 

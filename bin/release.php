@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '8.2.8';
-$message = 'reenable paging buttons in log table';
+$version = '9.0.0';
+$message = 'switched to Symfony 7.3 (new command syntax), break compatibility with Symfony >7.3 and Twig 3.4';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

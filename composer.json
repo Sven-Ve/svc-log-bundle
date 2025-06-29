@@ -15,21 +15,21 @@
     "require": {
         "php": "^8.4",
         "doctrine/doctrine-bundle": "^2.10",
-        "symfony/framework-bundle": "^6.3|^7",
-        "symfony/validator": "^6.3|^7",
-        "symfony/http-kernel": "^6.3|^7",
-        "symfony/lock": "^6.3|^7",
-        "symfony/options-resolver": "^6.3|^7",
-        "symfony/translation": "^6.3|^7",
-        "symfony/twig-bundle": "^6.3|^7",
-        "twig/intl-extra": "^3.5",
+        "symfony/framework-bundle": "^7.3",
+        "symfony/validator": "^7.3",
+        "symfony/http-kernel": "^7.3",
+        "symfony/lock": "^7.3",
+        "symfony/options-resolver": "^7.3",
+        "symfony/translation": "^7.3",
+        "symfony/twig-bundle": "^7.3",
+        "twig/intl-extra": "^3.21",
         "svc/util-bundle": "^5.9.1|dev-main",
         "doctrine/orm": "^2.18 | ^3",
         "symfony/ux-twig-component": "^2.18",
-        "symfony/security-bundle": "^6.3|^7",
+        "symfony/security-bundle": "^7.3",
         "symfony/stimulus-bundle": "^2.18",
-        "twig/extra-bundle": "^3.5",
-        "jbtronics/settings-bundle": "^2.4",
+        "twig/extra-bundle": "^3.21",
+        "jbtronics/settings-bundle": "^2.6",
         "matomo/device-detector": "^6.4"
     },
     "suggest": {
@@ -46,11 +46,11 @@
         }
     },
     "require-dev": {
-        "symfony/browser-kit": "^6.3|^7",
-        "phpstan/phpstan": "^2",
+        "symfony/browser-kit": "^7.3",
+        "phpstan/phpstan": "^2.1",
         "phpstan/extension-installer": "^1.4",
         "phpstan/phpstan-doctrine": "^2",
-        "phpunit/phpunit": "^12"
+        "phpunit/phpunit": "^12.2"
     },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",
