@@ -15,6 +15,11 @@ use Psr\Log\LoggerInterface;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\LogLevel;
 
+/**
+ * Helper to send logs to the svc-log logger (monolog).
+ *
+ * @author Sven Vetter <<dev@sv-systems.com>
+ */
 class LoggerHelper
 {
     public function __construct(

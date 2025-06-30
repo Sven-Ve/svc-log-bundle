@@ -15,7 +15,6 @@ namespace Svc\LogBundle\Tests\Unit\DataProvider;
 
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\DataProvider\GeneralDataProvider;
-use Svc\LogBundle\Entity\SvcLogStatMonthly;
 
 /**
  * testing the SvcLogStatMonthly entity class.
