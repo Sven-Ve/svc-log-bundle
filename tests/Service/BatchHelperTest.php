@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the SvcLog bundle.
+ *
+ * (c) Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\LogBundle\Tests\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +25,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BatchHelperTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
+
     private SvcLogRepository&MockObject $logRepo;
+
     private SymfonyStyle&MockObject $io;
 
     protected function setUp(): void
@@ -56,7 +67,6 @@ class BatchHelperTest extends TestCase
         $this->assertSame(0, $result);
     }
 
-
     public function testBatchFillLocationSetsCountryForLocalhost(): void
     {
         $entry = $this->createMock(SvcLog::class);
@@ -76,7 +86,6 @@ class BatchHelperTest extends TestCase
         $result = $helper->batchFillLocation(false, $this->io);
         $this->assertSame(0, $result);
     }
-
 
     public function testBatchFillLocationSetsCountryFromNetworkHelper(): void
     {

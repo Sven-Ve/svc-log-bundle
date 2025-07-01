@@ -1,19 +1,27 @@
 <?php
 
+/*
+ * This file is part of the SvcLog bundle.
+ *
+ * (c) Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\LogBundle\Tests\Service;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Service\LoggerHelper;
 
-
-
-
 class LoggerHelperTest extends TestCase
 {
     private LoggerInterface $loggerMock;
+
     private LoggerHelper $loggerHelper;
 
     protected function setUp(): void
@@ -22,34 +30,7 @@ class LoggerHelperTest extends TestCase
         $this->loggerHelper = new LoggerHelper($this->loggerMock);
     }
 
-    /*
-    private function createLogMock(array $methods = [])
-    {
-        $log = $this->createMock(SvcLog::class);
-        $log->method('getLogLevel')->willReturn(LogLevel::INFO);
-        $log->method('getLogLevelText')->willReturn('Info');
-        $log->method('getMessage')->willReturn('Test message');
-        $log->method('getUserName')->willReturn(null);
-        $log->method('getSourceType')->willReturn(null);
-        $log->method('getSourceID')->willReturn(null);
-        $log->method('getIp')->willReturn(null);
-        $log->method('getPlatform')->willReturn(null);
-        $log->method('getReferer')->willReturn(null);
-        $log->method('getBrowser')->willReturn(null);
-        $log->method('getBrowserVersion')->willReturn(null);
-        $log->method('getOs')->willReturn(null);
-        $log->method('getOsVersion')->willReturn(null);
-        $log->method('getErrorText')->willReturn(null);
-
-        foreach ($methods as $method => $value) {
-            $log->method($method)->willReturn($value);
-        }
-
-        return $log;
-    }
-    */
-
-    public function testSendReturnsTrueOnSuccess()
+    public function testSendReturnsTrueOnSuccess(): void
     {
         $log = $this->createMock(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
@@ -68,8 +49,7 @@ class LoggerHelperTest extends TestCase
         $this->assertTrue($result);
     }
 
-
-    public function testSendReturnsFalseOnException()
+    public function testSendReturnsFalseOnException(): void
     {
         $log = $this->createMock(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
@@ -85,11 +65,9 @@ class LoggerHelperTest extends TestCase
         $this->assertFalse($result);
     }
 
-
-    public function testSendWithAllExtraFields()
+    public function testSendWithAllExtraFields(): void
     {
         // Create a mock SvcLog object with all fields set
-        /** @var SvcLog $log */
         $log = $this->createMock(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('Info');
@@ -132,17 +110,14 @@ class LoggerHelperTest extends TestCase
         $this->assertTrue($result);
     }
 
-
-    /**
-     * @dataProvider logLevelProvider
-     */
-    /*
-     public function testSendUsesCorrectLogLevel(LogLevel $level, string $expectedMethod)
+    #[DataProvider('logLevelProvider')]
+    public function testSendUsesCorrectLogLevel(LogLevel $level, string $expectedMethod): void
     {
-        $log = $this->createLogMock([
-            'getLogLevel' => $level,
-            'getLogLevelText' => $level->name,
-        ]);
+
+        $log = $this->createMock(SvcLog::class);
+        $log->method('getLogLevel')->willReturn($level);
+        $log->method('getLogLevelText')->willReturn($level->name);
+        $log->method('getMessage')->willReturn('Test message');
 
         $this->loggerMock
             ->expects($this->once())
@@ -169,11 +144,12 @@ class LoggerHelperTest extends TestCase
         ];
     }
 
-    public function testSendUsesLogLevelTextIfMessageIsNull()
+    public function testSendUsesLogLevelTextIfMessageIsNull(): void
     {
-        $log = $this->createLogMock();
-        $log->method('getMessage')->willReturn(null);
+        $log = $this->createMock(SvcLog::class);
+        $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('InfoText');
+        $log->method('getMessage')->willReturn(null);
 
         $this->loggerMock
             ->expects($this->once())
@@ -186,5 +162,4 @@ class LoggerHelperTest extends TestCase
         $result = $this->loggerHelper->send($log);
         $this->assertTrue($result);
     }
-*/
 }

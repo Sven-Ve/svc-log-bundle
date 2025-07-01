@@ -12,6 +12,7 @@ parameters:
     - identifier: missingType.iterableValue
     - identifier: missingType.generics
     - identifier: function.alreadyNarrowedType
+    - '#Call to an undefined method Psr\\Log\\LoggerInterface::expects\(\)#'
   excludePaths:
     - 'src/Controller/EaLogCrudController.php'
     - 'src/Controller/EaLogStatMonthlyCrudController.php'

@@ -463,3 +463,8 @@
 ## Version 9.0.0
 *Sun, 29 Jun 2025 17:10:02 +0000*
 - switched to Symfony 7.3 (new command syntax), break compatibility with Symfony >7.3 and Twig 3.4
+
+
+## Version 9.0.1
+*Tue, 01 Jul 2025 20:40:50 +0000*
+- add tests
