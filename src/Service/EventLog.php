@@ -135,7 +135,7 @@ class EventLog
             }
         }
 
-        return $vErrors;
+        return !$vErrors;
     }
 
     /**

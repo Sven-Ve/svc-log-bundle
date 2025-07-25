@@ -201,7 +201,7 @@ class SvcLogRepository extends ServiceEntityRepository
      */
     public function batchDelete(?int $sourceID = null, ?int $sourceType = null, ?int $userID = null, ?LogLevel $logLevel = null): int
     {
-        if (!($sourceID . $sourceType . $userID) and !$logLevel) {
+        if ($sourceID === null && $sourceType === null && $userID === null && $logLevel === null) {
             throw new DeleteAllLogsForbidden();
         }
 

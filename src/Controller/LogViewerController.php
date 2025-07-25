@@ -96,9 +96,13 @@ class LogViewerController extends AbstractController
     public function viewDetail(int $id, SvcLogRepository $svcLogRep): Response
     {
         $log = $svcLogRep->find($id);
+        
+        if (!$log) {
+            throw $this->createNotFoundException('Log entry not found');
+        }
+        
         $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
         $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
-        // }
 
         return $this->render('@SvcLog/log_viewer/_detail.html.twig', [
             'log' => $log,
