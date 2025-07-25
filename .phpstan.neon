@@ -13,6 +13,7 @@ parameters:
     - identifier: missingType.generics
     - identifier: function.alreadyNarrowedType
     - '#Call to an undefined method Psr\\Log\\LoggerInterface::expects\(\)#'
+    - '#Parameter .* expects .*, PHPUnit\\Framework\\MockObject\\MockObject given\.#'
   excludePaths:
     - 'src/Controller/EaLogCrudController.php'
     - 'src/Controller/EaLogStatMonthlyCrudController.php'
