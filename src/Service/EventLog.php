@@ -3,7 +3,7 @@
 /*
  * This file is part of the SvcLog bundle.
  *
- * (c) Sven Vetter <dev@sv-systems.com>.
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,6 +26,13 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class EventLog
 {
+    private const MAX_MESSAGE_LENGTH = 254;
+    private const MAX_ERROR_TEXT_LENGTH = 254;
+    private const MAX_IP_LENGTH = 100;
+    private const MAX_USER_AGENT_LENGTH = 500;
+    private const MAX_URL_LENGTH = 500;
+    private const MAX_STRING_LENGTH = 50;
+
     public function __construct(
         private readonly bool $enableIPSaving,
         private readonly bool $enableUserSaving,
@@ -65,9 +72,9 @@ class EventLog
         $log = new SvcLog();
         $log->setSourceID($sourceID);
         $log->setSourceType($sourceType);
-        $log->setMessage($message !== null ? mb_substr($message, 0, 254) : null);
+        $log->setMessage($message !== null ? mb_substr($message, 0, self::MAX_MESSAGE_LENGTH) : null);
         $log->setLogLevel($level);
-        $log->setErrorText($errorText !== null ? mb_substr($errorText, 0, 254) : null);
+        $log->setErrorText($errorText !== null ? mb_substr($errorText, 0, self::MAX_ERROR_TEXT_LENGTH) : null);
 
         if ($this->enableIPSaving) {
             $rawIp = NetworkHelper::getIP();
@@ -171,7 +178,7 @@ class EventLog
 
         // Validate IPv4 or IPv6
         if (filter_var($ip, FILTER_VALIDATE_IP)) {
-            return mb_substr($ip, 0, 100); // Limit length
+            return mb_substr($ip, 0, self::MAX_IP_LENGTH);
         }
 
         return null; // Invalid IP
@@ -189,8 +196,8 @@ class EventLog
         // Remove potential script tags and limit length
         $sanitized = strip_tags($userAgent);
         $sanitized = preg_replace('/[<>"\']/', '', $sanitized);
-        
-        return mb_substr($sanitized, 0, 500);
+
+        return mb_substr($sanitized, 0, self::MAX_USER_AGENT_LENGTH);
     }
 
     /**
@@ -205,7 +212,7 @@ class EventLog
         // Basic URL validation and sanitization
         $sanitized = filter_var($url, FILTER_SANITIZE_URL);
         if ($sanitized && (str_starts_with($sanitized, 'http://') || str_starts_with($sanitized, 'https://'))) {
-            return mb_substr($sanitized, 0, 500);
+            return mb_substr($sanitized, 0, self::MAX_URL_LENGTH);
         }
 
         return null;
@@ -223,7 +230,7 @@ class EventLog
         // Remove HTML tags and limit length
         $sanitized = strip_tags($value);
         $sanitized = preg_replace('/[<>"\']/', '', $sanitized);
-        
-        return mb_substr($sanitized, 0, 50);
+
+        return mb_substr($sanitized, 0, self::MAX_STRING_LENGTH);
     }
 }

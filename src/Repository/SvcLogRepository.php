@@ -3,7 +3,7 @@
 /*
  * This file is part of the SvcLog bundle.
  *
- * (c) Sven Vetter <dev@sv-systems.com>.
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -54,7 +54,7 @@ class SvcLogRepository extends ServiceEntityRepository
               ->setParameter('logLevel', $logLevel);
         }
 
-        $query->getQuery();
+        // $query->getQuery(); // Dead code - removed
 
         return new Paginator($query);
     }
@@ -90,7 +90,7 @@ class SvcLogRepository extends ServiceEntityRepository
               ->setParameter('country', $country);
         }
 
-        $query->getQuery();
+        // $query->getQuery(); // Dead code - removed
 
         return new Paginator($query);
     }

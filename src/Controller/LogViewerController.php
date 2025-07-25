@@ -3,7 +3,7 @@
 /*
  * This file is part of the SvcLog bundle.
  *
- * (c) Sven Vetter <dev@sv-systems.com>.
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -96,11 +96,11 @@ class LogViewerController extends AbstractController
     public function viewDetail(int $id, SvcLogRepository $svcLogRep): Response
     {
         $log = $svcLogRep->find($id);
-        
+
         if (!$log) {
             throw $this->createNotFoundException('Log entry not found');
         }
-        
+
         $log->setSourceTypeText($this->dataProvider->getSourceTypeText($log->getSourceType()));
         $log->setSourceIDText($this->dataProvider->getSourceIDText($log->getSourceID(), $log->getSourceType()));
 
