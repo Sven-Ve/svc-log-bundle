@@ -51,7 +51,7 @@ class PurgeLogsCommand extends Command
 
 
         if ($month < 1) {
-            $io->error('Month must be greather or equal 1!');
+            $io->error('Month must be greater or equal 1!');
 
             return Command::FAILURE;
         }

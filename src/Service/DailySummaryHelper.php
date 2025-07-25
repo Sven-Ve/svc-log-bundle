@@ -115,14 +115,20 @@ class DailySummaryHelper
             throw new DailySummaryDefinitionNotExists();
         }
 
+        // Security: Validate class name to prevent code injection
+        if (!preg_match('/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff\\\\]*$/', $this->defClassName)) {
+            throw new DailySummaryDefinitionNotExists();
+        }
+
+        $reflection = new \ReflectionClass($this->defClassName);
+        if (!$reflection->implementsInterface(DailySummaryDefinitionInterface::class)) {
+            throw new DailySummaryDefinitionNotImplement();
+        }
+
         /**
          * @var DailySummaryDefinitionInterface
          */
-        $defClass = new $this->defClassName();
-        /* @phpstan-ignore instanceof.alwaysTrue */
-        if (!($defClass instanceof DailySummaryDefinitionInterface)) {
-            throw new DailySummaryDefinitionNotImplement();
-        }
+        $defClass = $reflection->newInstance();
 
         $definitions = $defClass->getDefinition();
 

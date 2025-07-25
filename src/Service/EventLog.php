@@ -70,31 +70,36 @@ class EventLog
         $log->setErrorText($errorText !== null ? mb_substr($errorText, 0, 254) : null);
 
         if ($this->enableIPSaving) {
-            $log->setIp(NetworkHelper::getIP());
+            $rawIp = NetworkHelper::getIP();
+            $sanitizedIp = $this->sanitizeIpAddress($rawIp);
+            $log->setIp($sanitizedIp);
         }
 
         try {
             $userAgent = NetworkHelper::getUserAgent();
             if ($userAgent) {
-                $devDetector = new DeviceDetector($userAgent);
+                $sanitizedUserAgent = $this->sanitizeUserAgent($userAgent);
+                $devDetector = new DeviceDetector($sanitizedUserAgent);
                 $devDetector->parse();
-                $log->setPlatform($devDetector->getBrandName());
-                $log->setBrowser($devDetector->getClient('name'));  /* @phpstan-ignore-line */
-                $log->setBrowserVersion($devDetector->getClient('version'));  /* @phpstan-ignore-line */
+                $log->setPlatform($this->sanitizeString($devDetector->getBrandName()));
+                $log->setBrowser($this->sanitizeString($devDetector->getClient('name')));  /* @phpstan-ignore-line */
+                $log->setBrowserVersion($this->sanitizeString($devDetector->getClient('version')));  /* @phpstan-ignore-line */
 
-                $log->setOs($devDetector->getOs('name'));  /* @phpstan-ignore-line */
-                $log->setOsVersion($devDetector->getOs('version'));  /* @phpstan-ignore-line */
+                $log->setOs($this->sanitizeString($devDetector->getOs('name')));  /* @phpstan-ignore-line */
+                $log->setOsVersion($this->sanitizeString($devDetector->getOs('version')));  /* @phpstan-ignore-line */
                 $log->setMobile($devDetector->isMobile());
 
                 if ($devDetector->isBot()) {
                     $log->setBot(true);
-                    $log->setBotName($devDetector->getBot()['name']);  /* @phpstan-ignore-line */
+                    $log->setBotName($this->sanitizeString($devDetector->getBot()['name']));  /* @phpstan-ignore-line */
                 }
             }
 
-            $log->setReferer(NetworkHelper::getReferer());
+            $referer = NetworkHelper::getReferer();
+            $log->setReferer($this->sanitizeUrl($referer));
         } catch (\Exception) {
-            $log->setUserAgent(NetworkHelper::getUserAgent()); // write current user agent without parse
+            $userAgent = NetworkHelper::getUserAgent();
+            $log->setUserAgent($this->sanitizeUserAgent($userAgent)); // write current user agent without parse
         }
 
         if ($this->enableUserSaving) {
@@ -153,5 +158,72 @@ class EventLog
         }
 
         return $choices;
+    }
+
+    /**
+     * Sanitize IP address to prevent injection attacks.
+     */
+    private function sanitizeIpAddress(?string $ip): ?string
+    {
+        if (!$ip) {
+            return null;
+        }
+
+        // Validate IPv4 or IPv6
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return mb_substr($ip, 0, 100); // Limit length
+        }
+
+        return null; // Invalid IP
+    }
+
+    /**
+     * Sanitize User-Agent string.
+     */
+    private function sanitizeUserAgent(?string $userAgent): ?string
+    {
+        if (!$userAgent) {
+            return null;
+        }
+
+        // Remove potential script tags and limit length
+        $sanitized = strip_tags($userAgent);
+        $sanitized = preg_replace('/[<>"\']/', '', $sanitized);
+        
+        return mb_substr($sanitized, 0, 500);
+    }
+
+    /**
+     * Sanitize URL (referer).
+     */
+    private function sanitizeUrl(?string $url): ?string
+    {
+        if (!$url) {
+            return null;
+        }
+
+        // Basic URL validation and sanitization
+        $sanitized = filter_var($url, FILTER_SANITIZE_URL);
+        if ($sanitized && (str_starts_with($sanitized, 'http://') || str_starts_with($sanitized, 'https://'))) {
+            return mb_substr($sanitized, 0, 500);
+        }
+
+        return null;
+    }
+
+    /**
+     * Sanitize generic string fields.
+     */
+    private function sanitizeString(?string $value): ?string
+    {
+        if (!$value) {
+            return null;
+        }
+
+        // Remove HTML tags and limit length
+        $sanitized = strip_tags($value);
+        $sanitized = preg_replace('/[<>"\']/', '', $sanitized);
+        
+        return mb_substr($sanitized, 0, 50);
     }
 }
