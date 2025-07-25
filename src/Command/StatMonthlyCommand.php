@@ -26,7 +26,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'svc_log:stat-aggregate',
     description: 'Create statistics.',
-    hidden: false
 )]
 class StatMonthlyCommand extends Command
 {
