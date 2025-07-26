@@ -1,15 +1,21 @@
 <h3>{{ daily_aggr.title }}</h3>
-<table>
-  <tr>
-    <th>Log level</th>
-    <th>Count</th>
-  </tr>
-  {% for line in daily_aggr.data | default(null) %}
-    <tr>
-      <td style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}">
-        {{ line.logLevelText }}
-      </td>
-      <td>{{ line.logLevelCount }}</td>
-    </tr>
-  {% endfor %}
-</table>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Log level</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for line in daily_aggr.data | default(null) %}
+        <tr>
+          <td class="log-level-cell" style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}">
+            {{ line.logLevelText }}
+          </td>
+          <td><strong>{{ line.logLevelCount }}</strong></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

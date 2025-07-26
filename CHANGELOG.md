@@ -468,3 +468,8 @@
 ## Version 9.0.1
 *Tue, 01 Jul 2025 20:40:50 +0000*
 - add tests
+
+
+## Version 9.1.0
+*Sat, 26 Jul 2025 20:37:21 +0000*
+- DailySummeryMail design optimization

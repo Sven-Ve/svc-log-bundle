@@ -3,5 +3,137 @@
 {% block title %}{% trans %}Daily summary{% endtrans %}{% endblock %}
 
 {% block body %}
+<div class="daily-summary-web-view">
  {{ content | raw}}
+</div>
+
+<style>
+/* Web view specific dark mode fixes */
+.daily-summary-web-view {
+  /* Override email container styles for web view */
+}
+
+.daily-summary-web-view .email-container {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.daily-summary-web-view .email-content {
+  padding: 0 !important;
+}
+
+/* Force dark theme styles regardless of CSS cascade */
+body[data-bs-theme="dark"] .daily-summary-web-view h1,
+body.dark .daily-summary-web-view h1,
+html[data-bs-theme="dark"] .daily-summary-web-view h1,
+html.dark .daily-summary-web-view h1 {
+  color: #ffffff !important;
+  border-bottom-color: #4fc3f7 !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view h3,
+body.dark .daily-summary-web-view h3,
+html[data-bs-theme="dark"] .daily-summary-web-view h3,
+html.dark .daily-summary-web-view h3 {
+  color: #ffffff !important;
+  border-left-color: #4fc3f7 !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view .table-container,
+body.dark .daily-summary-web-view .table-container,
+html[data-bs-theme="dark"] .daily-summary-web-view .table-container,
+html.dark .daily-summary-web-view .table-container {
+  border-color: #6c757d !important;
+  background-color: #343a40 !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view table,
+body.dark .daily-summary-web-view table,
+html[data-bs-theme="dark"] .daily-summary-web-view table,
+html.dark .daily-summary-web-view table {
+  background-color: #343a40 !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view th,
+body.dark .daily-summary-web-view th,
+html[data-bs-theme="dark"] .daily-summary-web-view th,
+html.dark .daily-summary-web-view th {
+  background: #495057 !important;
+  color: #ffffff !important;
+  border-color: #6c757d !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view td,
+body.dark .daily-summary-web-view td,
+html[data-bs-theme="dark"] .daily-summary-web-view td,
+html.dark .daily-summary-web-view td {
+  background-color: #343a40 !important;
+  color: #ffffff !important;
+  border-bottom-color: #6c757d !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view tr:nth-child(even) td,
+body.dark .daily-summary-web-view tr:nth-child(even) td,
+html[data-bs-theme="dark"] .daily-summary-web-view tr:nth-child(even) td,
+html.dark .daily-summary-web-view tr:nth-child(even) td {
+  background-color: #3d4450 !important;
+  color: #ffffff !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view tr:hover td,
+body.dark .daily-summary-web-view tr:hover td,
+html[data-bs-theme="dark"] .daily-summary-web-view tr:hover td,
+html.dark .daily-summary-web-view tr:hover td {
+  background-color: #495057 !important;
+  color: #ffffff !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view tr:active td,
+body[data-bs-theme="dark"] .daily-summary-web-view tr.active td,
+body.dark .daily-summary-web-view tr:active td,
+body.dark .daily-summary-web-view tr.active td,
+html[data-bs-theme="dark"] .daily-summary-web-view tr:active td,
+html[data-bs-theme="dark"] .daily-summary-web-view tr.active td,
+html.dark .daily-summary-web-view tr:active td,
+html.dark .daily-summary-web-view tr.active td {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+body[data-bs-theme="dark"] .daily-summary-web-view td:first-child,
+body.dark .daily-summary-web-view td:first-child,
+html[data-bs-theme="dark"] .daily-summary-web-view td:first-child,
+html.dark .daily-summary-web-view td:first-child {
+  color: #20c997 !important;
+  font-weight: 600 !important;
+}
+
+/* Light theme ensures good contrast too */
+body[data-bs-theme="light"] .daily-summary-web-view .email-container,
+body.light .daily-summary-web-view .email-container,
+html[data-bs-theme="light"] .daily-summary-web-view .email-container,
+html.light .daily-summary-web-view .email-container {
+  background-color: transparent !important;
+}
+
+/* Fallback for any dark theme detection */
+@media (prefers-color-scheme: dark) {
+  .daily-summary-web-view td {
+    color: #ffffff !important;
+    background-color: #343a40 !important;
+  }
+  
+  .daily-summary-web-view tr:nth-child(even) td {
+    background-color: #3d4450 !important;
+  }
+  
+  .daily-summary-web-view th {
+    background-color: #495057 !important;
+    color: #ffffff !important;
+  }
+}
+</style>
 {% endblock %}
