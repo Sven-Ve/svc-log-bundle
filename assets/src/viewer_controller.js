@@ -18,24 +18,32 @@ export default class extends Controller {
 
 
   connect() {
+    this.selectedRowIndex = -1;
+    this.lastKnownSelectedIndex = -1; // Backup of selection
+    this.modalBackupIndex = -1; // Backup specifically for modal operations
     this.refreshContent(this.createURL("0"));
+    this.setupKeyboardNavigation();
+    this.setupModalHandlers();
   }
 
   onSubmit(event) {
     event.preventDefault();
+    this.resetSelection();
     this.refreshContent(this.createURL("0"));
   }
 
   first() {
+    this.resetSelection();
     this.refreshContent(this.createURL("0"));
   }
 
   prev() {
+    this.resetSelection();
     this.refreshContent(this.createURL(this.prevTarget.value));
   }
 
-
   next() {
+    this.resetSelection();
     this.refreshContent(this.createURL(this.nextTarget.value));
   }
 
@@ -43,6 +51,7 @@ export default class extends Controller {
    * go to the last record
    */
   last() {
+    this.resetSelection();
     this.refreshContent(this.createURL(this.lastTarget.value));
   }
 
@@ -138,6 +147,277 @@ export default class extends Controller {
       this.lastBtnTarget.classList.add('disabled');
     }
 
+  }
+
+  setupKeyboardNavigation() {
+    // Bind the method to this instance and store the reference
+    this.boundHandleKeydown = this.handleKeydown.bind(this);
+    document.addEventListener('keydown', this.boundHandleKeydown);
+  }
+
+  disconnect() {
+    if (this.boundHandleKeydown) {
+      document.removeEventListener('keydown', this.boundHandleKeydown);
+    }
+    if (this.selectionCheckInterval) {
+      clearInterval(this.selectionCheckInterval);
+    }
+  }
+
+  handleKeydown(event) {
+    // Don't interfere when user is typing in input fields
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT' || event.target.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    const dataRows = this.getDataRows();
+
+    switch(event.key) {
+      case 'ArrowUp':
+      case 'k':
+        event.preventDefault();
+        this.navigateRows(dataRows, -1);
+        break;
+      
+      case 'ArrowDown':
+      case 'j':
+        event.preventDefault();
+        this.navigateRows(dataRows, 1);
+        break;
+      
+      case 'ArrowLeft':
+        if (!this.prevBtnTarget.classList.contains('disabled')) {
+          event.preventDefault();
+          this.prev();
+        }
+        break;
+      
+      case 'ArrowRight':
+        if (!this.nextBtnTarget.classList.contains('disabled')) {
+          event.preventDefault();
+          this.next();
+        }
+        break;
+      
+      case 'Home':
+        if (!this.firstBtnTarget.classList.contains('disabled')) {
+          event.preventDefault();
+          this.first();
+        }
+        break;
+      
+      case 'End':
+        if (!this.lastBtnTarget.classList.contains('disabled')) {
+          event.preventDefault();
+          this.last();
+        }
+        break;
+      
+      case 'Enter':
+      case ' ':
+        if (this.selectedRowIndex >= 0 && dataRows[this.selectedRowIndex]) {
+          event.preventDefault();
+          // Save the current selection before opening modal in separate backup
+          this.modalBackupIndex = this.selectedRowIndex;
+          dataRows[this.selectedRowIndex].click();
+        }
+        break;
+      
+      case 'r':
+      case 'R':
+        event.preventDefault();
+        this.refreshContent(this.createURL("0"));
+        break;
+      
+      case 'f':
+      case 'F':
+        event.preventDefault();
+        if (this.showFilterValue && this.sourceIDTarget) {
+          this.sourceIDTarget.focus();
+        }
+        break;
+      
+      case 'Escape':
+        event.preventDefault();
+        this.clearSelection(dataRows, true); // explicitly reset index
+        break;
+    }
+  }
+
+  navigateRows(dataRows, direction) {
+    if (dataRows.length === 0) return;
+
+    // Clear visual selection but don't reset index yet
+    dataRows.forEach(row => {
+      row.classList.remove('table-active');
+    });
+
+    // Try to restore from backup if main index was reset
+    // Only restore from modal backup if we haven't explicitly reset all selections
+    if (this.selectedRowIndex < 0) {
+      if (this.modalBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
+        // Only restore modal backup if regular backup also exists (means no page change)
+        this.selectedRowIndex = this.modalBackupIndex;
+        // Clear the modal backup after using it
+        this.modalBackupIndex = -1;
+      } else if (this.lastKnownSelectedIndex >= 0) {
+        this.selectedRowIndex = this.lastKnownSelectedIndex;
+      }
+    }
+
+    // If no row is selected yet, start at the beginning or end based on direction
+    if (this.selectedRowIndex < 0 || this.selectedRowIndex >= dataRows.length) {
+      if (direction > 0) {
+        // Arrow down: start at first row
+        this.selectedRowIndex = 0;
+      } else {
+        // Arrow up: start at last row
+        this.selectedRowIndex = dataRows.length - 1;
+      }
+    } else {
+      // Update selected index
+      this.selectedRowIndex += direction;
+      
+      // Wrap around
+      if (this.selectedRowIndex >= dataRows.length) {
+        this.selectedRowIndex = 0;
+      } else if (this.selectedRowIndex < 0) {
+        this.selectedRowIndex = dataRows.length - 1;
+      }
+    }
+
+    // Highlight selected row
+    if (dataRows[this.selectedRowIndex]) {
+      dataRows[this.selectedRowIndex].classList.add('table-active');
+      dataRows[this.selectedRowIndex].scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'nearest' 
+      });
+      // Always backup the successful selection
+      this.lastKnownSelectedIndex = this.selectedRowIndex;
+    }
+  }
+
+  getDataRows() {
+    // Get only actual data rows (tr elements that contain td elements, not th elements)
+    // and exclude the "no records found" row
+    const rows = this.contentTarget.querySelectorAll('tr');
+    const dataRows = Array.from(rows).filter(row => {
+      const cells = row.querySelectorAll('td');
+      // Must have td elements and not be the "no records" row
+      return cells.length > 0 && !row.textContent.includes('no log records found') && !row.textContent.includes('Loading...');
+    });
+    
+    return dataRows;
+  }
+
+  resetSelection() {
+    // Reset all selection indices completely (used when changing pages)
+    this.selectedRowIndex = -1;
+    this.lastKnownSelectedIndex = -1;
+    this.modalBackupIndex = -1;
+  }
+
+  clearSelection(dataRows, resetIndex = true) {
+    const rows = dataRows || this.getDataRows();
+    
+    rows.forEach(row => {
+      row.classList.remove('table-active');
+    });
+    
+    if (resetIndex) {
+      this.selectedRowIndex = -1;
+      this.lastKnownSelectedIndex = -1; // Also reset backup
+    }
+  }
+
+  async refreshContent(url) {
+    // Clear selection when refreshing content (indices already reset by calling methods)
+    const target = this.contentTarget;
+    target.style.opacity = .5;
+
+    let response;
+    try {
+      response = await fetch(url);
+    }
+    catch (err) {
+      console.log(err.message);
+      alert('Error during load. Please dry again.')
+      location.reload();
+      return;
+    }
+
+    if (response.ok) {
+      target.innerHTML = await response.text();
+      target.style.opacity = 1;
+      this.refreshCounts();
+      this.enableDisableButton();
+      this.selectedRowIndex = -1; // Reset selection after content refresh
+
+    } else {
+      alert('Error during load. Please dry again. (' + response.status + ')');
+      console.log(response.status);
+      location.reload();
+    }
+  }
+
+  setupModalHandlers() {
+    // Store original focus handling
+    document.addEventListener('click', (event) => {
+      // If clicking outside the table, don't reset selection
+      if (!this.element.contains(event.target)) {
+        return;
+      }
+    });
+
+    // Listen for various modal close events
+    const modalEvents = ['modal:closed', 'hidden.bs.modal', 'turbo:before-cache', 'stimulus:connected'];
+    modalEvents.forEach(eventName => {
+      document.addEventListener(eventName, () => {
+        setTimeout(() => this.restoreSelection(), 100);
+      });
+    });
+
+    // More aggressive fallback: check frequently if selection is lost
+    this.selectionCheckInterval = setInterval(() => {
+      if (this.selectedRowIndex >= 0) {
+        const dataRows = this.getDataRows();
+        if (dataRows[this.selectedRowIndex] && !dataRows[this.selectedRowIndex].classList.contains('table-active')) {
+          // Check if no modal is currently open
+          const openModal = document.querySelector('.modal.show, .modal.fade.show, [data-bs-backdrop]');
+          if (!openModal) {
+            this.restoreSelection();
+          }
+        }
+      }
+    }, 200);
+  }
+
+  restoreSelection() {
+    // Restore visual selection after modal closes
+    let indexToRestore = -1;
+    
+    if (this.selectedRowIndex >= 0) {
+      indexToRestore = this.selectedRowIndex;
+    } else if (this.modalBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
+      // Only restore modal backup if regular backup also exists (means no page change)
+      indexToRestore = this.modalBackupIndex;
+    } else if (this.lastKnownSelectedIndex >= 0) {
+      indexToRestore = this.lastKnownSelectedIndex;
+    }
+    
+    if (indexToRestore >= 0) {
+      const dataRows = this.getDataRows();
+      if (dataRows[indexToRestore]) {
+        // Clear any existing selection first
+        dataRows.forEach(row => row.classList.remove('table-active'));
+        // Restore the selection
+        dataRows[indexToRestore].classList.add('table-active');
+        // Update both indices
+        this.selectedRowIndex = indexToRestore;
+        this.lastKnownSelectedIndex = indexToRestore;
+      }
+    }
   }
 
 }
