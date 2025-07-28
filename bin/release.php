@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '9.1.0';
-$message = 'DailySummeryMail design optimization';
+$version = '9.2.0';
+$message = 'Add tests and documentation';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

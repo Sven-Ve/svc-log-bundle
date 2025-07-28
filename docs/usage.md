@@ -91,26 +91,19 @@ when@prod:
 
 ## Log level
 
-```php
-namespace Svc\LogBundle\Service;
-class EventLog
-{
-  public const LEVEL_ALL = 0;
-  public const LEVEL_DEBUG = 1;
-  public const LEVEL_INFO = 2;
-  /**
-   * data is a special log level to store access data (page views, ...)
-   */
-  public const LEVEL_DATA = 3;
-  public const LEVEL_WARN = 4;
-  public const LEVEL_ERROR = 5;
-  public const LEVEL_FATAL = 6;
-  public const LEVEL_CRITICAL = 6; // same as FATAL
-  public const LEVEL_ALERT = 7;
-  public const LEVEL_EMERGENCY = 8;
+The bundle uses a `LogLevel` enum instead of constants:
 
-  ...
-}
+```php
+use Svc\LogBundle\Enum\LogLevel;
+
+LogLevel::DEBUG     // 1 - Development debugging
+LogLevel::INFO      // 2 - General information  
+LogLevel::DATA      // 3 - Data access tracking (page views, etc.)
+LogLevel::WARN      // 4 - Warning conditions
+LogLevel::ERROR     // 5 - Error conditions
+LogLevel::CRITICAL  // 6 - Critical conditions
+LogLevel::ALERT     // 7 - Alert conditions
+LogLevel::EMERGENCY // 8 - Emergency conditions
 ```
 
 ## Write log info
@@ -119,22 +112,27 @@ class EventLog
 
 ```php
 namespace Svc\LogBundle\Service;
+use Svc\LogBundle\Enum\LogLevel;
 
 class EventLog
 {
   /**
    * write a log record.
    *
-   * @param int               $sourceID   the ID of the source object
-   * @param int|null          $sourceType the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
-   * @param int               $level      one of the EventLog::LEVEL constants
-   * @return bool true if successfully
+   * @param int               $sourceID        the ID of the source object
+   * @param int|null          $sourceType      the type of the source (entityA = 1, entityB = 2, ...) - These types must be managed by yourself, best is to set constants in the application
+   * @param LogLevel          $level           LogLevel enum value
+   * @param string|null       $message         Log message (max 254 characters)
+   * @param string|null       $errorText       Error details (max 254 characters)
+   * @param int|null          $httpStatusCode  HTTP status code for web requests
+   * @return bool true if successfully written
    */
   public function writeLog(
     int $sourceID,
     ?int $sourceType = 0,
-    int $level = self::LEVEL_DATA,
+    LogLevel $level = LogLevel::DATA,
     ?string $message = null,
-    ?string $errorText = null
+    ?string $errorText = null,
+    ?int $httpStatusCode = null,
   ): bool
 ```
