@@ -46,12 +46,19 @@ class MockDailySummaryDefinition implements DailySummaryDefinitionInterface
 class DailySummaryHelperTest extends TestCase
 {
     private DailySummaryHelper $helper;
+
     private MockObject $dataProvider;
+
     private MockObject $twig;
+
     private MockObject $svcLogRep;
+
     private MockObject $mailerHelper;
+
     private MockObject $settingsManager;
+
     private MockObject $validator;
+
     private MockObject $eventLog;
 
     protected function setUp(): void
@@ -114,7 +121,7 @@ class DailySummaryHelperTest extends TestCase
 
         $violations = new ConstraintViolationList();
         $violations->add($this->createMock(\Symfony\Component\Validator\ConstraintViolationInterface::class));
-        
+
         $this->validator->expects($this->once())
             ->method('validate')
             ->willReturn($violations);

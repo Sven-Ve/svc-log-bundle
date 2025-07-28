@@ -11,18 +11,16 @@
 
 namespace Svc\LogBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LogControllerTest extends KernelTestCase
+class LogControllerTest extends WebTestCase
 {
     public function testLogIndex(): void
     {
-        $kernel = self::bootKernel();
-        $client = new KernelBrowser($kernel);
+        $client = static::createClient();
 
         $client->request('GET', '/svc-log/');
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('Log viewer', (string) $client->getResponse()->getContent());
     }
 }

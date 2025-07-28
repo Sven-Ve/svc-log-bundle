@@ -8,10 +8,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run all tests: `composer test` (alias for `vendor/bin/phpunit --testdox`)
 - Run PHPUnit directly: `vendor/bin/phpunit --testdox`
 - Run specific test: `vendor/bin/phpunit --filter TestClassName`
+- Run specific test file: `vendor/bin/phpunit tests/path/to/TestFile.php`
 
 ### Static Analysis
 - Run PHPStan: `composer phpstan` (alias for `php -d memory_limit=-1 vendor/bin/phpstan analyse -c .phpstan.neon`)
 - PHPStan analyzes `bin/`, `config/`, `src/`, and `tests/` directories at level 7
+
+### Other Commands
+- Install dependencies: `composer install`
+- Update dependencies: `composer update`
 
 ## Architecture Overview
 
@@ -71,3 +76,10 @@ This is a Symfony bundle that should be installed via Composer and registered in
 - jbtronics/settings-bundle for configuration persistence
 
 The bundle provides routes under `/svc-log/` prefix and includes Twig templates for the web interface.
+
+## Important Notes
+
+- When making changes, always run both `composer test` and `composer phpstan` to ensure code quality
+- The bundle uses SQLite in-memory database for testing via the custom `SvcLogTestingKernel`
+- Configuration is handled through jbtronics/settings-bundle (not traditional Symfony config files)
+- Device detection relies on matomo/device-detector library
