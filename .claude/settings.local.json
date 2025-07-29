@@ -7,7 +7,8 @@
       "Bash(/opt/homebrew/bin/php-cs-fixer fix)",
       "Bash(/opt/homebrew/bin/php-cs-fixer fix /Users/svv/Development/php/SvcLogBundle/tests/Controller/DailySummaryControllerTest.php)",
       "Bash(find:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(vendor/bin/phpunit:*)"
     ],
     "deny": []
   }
