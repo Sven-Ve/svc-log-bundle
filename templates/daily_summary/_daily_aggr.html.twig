@@ -4,7 +4,7 @@
     <thead>
       <tr>
         <th>Log level</th>
-        <th>Count</th>
+        <th style="text-align: right;">Count</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
           <td class="log-level-cell" style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}">
             {{ line.logLevelText }}
           </td>
-          <td><strong>{{ line.logLevelCount }}</strong></td>
+          <td style="text-align: right;"><strong>{{ line.logLevelCount }}</strong></td>
         </tr>
       {% endfor %}
     </tbody>

@@ -4,14 +4,14 @@
     <thead>
       <tr>
         <th>Item</th>
-        <th>Count</th>
+        <th style="text-align: right;">Count</th>
       </tr>
     </thead>
     <tbody>
       {% for line in daily_count.data | default(null) %}
         <tr>
           <td>{{ line.item_title }}</td>
-          <td><strong>{{ line.item_count }}</strong></td>
+          <td style="text-align: right;"><strong>{{ line.item_count }}</strong></td>
         </tr>
       {% endfor %}
     </tbody>

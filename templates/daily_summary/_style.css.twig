@@ -77,6 +77,10 @@ th {
   z-index: 10;
 }
 
+th:nth-child(2) {
+  text-align: right !important;
+}
+
 td {
   padding: 10px 8px;
   border-bottom: 1px solid #e8e8e8;
@@ -166,6 +170,11 @@ td:first-child {
   color: #2c3e50;
 }
 
+/* Right-align numeric columns (second column in both tables) */
+td:nth-child(2) {
+  text-align: right !important;
+}
+
 /* Log level styling improvements */
 .log-level-cell {
   font-weight: 600;
@@ -198,31 +207,33 @@ td:first-child {
   }
   
   table {
-    min-width: 500px;
+    min-width: 100%;
+    width: 100%;
   }
   
   th, td {
-    padding: 8px 6px;
-    font-size: 12px;
+    padding: 10px 8px;
+    font-size: 14px;
   }
   
   th {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
 @media only screen and (max-width: 480px) {
   table {
-    min-width: 450px;
+    min-width: 100%;
+    width: 100%;
   }
   
   th, td {
-    padding: 6px 4px;
-    font-size: 11px;
+    padding: 8px 6px;
+    font-size: 13px;
   }
   
   th {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
