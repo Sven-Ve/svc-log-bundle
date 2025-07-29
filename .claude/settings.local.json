@@ -5,7 +5,9 @@
       "Bash(composer:*)",
       "Bash(/opt/homebrew/bin/php-cs-fixer fix --dry-run --diff)",
       "Bash(/opt/homebrew/bin/php-cs-fixer fix)",
-      "Bash(/opt/homebrew/bin/php-cs-fixer fix /Users/svv/Development/php/SvcLogBundle/tests/Controller/DailySummaryControllerTest.php)"
+      "Bash(/opt/homebrew/bin/php-cs-fixer fix /Users/svv/Development/php/SvcLogBundle/tests/Controller/DailySummaryControllerTest.php)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }

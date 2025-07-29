@@ -478,3 +478,8 @@
 ## Version 9.2.0
 *Mon, 28 Jul 2025 19:04:46 +0000*
 - Add tests and documentation
+
+
+## Version 9.2.1
+*Tue, 29 Jul 2025 19:20:04 +0000*
+- Improve mail templates

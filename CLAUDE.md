@@ -14,6 +14,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run PHPStan: `composer phpstan` (alias for `php -d memory_limit=-1 vendor/bin/phpstan analyse -c .phpstan.neon`)
 - PHPStan analyzes `bin/`, `config/`, `src/`, and `tests/` directories at level 7
 
+### Console Commands (Bundle)
+- Run monthly statistics: `bin/console svc:log:stats-monthly`
+- Purge old logs: `bin/console svc:log:purge`
+- Send daily summary email: `bin/console svc:log:mail-daily-summary`
+- Batch fill location data: `bin/console svc:log:batch-fill-location`
+
 ### Other Commands
 - Install dependencies: `composer install`
 - Update dependencies: `composer update`
@@ -39,8 +45,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Device Detection**: Automatic browser, OS, platform detection using matomo/device-detector
 - **Privacy Controls**: Optional IP and user data saving (configurable via settings)
 - **Data Provider Pattern**: Extensible system for enriching log entries with application-specific data
+  - `DataProviderInterface` defines contract for custom data enrichment
+  - `GeneralDataProvider` as default implementation
+  - Custom providers configurable via bundle settings
 - **Daily Summaries**: Automated daily summary generation and email notifications
 - **Statistics**: Monthly statistics with purging capabilities
+- **Frontend Integration**: Symfony UX components with Stimulus controllers for interactive log viewer
 
 #### Console Commands
 - **StatMonthlyCommand**: Generate monthly statistics
@@ -53,33 +63,54 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **DailySummaryController**: Display daily summaries
 - **EaLogCrudController**: EasyAdmin integration for log management
 
-### Configuration
-The bundle uses jbtronics/settings-bundle for persistent configuration. Key configuration areas:
-- Log level filtering (`min_log_level`)
-- Privacy settings (`enable_ip_saving`, `enable_user_saving`)
-- External integrations (Sentry, default logger)
-- Kernel exception logging
-- Data provider class specification
+### Configuration System
+The bundle uses jbtronics/settings-bundle instead of traditional Symfony YAML configuration for persistent, runtime-configurable settings. Key configuration areas:
+- **Log Level Filtering**: `min_log_level` setting controls which log levels are recorded
+- **Privacy Settings**: `enable_ip_saving`, `enable_user_saving` for GDPR compliance
+- **External Integrations**: Sentry integration, default logger forwarding
+- **Exception Handling**: Kernel exception logging with customizable HTTP code handling
+- **Data Provider**: Configurable class for custom log entry enrichment
+- **Daily Summaries**: Email configuration and scheduling settings
 
-### Testing Structure
-- Unit tests for entities and services in `tests/Unit/`
-- Integration tests for controllers in `tests/Controller/`
-- Custom testing kernel: `SvcLogTestingKernel`
-- Test configuration uses SQLite in-memory database
+### Testing Infrastructure
+- **Unit Tests**: Pure unit tests for entities, enums, services in `tests/Unit/`
+- **Integration Tests**: Controller and service integration tests in `tests/Controller/` and `tests/Service/`
+- **Custom Testing Kernel**: `SvcLogTestingKernel` provides isolated test environment with SQLite in-memory database
+- **PHPStan Configuration**: Level 7 analysis with specific exclusions for EasyAdmin controllers (see `.phpstan.neon`)
+- **Coverage**: Comprehensive test coverage including edge cases and exception handling
 
 ## Bundle Integration Notes
 
 This is a Symfony bundle that should be installed via Composer and registered in `config/bundles.php`. It requires:
-- Symfony 7.3+
-- PHP 8.4+
-- Doctrine ORM
-- jbtronics/settings-bundle for configuration persistence
+- **PHP 8.4+** and **Symfony 7.3+**
+- **Doctrine ORM** (supports v2.18+ and v3+)
+- **jbtronics/settings-bundle** for configuration persistence
+- **matomo/device-detector** for browser/OS detection
+- **Symfony UX** components (Stimulus, Twig Components) for frontend functionality
 
-The bundle provides routes under `/svc-log/` prefix and includes Twig templates for the web interface.
+### Bundle Features
+- **Routes**: Provides routes under `/svc-log/` prefix for web interface
+- **Templates**: Comprehensive Twig templates for log viewing and daily summaries
+- **Assets**: Stimulus controllers for interactive frontend functionality (`assets/src/viewer_controller.js`)
+- **EasyAdmin Integration**: Optional CRUD controllers (suggest easycorp/easyadmin-bundle)
+- **Privacy by Design**: Configurable data retention and GDPR-compliant privacy controls
 
-## Important Notes
+## Development Guidelines
 
-- When making changes, always run both `composer test` and `composer phpstan` to ensure code quality
-- The bundle uses SQLite in-memory database for testing via the custom `SvcLogTestingKernel`
-- Configuration is handled through jbtronics/settings-bundle (not traditional Symfony config files)
-- Device detection relies on matomo/device-detector library
+### Code Quality Requirements
+- **Testing**: All changes must pass `composer test` (PHPUnit with --testdox)
+- **Static Analysis**: Code must pass `composer phpstan` (level 7 analysis)
+- **PHPStan Exclusions**: EasyAdmin controllers are excluded from static analysis
+- **Test Coverage**: New features require comprehensive unit and integration tests
+
+### Architecture Patterns
+- **Settings-Based Configuration**: Uses jbtronics/settings-bundle instead of YAML configs
+- **Data Provider Pattern**: Implement `DataProviderInterface` for custom log enrichment
+- **Privacy by Design**: Consider GDPR implications when adding user/IP tracking features
+- **Frontend Integration**: Use Symfony UX patterns for interactive components
+
+### Development Environment
+- **Testing Database**: SQLite in-memory database via `SvcLogTestingKernel`
+- **Frontend Assets**: Managed via Symfony AssetMapper with Stimulus controllers
+- **Bundle Dependencies**: Requires multiple Symfony components and external libraries (see composer.json)
+- **PHP/Symfony Versions**: Targets PHP 8.4+ and Symfony 7.3+

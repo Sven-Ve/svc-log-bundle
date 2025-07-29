@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '9.2.0';
-$message = 'Add tests and documentation';
+$version = '9.2.1';
+$message = 'Improve mail templates';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
