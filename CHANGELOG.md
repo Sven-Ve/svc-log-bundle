@@ -483,3 +483,8 @@
 ## Version 9.2.1
 *Tue, 29 Jul 2025 19:20:04 +0000*
 - Improve mail templates
+
+
+## Version 9.2.2
+*Wed, 27 Aug 2025 09:27:53 +0000*
+- Tested with jbtronics/settings-bundle v3

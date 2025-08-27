@@ -29,11 +29,8 @@
         "symfony/security-bundle": "^7.3",
         "symfony/stimulus-bundle": "^2.18",
         "twig/extra-bundle": "^3.21",
-        "jbtronics/settings-bundle": "^2.6",
+        "jbtronics/settings-bundle": "^2.6 | ^3",
         "matomo/device-detector": "^6.4"
-    },
-    "suggest": {
-        "easycorp/easyadmin-bundle": "If the EasyAdmin log admin page is to be used"
     },
     "autoload": {
         "psr-4": {

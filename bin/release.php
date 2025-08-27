@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '9.2.1';
-$message = 'Improve mail templates';
+$version = '9.2.2';
+$message = 'Tested with jbtronics/settings-bundle v3';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
