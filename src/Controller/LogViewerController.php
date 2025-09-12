@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
-class LogViewerController extends AbstractController
+final class LogViewerController extends AbstractController
 {
     public function __construct(
         private DataProviderInterface $dataProvider,

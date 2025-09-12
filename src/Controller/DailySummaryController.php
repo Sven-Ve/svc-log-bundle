@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
-class DailySummaryController extends AbstractController
+final class DailySummaryController extends AbstractController
 {
     public function __construct(private readonly DailySummaryHelper $dailySummary)
     {

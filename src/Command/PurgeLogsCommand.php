@@ -28,7 +28,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     description: 'Purge old log events.',
     hidden: false
 )]
-class PurgeLogsCommand extends Command
+final class PurgeLogsCommand extends Command
 {
     use LockableTrait;
 

@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'svc_log:stat-aggregate',
     description: 'Create statistics.',
 )]
-class StatMonthlyCommand extends Command
+final class StatMonthlyCommand extends Command
 {
     use LockableTrait;
 

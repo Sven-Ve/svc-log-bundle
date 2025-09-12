@@ -29,7 +29,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     description: 'Fill country and city (in batch because timing).',
     hidden: false
 )]
-class BatchFillLocationCommand extends Command
+final class BatchFillLocationCommand extends Command
 {
     use LockableTrait;
 

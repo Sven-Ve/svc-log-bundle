@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
-class SvcLogBundle extends AbstractBundle
+final class SvcLogBundle extends AbstractBundle
 {
     public function getPath(): string
     {

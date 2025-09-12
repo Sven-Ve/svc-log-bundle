@@ -24,7 +24,5 @@ services:
     arguments:
       - "@Svc\\LogBundle\\DataProvider\\GeneralDataProvider"
   Svc\LogBundle\Controller\DailySummaryController:
-  Svc\LogBundle\Controller\EaLogCrudController:
-  Svc\LogBundle\Controller\EaLogStatMonthlyCrudController:
   Svc\LogBundle\Entity\DailySumDef:
   Svc\LogBundle\EventListener\HttpExceptionListener:

@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 #[AsEventListener(event: 'kernel.exception')]
-class HttpExceptionListener
+final class HttpExceptionListener
 {
     public function __construct(
         private bool $enableLogger,

@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     description: 'Mail daily log summary',
     hidden: false
 )]
-class MailDailySummary extends Command
+final class MailDailySummary extends Command
 {
     use LockableTrait;
 
