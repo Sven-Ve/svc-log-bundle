@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Static Analysis
 - Run PHPStan: `composer phpstan` (alias for `php -d memory_limit=-1 vendor/bin/phpstan analyse -c .phpstan.neon`)
 - PHPStan analyzes `bin/`, `config/`, `src/`, and `tests/` directories at level 7
+- Run PHP CS Fixer: `/opt/homebrew/bin/php-cs-fixer fix` (check: add `--dry-run --diff` flags)
 
 ### Console Commands (Bundle)
 - Run monthly statistics: `bin/console svc:log:stats-monthly`
@@ -89,7 +90,8 @@ This is a Symfony bundle that should be installed via Composer and registered in
 - **Symfony UX** components (Stimulus, Twig Components) for frontend functionality
 
 ### Bundle Features
-- **Routes**: Provides routes under `/svc-log/` prefix for web interface
+- **Routes**: Provides routes under `/svc-log/` prefix for web interface (configured in `config/routes.php`)
+- **Services**: Service container configuration (configured in `config/services.php`)
 - **Templates**: Comprehensive Twig templates for log viewing and daily summaries
 - **Assets**: Stimulus controllers for interactive frontend functionality (`assets/src/viewer_controller.js`)
 - **EasyAdmin Integration**: Optional CRUD controllers (suggest easycorp/easyadmin-bundle)

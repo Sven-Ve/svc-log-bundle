@@ -488,3 +488,8 @@
 ## Version 9.2.2
 *Wed, 27 Aug 2025 09:27:53 +0000*
 - Tested with jbtronics/settings-bundle v3
+
+
+## Version 9.3.0
+*Sat, 13 Sep 2025 19:31:06 +0000*
+- breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.

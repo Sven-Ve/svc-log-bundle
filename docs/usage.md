@@ -4,9 +4,8 @@
 
 We use jbtronics/settings-bundle to store parameter/settings. This means, you have to define a storage adapter.
 
-Exemple:
+Example:
 
-## Enable/disable feature
 ```yaml
 # /config/packages/jbtronics_settings.yaml
 jbtronics_settings:
@@ -15,6 +14,18 @@ jbtronics_settings:
 
 For more options (like storing in ORM) see the [package documentation](https://jbtronics.github.io/settings-bundle/)
 
+## Routing
+
+* adapt the default url prefix in config/routes/svc_log.yaml 
+
+```yaml
+# /config/routes/svc_log.yaml
+_svc_log:
+    resource: '@SvcLogBundle/config/routes.php'
+    prefix: /admin/svc-log/
+```
+
+## Enable/disable feature
 ### general
 
 ```yaml

@@ -97,6 +97,6 @@ class SvcLogTestingKernel extends Kernel
      */
     private function configureRoutes(RoutingConfigurator $routes)
     {
-        $routes->import(__DIR__ . '/../config/routes.yaml')->prefix('/svc-log');
+        $routes->import(__DIR__ . '/../config/routes.php')->prefix('/svc-log');
     }
 }
