@@ -256,6 +256,7 @@ class MyLogDataProvider extends GeneralDataProvider
 ```yaml
 # config/packages/svc_log.yaml
 svc_log:
+    # Example: App\Service\LogDataProvider
     data_provider: App\Service\MyLogDataProvider
 ```
 
@@ -338,8 +339,8 @@ class MyDailySummaryDefinition implements DailySummaryDefinitionInterface
 svc_log:
     daily_summary:
         definition_class: App\Service\MyDailySummaryDefinition
-        email_to: 'admin@example.com'
-        email_from: 'noreply@example.com'
+        destination_email: 'admin@example.com'
+        mail_subject: 'Daily System Summary'
 ```
 
 ### Running Daily Summaries
@@ -535,10 +536,6 @@ svc_log:
     data_provider: App\Service\MyLogDataProvider
     
     # External integrations
-    sentry:
-        use_sentry: true
-        sentry_min_log_level: 5
-    
     logger:
         use_logger: true
         logger_min_log_level: 4

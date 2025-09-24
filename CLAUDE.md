@@ -68,7 +68,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The bundle uses jbtronics/settings-bundle instead of traditional Symfony YAML configuration for persistent, runtime-configurable settings. Key configuration areas:
 - **Log Level Filtering**: `min_log_level` setting controls which log levels are recorded
 - **Privacy Settings**: `enable_ip_saving`, `enable_user_saving` for GDPR compliance
-- **External Integrations**: Sentry integration, default logger forwarding
+- **External Integrations**: Default logger forwarding
 - **Exception Handling**: Kernel exception logging with customizable HTTP code handling
 - **Data Provider**: Configurable class for custom log entry enrichment
 - **Daily Summaries**: Email configuration and scheduling settings
@@ -116,3 +116,41 @@ This is a Symfony bundle that should be installed via Composer and registered in
 - **Frontend Assets**: Managed via Symfony AssetMapper with Stimulus controllers
 - **Bundle Dependencies**: Requires multiple Symfony components and external libraries (see composer.json)
 - **PHP/Symfony Versions**: Targets PHP 8.4+ and Symfony 7.3+
+
+## Important Implementation Notes
+
+### Configuration Architecture
+The bundle uses a hybrid configuration approach:
+- **Bundle Configuration**: Defined in `SvcLogBundle::configure()` using Symfony's configuration tree builder with `stringNode()`, `booleanNode()`, and `integerNode()` (not `scalarNode()`)
+- **Runtime Settings**: Persistent configuration via jbtronics/settings-bundle stored in database or files
+- **Examples**: Configuration nodes include example values using `->example()` method
+
+### Bundle Route Integration
+Routes are configured in PHP (not YAML) at `config/routes.php`. Projects must manually import routes:
+```php
+// config/routes/svc_log.yaml
+_svc_log:
+    resource: '@SvcLogBundle/config/routes.php'
+    prefix: /admin/svc-log/
+```
+
+### Data Provider Pattern Details
+The Data Provider system allows enrichment of log entries with human-readable descriptions:
+- Interface: `DataProviderInterface` defines the contract
+- Default: `GeneralDataProvider` provides base functionality with array-based caching
+- Custom: Extend `GeneralDataProvider` and override `getSourceTypeText()` and `getSourceIDText()`
+- Configuration: Set via `data_provider` bundle parameter, automatically aliased in DI container
+
+### Testing Strategy
+- **Unit Tests**: Focus on individual components in isolation (`tests/Unit/`)
+- **Integration Tests**: Test service interactions and database operations (`tests/Service/`, `tests/Controller/`)
+- **Custom Kernel**: `SvcLogTestingKernel` provides minimal test environment with all required bundles
+- **Database**: Uses SQLite in-memory for fast test execution
+- **Mocking**: Extensive use of PHPUnit mocks for external dependencies
+
+### Key Design Patterns
+- **Enum-based Log Levels**: Uses `LogLevel` enum instead of constants for type safety
+- **Service-oriented Architecture**: Core functionality split into focused services
+- **Event-driven Logging**: Kernel exception listener for automatic error capture
+- **Template Component System**: Symfony UX Twig Components for reusable UI elements
+- **Settings Persistence**: Runtime-configurable behavior without code deployment

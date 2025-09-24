@@ -59,9 +59,8 @@ Configure the daily summary system in your configuration:
 svc_log:
     daily_summary:
         definition_class: App\Service\MyDailySummaryDefinition
-        email_to: 'admin@example.com'
-        email_from: 'noreply@example.com'
-        email_subject: 'Daily System Summary'
+        destination_email: 'admin@example.com'
+        mail_subject: 'Daily System Summary'
 ```
 
 ## DailySumDef Entity Properties

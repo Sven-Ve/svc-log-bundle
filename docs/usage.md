@@ -54,16 +54,8 @@ svc_log:
     offset_param_name:    offset
 
     # Class of your one data provider to get info about sourceType and sourceID, see documentation
+    # Example: App\Service\LogDataProvider
     data_provider:        null
-
-    # Optional configuration for sentry.io, see documentation
-    sentry:
-
-        # Write log entries to sentry.io too
-        use_sentry:           false
-
-        # Minimal log level to write to sentry, see documentation for values (only 4..6 allowed)
-        sentry_min_log_level: 6
 
     # Optional configuration for default logger, see documentation
     logger:
@@ -87,7 +79,10 @@ svc_log:
         critical_level:       6
 
         # do not send http 404 to logger (and maybe mail)
-        disable_404_to_logger: true
+        disable_404_to_logger: false
+
+        # adds an extra sleep after every 404 error (in seconds, max. 5)
+        extra_sleep_time:     0
 ```
 
 ### Recommended setting
