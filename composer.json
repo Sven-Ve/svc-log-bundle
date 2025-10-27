@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^8.4",
-        "doctrine/doctrine-bundle": "^2.10",
+        "doctrine/doctrine-bundle": "^2.10 | ^3",
         "symfony/framework-bundle": "^7.3",
         "symfony/validator": "^7.3",
         "symfony/http-kernel": "^7.3",

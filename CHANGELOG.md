@@ -493,3 +493,8 @@
 ## Version 9.3.0
 *Sat, 13 Sep 2025 19:31:06 +0000*
 - breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.
+
+
+## Version 9.4.0
+*Mon, 27 Oct 2025 18:12:03 +0000*
+- Add strict types declaration across multiple files; update composer.json to support newer doctrine versions.

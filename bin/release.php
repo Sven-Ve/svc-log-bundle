@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the SvcLog bundle.
  *
@@ -10,8 +12,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '9.3.0';
-$message = 'breaking change, now it use php as route configuration. You have to import the routes in your project manually. See docs for more information.';
+$version = '9.4.0';
+$message = 'Add strict types declaration across multiple files; update composer.json to support newer doctrine versions.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
