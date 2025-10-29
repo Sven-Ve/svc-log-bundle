@@ -41,12 +41,14 @@ final class HttpExceptionListener
 
         // You get the exception object from the received event
         $exception = $event->getThrowable();
+        $request = $event->getRequest();
+        $requestUri = $request->getRequestUri();
 
         if ($exception instanceof HttpExceptionInterface) {
             $logType = LogAppConstants::LOG_TYPE_KERNEL_EXCEPTION;
             $statuscode = $exception->getStatusCode();
             $message = $exception->getMessage();
-            if ($statuscode == 404 and str_starts_with($_SERVER['REQUEST_URI'], '/sitemap')) {
+            if ($statuscode == 404 and str_starts_with($requestUri, '/sitemap')) {
                 $level = LogLevel::WARN;
                 $errorText = 'HTTP warning ' . $statuscode;
             } else {
