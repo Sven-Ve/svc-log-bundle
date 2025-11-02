@@ -1,19 +1,19 @@
 <h3>{{ daily_aggr.title }}</h3>
 <div class="table-container">
-  <table>
+  <table class="simple-table" style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr>
-        <th>Log level</th>
-        <th style="text-align: right;">Count</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Log level</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: right; font-size: 14px;">Count</th>
       </tr>
     </thead>
     <tbody>
       {% for line in daily_aggr.data | default(null) %}
         <tr>
-          <td class="log-level-cell" style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}">
+          <td class="log-level-cell" style="background-color:{{ line.logLevelBGColor }}; color:{{line.logLevelFGColor}}; font-weight: 600; text-align: center; border-radius: 4px; font-size: 12px; padding: 4px 8px; border-bottom: 1px solid #e8e8e8;">
             {{ line.logLevelText }}
           </td>
-          <td style="text-align: right;"><strong>{{ line.logLevelCount }}</strong></td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 14px; text-align: right;"><strong>{{ line.logLevelCount }}</strong></td>
         </tr>
       {% endfor %}
     </tbody>

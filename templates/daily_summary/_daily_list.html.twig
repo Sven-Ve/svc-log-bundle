@@ -1,6 +1,6 @@
 <h3>{{ daily_list.title }}</h3>
 <div class="table-container">
-  <table>
+  <table class="log-detail-table">
     <thead>
       <tr>
         <th>ID</th>
@@ -15,15 +15,18 @@
     <tbody>
       {% for log in daily_list.logItems | default(null) %}
         <tr>
-          <td>{{ log.id }}</td>
-          <td>{{ log.logDate | format_datetime(locale='de',timezone='Europe/Zurich') }}</td>
-          <td>{{ log.getSourceIDText }}</td>
-          <td>{{ log.getSourceTypeText }}</td>
-          <td class="log-level-cell" style="background-color:{{ log.getLogLevelBGColorHTML }}; color:{{log.getLogLevelFGColorHTML}}">
-            {{ log.getLogLevelText }}
+          <td class="td-id">{{ log.id }}</td>
+          <td class="td-date"><span class="mobile-label">Date: </span>{{ log.logDate | format_datetime(locale='de',timezone='Europe/Zurich') }}</td>
+          <td class="td-source-id"><span class="mobile-label">Source ID: </span>{{ log.getSourceIDText }}</td>
+          <td class="td-source-type"><span class="mobile-label">Source type: </span>{{ log.getSourceTypeText }}</td>
+          <td class="td-level">
+            <span class="mobile-label">Level: </span>
+            <span class="log-level-cell" style="background-color:{{ log.getLogLevelBGColorHTML }}; color:{{log.getLogLevelFGColorHTML}}">
+              {{ log.getLogLevelText }}
+            </span>
           </td>
-          <td>{{ log.botName ?: '-' }}</td>
-          <td>{{ log.message }}</td>
+          <td class="td-bot {% if not log.botName %}td-bot-empty{% endif %}"><span class="mobile-label">Bot: </span>{{ log.botName ?: '-' }}</td>
+          <td class="td-message"><span class="mobile-label">Message: </span>{{ log.message }}</td>
         </tr>
       {% endfor %}
     </tbody>
