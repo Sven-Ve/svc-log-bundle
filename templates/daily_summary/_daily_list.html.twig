@@ -1,32 +1,32 @@
 <h3>{{ daily_list.title }}</h3>
 <div class="table-container">
-  <table class="log-detail-table">
+  <table class="log-detail-table" style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Source ID</th>
-        <th>Source type</th>
-        <th>Log level</th>
-        <th>Bot</th>
-        <th>Message</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">ID</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Date</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Source ID</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Source type</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Log level</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Bot</th>
+        <th style="background-color: #667eea; color: #ffffff; font-weight: 600; padding: 10px 8px; text-align: left; font-size: 14px;">Message</th>
       </tr>
     </thead>
     <tbody>
       {% for log in daily_list.logItems | default(null) %}
         <tr>
-          <td class="td-id">{{ log.id }}</td>
-          <td class="td-date"><span class="mobile-label">Date: </span>{{ log.logDate | format_datetime(locale='de',timezone='Europe/Zurich') }}</td>
-          <td class="td-source-id"><span class="mobile-label">Source ID: </span>{{ log.getSourceIDText }}</td>
-          <td class="td-source-type"><span class="mobile-label">Source type: </span>{{ log.getSourceTypeText }}</td>
-          <td class="td-level">
+          <td class="td-id" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;">{{ log.id }}</td>
+          <td class="td-date" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Date: </span>{{ log.logDate | format_datetime(locale='de',timezone='Europe/Zurich') }}</td>
+          <td class="td-source-id" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Source ID: </span>{{ log.getSourceIDText }}</td>
+          <td class="td-source-type" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Source type: </span>{{ log.getSourceTypeText }}</td>
+          <td class="td-level" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;">
             <span class="mobile-label">Level: </span>
-            <span class="log-level-cell" style="background-color:{{ log.getLogLevelBGColorHTML }}; color:{{log.getLogLevelFGColorHTML}}">
+            <span class="log-level-cell" style="background-color:{{ log.getLogLevelBGColorHTML }}; color:{{log.getLogLevelFGColorHTML}}; font-weight: 600; text-align: center; border-radius: 4px; font-size: 12px; padding: 4px 8px;">
               {{ log.getLogLevelText }}
             </span>
           </td>
-          <td class="td-bot {% if not log.botName %}td-bot-empty{% endif %}"><span class="mobile-label">Bot: </span>{{ log.botName ?: '-' }}</td>
-          <td class="td-message"><span class="mobile-label">Message: </span>{{ log.message }}</td>
+          <td class="td-bot {% if not log.botName %}td-bot-empty{% endif %}" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Bot: </span>{{ log.botName ?: '-' }}</td>
+          <td class="td-message" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Message: </span>{{ log.message }}</td>
         </tr>
       {% endfor %}
     </tbody>
