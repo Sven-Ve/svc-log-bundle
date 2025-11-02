@@ -498,3 +498,8 @@
 ## Version 9.4.0
 *Mon, 27 Oct 2025 18:12:03 +0000*
 - Add strict types declaration across multiple files; update composer.json to support newer doctrine versions.
+
+
+## Version 9.5.0
+*Sun, 02 Nov 2025 11:04:03 +0000*
+- Improved layout in Daily Summary report.

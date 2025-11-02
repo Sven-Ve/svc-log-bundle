@@ -154,3 +154,13 @@ The Data Provider system allows enrichment of log entries with human-readable de
 - **Event-driven Logging**: Kernel exception listener for automatic error capture
 - **Template Component System**: Symfony UX Twig Components for reusable UI elements
 - **Settings Persistence**: Runtime-configurable behavior without code deployment
+
+### Email Template Development
+Daily summary emails (`templates/daily_summary/`) are designed for maximum email client compatibility:
+- **Inline Styles**: All critical styles must be inline (Outlook doesn't support `<style>` tags reliably)
+- **No Gradients**: Use solid colors only - Outlook doesn't support CSS gradients
+- **No :not() Selectors**: Outlook doesn't support advanced CSS selectors
+- **Mobile Card Layout**: Tables with `log-detail-table` class convert to cards on mobile (≤768px)
+- **Simple Tables**: Tables with `simple-table` class remain as tables on all devices
+- **Legacy HTML Attributes**: Use `bgcolor` and `<font color="">` for best Outlook compatibility
+- **Mobile Labels**: Use `<span class="mobile-label">` that shows only on mobile in card layout
