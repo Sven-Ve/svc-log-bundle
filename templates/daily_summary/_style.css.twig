@@ -232,51 +232,66 @@ tr:nth-child(even) {
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
   }
 
   .email-container {
-    background-color: #2d2d2d;
+    background-color: #2d2d2d !important;
   }
 
-  h1, h3 {
-    color: #ffffff;
+  h1 {
+    color: #ffffff !important;
+    border-bottom-color: #4fc3f7 !important;
+  }
+
+  h3 {
+    color: #ffffff !important;
+    border-left-color: #4fc3f7 !important;
   }
 
   .table-container {
-    border-color: #404040;
+    border-color: #404040 !important;
   }
 
   table {
-    background-color: #2d2d2d;
+    background-color: #2d2d2d !important;
   }
 
+  /* Dark mode table headers - override inline styles */
   th {
-    background: linear-gradient(135deg, #37474f 0%, #546e7a 100%);
+    background-color: #546e7a !important;
+    background: #546e7a !important;
+    color: #ffffff !important;
   }
 
   td {
-    border-bottom-color: #404040;
-    color: #e0e0e0;
+    border-bottom-color: #404040 !important;
+    color: #e0e0e0 !important;
+    background-color: transparent !important;
   }
 
-  tr:nth-child(even) {
-    background-color: #363636;
+  tr:nth-child(even) td {
+    background-color: #363636 !important;
   }
 
+  /* Mobile card view in dark mode */
   @media only screen and (max-width: 768px) {
     .log-detail-table tr {
-      background-color: #2d2d2d;
-      border-color: #404040;
+      background-color: #2d2d2d !important;
+      border-color: #404040 !important;
     }
 
     .log-detail-table .mobile-label {
-      color: #4fc3f7;
+      color: #4fc3f7 !important;
     }
 
     .log-detail-table .td-date {
-      color: #aaa;
+      color: #aaa !important;
+    }
+
+    .log-detail-table .td-message {
+      border-top-color: #404040 !important;
     }
   }
 }
