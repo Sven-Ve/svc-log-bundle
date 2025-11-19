@@ -503,3 +503,8 @@
 ## Version 9.5.0
 *Sun, 02 Nov 2025 11:04:03 +0000*
 - Improved layout in Daily Summary report.
+
+
+## Version 9.6.0
+*Wed, 19 Nov 2025 15:31:00 +0000*
+- Tested with svc-utilbundle 7.x too.

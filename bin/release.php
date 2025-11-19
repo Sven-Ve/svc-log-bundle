@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '9.5.0';
-$message = 'Improved layout in Daily Summary report.';
+$version = '9.6.0';
+$message = 'Tested with svc-utilbundle 7.x too.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

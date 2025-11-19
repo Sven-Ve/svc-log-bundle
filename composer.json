@@ -23,7 +23,7 @@
         "symfony/translation": "^7.3",
         "symfony/twig-bundle": "^7.3",
         "twig/intl-extra": "^3.21",
-        "svc/util-bundle": "^5.9.1 | ^6 | dev-main",
+        "svc/util-bundle": "^5.9.1 | ^6 | ^7 | dev-main",
         "doctrine/orm": "^2.18 | ^3",
         "symfony/ux-twig-component": "^2.18",
         "symfony/security-bundle": "^7.3",
