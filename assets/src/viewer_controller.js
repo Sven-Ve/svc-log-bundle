@@ -20,10 +20,10 @@ export default class extends Controller {
   connect() {
     this.selectedRowIndex = -1;
     this.lastKnownSelectedIndex = -1; // Backup of selection
-    this.modalBackupIndex = -1; // Backup specifically for modal operations
+    this.dialogBackupIndex = -1; // Backup specifically for dialog operations
     this.refreshContent(this.createURL("0"));
     this.setupKeyboardNavigation();
-    this.setupModalHandlers();
+    this.setupDialogHandlers();
   }
 
   onSubmit(event) {
@@ -170,6 +170,13 @@ export default class extends Controller {
       return;
     }
 
+    // Don't interfere when a dialog is open
+    // Note: Scroll prevention is now handled by the modal controller in svc-util-bundle
+    const openDialog = document.querySelector('dialog[open]');
+    if (openDialog) {
+      return;
+    }
+
     const dataRows = this.getDataRows();
 
     switch(event.key) {
@@ -217,8 +224,8 @@ export default class extends Controller {
       case ' ':
         if (this.selectedRowIndex >= 0 && dataRows[this.selectedRowIndex]) {
           event.preventDefault();
-          // Save the current selection before opening modal in separate backup
-          this.modalBackupIndex = this.selectedRowIndex;
+          // Save the current selection before opening dialog in separate backup
+          this.dialogBackupIndex = this.selectedRowIndex;
           dataRows[this.selectedRowIndex].click();
         }
         break;
@@ -253,13 +260,13 @@ export default class extends Controller {
     });
 
     // Try to restore from backup if main index was reset
-    // Only restore from modal backup if we haven't explicitly reset all selections
+    // Only restore from dialog backup if we haven't explicitly reset all selections
     if (this.selectedRowIndex < 0) {
-      if (this.modalBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
-        // Only restore modal backup if regular backup also exists (means no page change)
-        this.selectedRowIndex = this.modalBackupIndex;
-        // Clear the modal backup after using it
-        this.modalBackupIndex = -1;
+      if (this.dialogBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
+        // Only restore dialog backup if regular backup also exists (means no page change)
+        this.selectedRowIndex = this.dialogBackupIndex;
+        // Clear the dialog backup after using it
+        this.dialogBackupIndex = -1;
       } else if (this.lastKnownSelectedIndex >= 0) {
         this.selectedRowIndex = this.lastKnownSelectedIndex;
       }
@@ -315,7 +322,7 @@ export default class extends Controller {
     // Reset all selection indices completely (used when changing pages)
     this.selectedRowIndex = -1;
     this.lastKnownSelectedIndex = -1;
-    this.modalBackupIndex = -1;
+    this.dialogBackupIndex = -1;
   }
 
   clearSelection(dataRows, resetIndex = true) {
@@ -361,7 +368,7 @@ export default class extends Controller {
     }
   }
 
-  setupModalHandlers() {
+  setupDialogHandlers() {
     // Store original focus handling
     document.addEventListener('click', (event) => {
       // If clicking outside the table, don't reset selection
@@ -370,12 +377,18 @@ export default class extends Controller {
       }
     });
 
-    // Listen for various modal close events
-    const modalEvents = ['modal:closed', 'hidden.bs.modal', 'turbo:before-cache', 'stimulus:connected'];
-    modalEvents.forEach(eventName => {
-      document.addEventListener(eventName, () => {
+    // Listen for dialog close events
+    // Note: Native dialog 'close' event bubbles to document
+    document.addEventListener('close', (event) => {
+      // Only handle dialog close events
+      if (event.target.tagName === 'DIALOG') {
         setTimeout(() => this.restoreSelection(), 100);
-      });
+      }
+    }, true); // Use capture phase to ensure we catch it
+
+    // Turbo integration
+    document.addEventListener('turbo:before-cache', () => {
+      setTimeout(() => this.restoreSelection(), 100);
     });
 
     // More aggressive fallback: check frequently if selection is lost
@@ -383,9 +396,9 @@ export default class extends Controller {
       if (this.selectedRowIndex >= 0) {
         const dataRows = this.getDataRows();
         if (dataRows[this.selectedRowIndex] && !dataRows[this.selectedRowIndex].classList.contains('table-active')) {
-          // Check if no modal is currently open
-          const openModal = document.querySelector('.modal.show, .modal.fade.show, [data-bs-backdrop]');
-          if (!openModal) {
+          // Check if no dialog is currently open (native dialog element)
+          const openDialog = document.querySelector('dialog[open]');
+          if (!openDialog) {
             this.restoreSelection();
           }
         }
@@ -394,14 +407,14 @@ export default class extends Controller {
   }
 
   restoreSelection() {
-    // Restore visual selection after modal closes
+    // Restore visual selection after dialog closes
     let indexToRestore = -1;
-    
+
     if (this.selectedRowIndex >= 0) {
       indexToRestore = this.selectedRowIndex;
-    } else if (this.modalBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
-      // Only restore modal backup if regular backup also exists (means no page change)
-      indexToRestore = this.modalBackupIndex;
+    } else if (this.dialogBackupIndex >= 0 && this.lastKnownSelectedIndex >= 0) {
+      // Only restore dialog backup if regular backup also exists (means no page change)
+      indexToRestore = this.dialogBackupIndex;
     } else if (this.lastKnownSelectedIndex >= 0) {
       indexToRestore = this.lastKnownSelectedIndex;
     }

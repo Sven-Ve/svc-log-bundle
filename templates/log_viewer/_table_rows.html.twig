@@ -3,7 +3,8 @@
 	<tr
     {{ stimulus_controller('svc--util-bundle--modal', {
       url: path('svc_log_viewer_view_detail', {id: log.id}),
-      title: "Log details" | trans
+      title: "Log details" | trans,
+      size: 'lg'
     }) }}
     {{ stimulus_action("svc--util-bundle--modal", "show", "click") }}
   >

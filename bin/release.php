@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '9.6.0';
-$message = 'Tested with svc-utilbundle 7.x too.';
+$version = '10.0.0';
+$message = 'BREAKING: Migrate to native <dialog> system from svc-util-bundle (requires ^8.0.1). Remove deprecated Bootstrap Modal references, add dialog size support (lg), fix ESC key handling and prevent background scrolling when dialog is open.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

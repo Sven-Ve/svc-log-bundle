@@ -508,3 +508,8 @@
 ## Version 9.6.0
 *Wed, 19 Nov 2025 15:31:00 +0000*
 - Tested with svc-utilbundle 7.x too.
+
+
+## Version 10.0.0
+*Sat, 22 Nov 2025 22:25:14 +0000*
+- BREAKING: Migrate to native <dialog> system from svc-util-bundle (requires ^8.0.1). Remove deprecated Bootstrap Modal references, add dialog size support (lg), fix ESC key handling and prevent background scrolling when dialog is open.
