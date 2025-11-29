@@ -513,3 +513,8 @@
 ## Version 10.0.0
 *Sat, 22 Nov 2025 22:25:14 +0000*
 - BREAKING: Migrate to native <dialog> system from svc-util-bundle (requires ^8.0.1). Remove deprecated Bootstrap Modal references, add dialog size support (lg), fix ESC key handling and prevent background scrolling when dialog is open.
+
+
+## Version 10.1.0
+*Sat, 29 Nov 2025 16:56:30 +0000*
+- tested with symfony 7.4 and symfony 8.
