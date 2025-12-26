@@ -47,8 +47,8 @@ class DailySummaryControllerTest extends WebTestCase
 
     public function testControllerConstructor(): void
     {
-        // Test that we can instantiate the controller with a mock service
-        $dailySummaryHelper = $this->createMock(\Svc\LogBundle\Service\DailySummaryHelper::class);
+        // Test that we can instantiate the controller with a stub service
+        $dailySummaryHelper = $this->createStub(\Svc\LogBundle\Service\DailySummaryHelper::class);
         $controller = new \Svc\LogBundle\Controller\DailySummaryController($dailySummaryHelper);
 
         $this->assertInstanceOf(\Svc\LogBundle\Controller\DailySummaryController::class, $controller);

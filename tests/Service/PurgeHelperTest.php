@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\PurgeHelper;
 
+#[AllowMockObjectsWithoutExpectations]
 class PurgeHelperTest extends TestCase
 {
     private PurgeHelper $purgeHelper;

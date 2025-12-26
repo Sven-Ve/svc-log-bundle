@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.1.0';
-$message = 'tested with symfony 7.4 and symfony 8.';
+$version = '10.2.0';
+$message = 'modify BatchHelper API limit message (switch to ip-api.com), fixed tests';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

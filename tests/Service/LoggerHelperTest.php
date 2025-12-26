@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -20,6 +21,7 @@ use Svc\LogBundle\Entity\SvcLog;
 use Svc\LogBundle\Enum\LogLevel;
 use Svc\LogBundle\Service\LoggerHelper;
 
+#[AllowMockObjectsWithoutExpectations]
 class LoggerHelperTest extends TestCase
 {
     private LoggerInterface $loggerMock;
@@ -34,7 +36,7 @@ class LoggerHelperTest extends TestCase
 
     public function testSendReturnsTrueOnSuccess(): void
     {
-        $log = $this->createMock(SvcLog::class);
+        $log = $this->createStub(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('Info');
         $log->method('getMessage')->willReturn('Test message');
@@ -53,7 +55,7 @@ class LoggerHelperTest extends TestCase
 
     public function testSendReturnsFalseOnException(): void
     {
-        $log = $this->createMock(SvcLog::class);
+        $log = $this->createStub(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('Info');
         $log->method('getMessage')->willReturn('Test message');
@@ -69,8 +71,8 @@ class LoggerHelperTest extends TestCase
 
     public function testSendWithAllExtraFields(): void
     {
-        // Create a mock SvcLog object with all fields set
-        $log = $this->createMock(SvcLog::class);
+        // Create a stub SvcLog object with all fields set
+        $log = $this->createStub(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('Info');
         $log->method('getMessage')->willReturn('Test message');
@@ -116,7 +118,7 @@ class LoggerHelperTest extends TestCase
     public function testSendUsesCorrectLogLevel(LogLevel $level, string $expectedMethod): void
     {
 
-        $log = $this->createMock(SvcLog::class);
+        $log = $this->createStub(SvcLog::class);
         $log->method('getLogLevel')->willReturn($level);
         $log->method('getLogLevelText')->willReturn($level->name);
         $log->method('getMessage')->willReturn('Test message');
@@ -148,7 +150,7 @@ class LoggerHelperTest extends TestCase
 
     public function testSendUsesLogLevelTextIfMessageIsNull(): void
     {
-        $log = $this->createMock(SvcLog::class);
+        $log = $this->createStub(SvcLog::class);
         $log->method('getLogLevel')->willReturn(LogLevel::INFO);
         $log->method('getLogLevelText')->willReturn('InfoText');
         $log->method('getMessage')->willReturn(null);

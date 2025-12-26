@@ -15,6 +15,7 @@ namespace Svc\LogBundle\Tests\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Entity\SvcLog;
@@ -23,6 +24,7 @@ use Svc\LogBundle\Service\EventLog;
 use Svc\LogBundle\Service\LoggerHelper;
 use Symfony\Bundle\SecurityBundle\Security;
 
+#[AllowMockObjectsWithoutExpectations]
 class EventLogTest extends TestCase
 {
     private EventLog $eventLog;

@@ -6,7 +6,6 @@ parameters:
     - src/
     - tests/
   ignoreErrors:
-    - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition.*#'
     - '#Method Svc\\LogBundle\\Tests\\SvcLogTestingKernel::configureRoutes\(\) is unused.#'
     - identifier: doctrine.columnType
     - identifier: missingType.iterableValue

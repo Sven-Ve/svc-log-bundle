@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Exception\DeleteAllLogsForbidden;
@@ -23,6 +24,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+#[AllowMockObjectsWithoutExpectations]
 class LogStatisticsTest extends TestCase
 {
     private LogStatistics $logStatistics;
@@ -31,9 +33,9 @@ class LogStatisticsTest extends TestCase
 
     private SvcLogStatMonthlyRepository&MockObject $statMonRep;
 
-    private RequestStack&MockObject $requestStack;
+    private RequestStack $requestStack;
 
-    private UrlGeneratorInterface&MockObject $router;
+    private UrlGeneratorInterface $router;
 
     private Security&MockObject $security;
 
@@ -41,8 +43,8 @@ class LogStatisticsTest extends TestCase
     {
         $this->svcLogRep = $this->createMock(SvcLogRepository::class);
         $this->statMonRep = $this->createMock(SvcLogStatMonthlyRepository::class);
-        $this->requestStack = $this->createMock(RequestStack::class);
-        $this->router = $this->createMock(UrlGeneratorInterface::class);
+        $this->requestStack = $this->createStub(RequestStack::class);
+        $this->router = $this->createStub(UrlGeneratorInterface::class);
         $this->security = $this->createMock(Security::class);
 
         $this->logStatistics = new LogStatistics(

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Command;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Command\BatchFillLocationCommand;
@@ -21,6 +22,7 @@ use Svc\LogBundle\Service\BatchHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AllowMockObjectsWithoutExpectations]
 class BatchFillLocationCommandTest extends TestCase
 {
     private BatchFillLocationCommand $command;

@@ -73,8 +73,8 @@ class BatchHelper
                 }
 
                 ++$counter;
-                if ($counter == 100) {
-                    $io->writeln(' Sleep 70 seconds because api limit on http://www.geoplugin.net (' . $successCnt . ' countries found).');
+                if ($counter == 40) {
+                    $io->writeln(' Sleep 70 seconds because api limit on ip-api.com (' . $successCnt . ' countries found).');
                     $this->entityManager->flush();
                     sleep(70);
                     $counter = 0;

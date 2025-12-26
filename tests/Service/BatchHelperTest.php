@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Svc\LogBundle\Tests\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Entity\SvcLog;
@@ -22,19 +23,20 @@ use Svc\LogBundle\Repository\SvcLogRepository;
 use Svc\LogBundle\Service\BatchHelper;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AllowMockObjectsWithoutExpectations]
 class BatchHelperTest extends TestCase
 {
     private EntityManagerInterface&MockObject $entityManager;
 
     private SvcLogRepository&MockObject $logRepo;
 
-    private SymfonyStyle&MockObject $io;
+    private SymfonyStyle $io;
 
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->logRepo = $this->createMock(SvcLogRepository::class);
-        $this->io = $this->createMock(SymfonyStyle::class);
+        $this->io = $this->createStub(SymfonyStyle::class);
     }
 
     /**

@@ -80,6 +80,24 @@ The bundle uses jbtronics/settings-bundle instead of traditional Symfony YAML co
 - **PHPStan Configuration**: Level 7 analysis with specific exclusions for EasyAdmin controllers (see `.phpstan.neon`)
 - **Coverage**: Comprehensive test coverage including edge cases and exception handling
 
+#### Test Doubles: Mocks vs. Stubs Best Practices
+The test suite follows PHPUnit best practices for test doubles to avoid "No expectations were configured" notices:
+
+- **Use `createStub()`** for dependencies that only provide return values (no behavior verification)
+  - Example: Stub objects in `LoggerHelperTest.php` where `SvcLog` instances only return data
+  - Stubs are used when you only need `method()->willReturn()` without `expects()`
+
+- **Use `createMock()`** for dependencies where you verify method calls with `expects()`
+  - Example: Mock objects in `EventLogTest.php` where `EntityManager->persist()` must be called once
+  - Mocks are used when you need to assert behavior: `expects($this->once())->method('save')`
+
+- **Use `#[AllowMockObjectsWithoutExpectations]`** attribute for test classes with mixed usage
+  - Applied to test classes where some tests use `expects()` on property mocks, others don't
+  - Example: `EventLogTest`, `DailySummaryHelperTest`, and all Command tests
+  - This attribute prevents PHPUnit notices for property-level mocks used across multiple test methods
+
+**Key Rule**: If a test double is never used with `expects()`, use `createStub()` instead of `createMock()`. This makes test intent clearer and eliminates PHPUnit notices about unconfigured expectations.
+
 ## Bundle Integration Notes
 
 This is a Symfony bundle that should be installed via Composer and registered in `config/bundles.php`. It requires:
@@ -104,6 +122,11 @@ This is a Symfony bundle that should be installed via Composer and registered in
 - **Static Analysis**: Code must pass `composer phpstan` (level 7 analysis)
 - **PHPStan Exclusions**: EasyAdmin controllers are excluded from static analysis
 - **Test Coverage**: New features require comprehensive unit and integration tests
+
+### Release Management
+- **NEVER** edit CHANGELOG.md directly
+- **ALWAYS** use `bin/release.php` for creating releases and updating the changelog
+- The release script handles version bumping, changelog generation, and git tagging automatically
 
 ### Architecture Patterns
 - **Settings-Based Configuration**: Uses jbtronics/settings-bundle instead of YAML configs

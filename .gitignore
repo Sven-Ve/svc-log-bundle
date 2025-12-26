@@ -7,3 +7,4 @@
 .env.local
 /var
 /.php-cs-fixer.cache
+config/reference.php

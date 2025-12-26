@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Svc\LogBundle\Tests\Service;
 
 use Jbtronics\SettingsBundle\Manager\SettingsManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\DataProvider\DataProviderInterface;
@@ -45,6 +46,7 @@ class MockDailySummaryDefinition implements DailySummaryDefinitionInterface
     }
 }
 
+#[AllowMockObjectsWithoutExpectations]
 class DailySummaryHelperTest extends TestCase
 {
     private DailySummaryHelper $helper;
@@ -61,7 +63,7 @@ class DailySummaryHelperTest extends TestCase
 
     private MockObject $validator;
 
-    private MockObject $eventLog;
+    private EventLog $eventLog;
 
     protected function setUp(): void
     {
@@ -71,7 +73,7 @@ class DailySummaryHelperTest extends TestCase
         $this->mailerHelper = $this->createMock(MailerHelper::class);
         $this->settingsManager = $this->createMock(SettingsManagerInterface::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->eventLog = $this->createMock(EventLog::class);
+        $this->eventLog = $this->createStub(EventLog::class);
 
         $this->helper = new DailySummaryHelper(
             $this->dataProvider,
@@ -122,7 +124,7 @@ class DailySummaryHelperTest extends TestCase
         );
 
         $violations = new ConstraintViolationList();
-        $violations->add($this->createMock(\Symfony\Component\Validator\ConstraintViolationInterface::class));
+        $violations->add($this->createStub(\Symfony\Component\Validator\ConstraintViolationInterface::class));
 
         $this->validator->expects($this->once())
             ->method('validate')

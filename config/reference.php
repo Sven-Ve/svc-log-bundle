@@ -186,7 +186,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         only_exceptions?: bool, // Default: false
  *         only_main_requests?: bool, // Default: false
  *         dsn?: scalar|null, // Default: "file:%kernel.cache_dir%/profiler"
- *         collect_serializer_data?: bool, // Enables the serializer data collector and profiler panel. // Default: false
+ *         collect_serializer_data?: true, // Default: true
  *     },
  *     workflows?: bool|array{
  *         enabled?: bool, // Default: false
@@ -230,7 +230,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         enabled?: bool, // Default: false
  *         resource: scalar|null,
  *         type?: scalar|null,
- *         cache_dir?: scalar|null, // Deprecated: Setting the "framework.router.cache_dir.cache_dir" configuration option is deprecated. It will be removed in version 8.0. // Default: "%kernel.build_dir%"
  *         default_uri?: scalar|null, // The default URI used to generate URLs in a non-HTTP context. // Default: null
  *         http_port?: scalar|null, // Default: 80
  *         https_port?: scalar|null, // Default: 443
@@ -254,8 +253,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         gc_maxlifetime?: scalar|null,
  *         save_path?: scalar|null, // Defaults to "%kernel.cache_dir%/sessions" if the "handler_id" option is not null.
  *         metadata_update_threshold?: int, // Seconds to wait between 2 session metadata updates. // Default: 0
- *         sid_length?: int, // Deprecated: Setting the "framework.session.sid_length.sid_length" configuration option is deprecated. It will be removed in version 8.0. No alternative is provided as PHP 8.4 has deprecated the related option.
- *         sid_bits_per_character?: int, // Deprecated: Setting the "framework.session.sid_bits_per_character.sid_bits_per_character" configuration option is deprecated. It will be removed in version 8.0. No alternative is provided as PHP 8.4 has deprecated the related option.
  *     },
  *     request?: bool|array{ // Request configuration
  *         enabled?: bool, // Default: false
@@ -329,11 +326,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     },
  *     validation?: bool|array{ // Validation configuration
  *         enabled?: bool, // Default: true
- *         cache?: scalar|null, // Deprecated: Setting the "framework.validation.cache.cache" configuration option is deprecated. It will be removed in version 8.0.
  *         enable_attributes?: bool, // Default: true
  *         static_method?: list<scalar|null>,
  *         translation_domain?: scalar|null, // Default: "validators"
- *         email_validation_mode?: "html5"|"html5-allow-no-tld"|"strict"|"loose", // Default: "html5"
+ *         email_validation_mode?: "html5"|"html5-allow-no-tld"|"strict", // Default: "html5"
  *         mapping?: array{
  *             paths?: list<scalar|null>,
  *         },
@@ -345,9 +341,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         auto_mapping?: array<string, array{ // Default: []
  *             services?: list<scalar|null>,
  *         }>,
- *     },
- *     annotations?: bool|array{
- *         enabled?: bool, // Default: false
  *     },
  *     serializer?: bool|array{ // Serializer configuration
  *         enabled?: bool, // Default: false
@@ -380,7 +373,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     },
  *     property_info?: bool|array{ // Property info configuration
  *         enabled?: bool, // Default: true
- *         with_constructor_extractor?: bool, // Registers the constructor extractor.
+ *         with_constructor_extractor?: bool, // Registers the constructor extractor. // Default: true
  *     },
  *     cache?: array{ // Cache configuration
  *         prefix_seed?: scalar|null, // Used to namespace cache keys when using several apps with the same shared backend. // Default: "_%kernel.project_dir%.%kernel.container_class%"
@@ -474,7 +467,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         max_host_connections?: int, // The maximum number of connections to a single host.
  *         default_options?: array{
  *             headers?: array<string, mixed>,
- *             vars?: list<mixed>,
+ *             vars?: array<string, mixed>,
  *             max_redirects?: int, // The maximum number of redirects to follow.
  *             http_version?: scalar|null, // The default HTTP version, typically 1.1 or 2.0, leave to null for the best version.
  *             resolve?: array<string, scalar|null>,
@@ -497,7 +490,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *                 md5?: mixed,
  *             },
  *             crypto_method?: scalar|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
- *             extra?: list<mixed>,
+ *             extra?: array<string, mixed>,
  *             rate_limiter?: scalar|null, // Rate limiter name to use for throttling requests. // Default: null
  *             caching?: bool|array{ // Caching configuration.
  *                 enabled?: bool, // Default: false
@@ -550,7 +543,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *                 md5?: mixed,
  *             },
  *             crypto_method?: scalar|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
- *             extra?: list<mixed>,
+ *             extra?: array<string, mixed>,
  *             rate_limiter?: scalar|null, // Rate limiter name to use for throttling requests. // Default: null
  *             caching?: bool|array{ // Caching configuration.
  *                 enabled?: bool, // Default: false
@@ -845,7 +838,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         enable_native_lazy_objects?: bool, // Deprecated: The "enable_native_lazy_objects" option is deprecated and will be removed in DoctrineBundle 4.0, as native lazy objects are now always enabled. // Default: true
  *         controller_resolver?: bool|array{
  *             enabled?: bool, // Default: true
- *             auto_mapping?: bool, // Deprecated: The "auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
+ *             auto_mapping?: bool, // Deprecated: The "doctrine.orm.controller_resolver.auto_mapping.auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
  *             evict_cache?: bool, // Set to true to fetch the entity from the database instead of using the cache, if any // Default: false
  *         },
  *         entity_managers?: array<string, array{ // Default: []

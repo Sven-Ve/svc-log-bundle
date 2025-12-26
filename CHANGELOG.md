@@ -518,3 +518,8 @@
 ## Version 10.1.0
 *Sat, 29 Nov 2025 16:56:30 +0000*
 - tested with symfony 7.4 and symfony 8.
+
+
+## Version 10.2.0
+*Fri, 26 Dec 2025 21:31:41 +0000*
+- modify BatchHelper API limit message (switch to ip-api.com), fixed tests

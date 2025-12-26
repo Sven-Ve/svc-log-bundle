@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Svc\LogBundle\Tests\Command;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Svc\LogBundle\Command\MailDailySummary;
@@ -20,6 +21,7 @@ use Svc\LogBundle\Service\DailySummaryHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AllowMockObjectsWithoutExpectations]
 class MailDailySummaryTest extends TestCase
 {
     private MailDailySummary $command;
