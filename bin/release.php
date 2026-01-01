@@ -6,14 +6,14 @@ declare(strict_types=1);
 /*
  * This file is part of the SvcLog bundle.
  *
- * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ * (c) 2026 Sven Vetter <dev@sv-systems.com>.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-$version = '10.2.0';
-$message = 'modify BatchHelper API limit message (switch to ip-api.com), fixed tests';
+$version = '10.3.0';
+$message = 'add audit command before release and as github action, update license year to 2026';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

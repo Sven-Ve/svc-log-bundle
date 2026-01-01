@@ -6,7 +6,7 @@
 [![License](https://poser.pugx.org/svc/log-bundle/license)](https://packagist.org/packages/svc/log-bundle)
 [![Total Downloads](https://poser.pugx.org/svc/log-bundle/downloads)](https://packagist.org/packages/svc/log-bundle)
 [![PHP Version Require](http://poser.pugx.org/svc/log-bundle/require/php)](https://packagist.org/packages/svc/log-bundle)
-[![Symfony](https://img.shields.io/badge/symfony-7.4%2B%20%7C%208-green)](https://symfony.com/)
+[![Symfony](https://img.shields.io/badge/symfony-7.3%2B%20%7C%208-green)](https://symfony.com/)
 
 
 :warning: **Attention:** <br/>

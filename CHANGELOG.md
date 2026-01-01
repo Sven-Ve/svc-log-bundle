@@ -523,3 +523,8 @@
 ## Version 10.2.0
 *Fri, 26 Dec 2025 21:31:41 +0000*
 - modify BatchHelper API limit message (switch to ip-api.com), fixed tests
+
+
+## Version 10.3.0
+*Thu, 01 Jan 2026 14:43:40 +0000*
+- add audit command before release and as github action, update license year to 2026
