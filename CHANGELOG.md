@@ -528,3 +528,8 @@
 ## Version 10.3.0
 *Thu, 01 Jan 2026 14:43:40 +0000*
 - add audit command before release and as github action, update license year to 2026
+
+
+## Version 10.4.0
+*Sun, 19 Apr 2026 09:39:55 +0000*
+- update svc/util-bundle and symfony packages to latest compatible versions, upgrade phpunit to version 13

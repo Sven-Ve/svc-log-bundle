@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.3.0';
-$message = 'add audit command before release and as github action, update license year to 2026';
+$version = '10.4.0';
+$message = 'update svc/util-bundle and symfony packages to latest compatible versions, upgrade phpunit to version 13';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
