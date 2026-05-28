@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.4.0';
-$message = 'update svc/util-bundle and symfony packages to latest compatible versions, upgrade phpunit to version 13';
+$version = '10.5.0';
+$message = 'add MESSAGE_CF constant to EventLog with Cloudflare icon in log viewer';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

@@ -142,3 +142,25 @@ class EventLog
     ?int $httpStatusCode = null,
   ): bool
 ```
+
+### Built-in message constants
+
+`EventLog` provides constants for well-known message values that receive
+special treatment in the log viewer UI:
+
+| Constant | Value | Log viewer display |
+|---|---|---|
+| `EventLog::MESSAGE_CF` | `'cf'` | Orange cloud icon (list) / orange "Cloudflare" badge (detail) |
+
+Use `MESSAGE_CF` to tag log entries that were served by a Cloudflare Worker
+(edge redirects) rather than by PHP directly:
+
+```php
+use Svc\LogBundle\Service\EventLog;
+
+$eventLog->writeLog(
+    sourceID: $redirect->id,
+    sourceType: AppConstants::LOG_TYPE_REDIRECT,
+    message: EventLog::MESSAGE_CF,
+);
+```

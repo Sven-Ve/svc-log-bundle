@@ -6,7 +6,18 @@
     <tr><th>{% trans %}SourceType{% endtrans %}</th><td>{{ log.sourceTypeText }} (Type: {{ log.sourceType }})</td></tr>
     <tr><th>{% trans %}Level{% endtrans %}</th><td class='{{ log.getLogLevelBootstrap5Class }}'>{{ log.logLevelText }}</td></tr>
     {% if log.message %}
-      <tr><th>{% trans %}Message{% endtrans %}</th><td>{{ log.message }}</td></tr>
+      <tr>
+        <th>{% trans %}Message{% endtrans %}</th>
+        <td>
+          {% if log.message == constant('Svc\\LogBundle\\Service\\EventLog::MESSAGE_CF') %}
+            <span class="badge" style="background-color:#f38020;">
+              <i class="fa-solid fa-cloud me-1"></i>Cloudflare
+            </span>
+          {% else %}
+            {{ log.message }}
+          {% endif %}
+        </td>
+      </tr>
     {% endif %}
     {% if log.errorText %}
       <tr><th>{% trans %}Error{% endtrans %}</th><td>{{ log.errorText }}</td></tr>

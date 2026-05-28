@@ -533,3 +533,8 @@
 ## Version 10.4.0
 *Sun, 19 Apr 2026 09:39:55 +0000*
 - update svc/util-bundle and symfony packages to latest compatible versions, upgrade phpunit to version 13
+
+
+## Version 10.5.0
+*Thu, 28 May 2026 18:27:06 +0000*
+- add MESSAGE_CF constant to EventLog with Cloudflare icon in log viewer

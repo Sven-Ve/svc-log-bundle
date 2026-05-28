@@ -10,7 +10,11 @@
   >
     <td>
       {% if log.message %}
-        <i class="fas fa-comments" title="Message"></i>
+        {% if log.message == constant('Svc\\LogBundle\\Service\\EventLog::MESSAGE_CF') %}
+          <i class="fa-solid fa-cloud" style="color:#f38020;" title="Cloudflare"></i>
+        {% else %}
+          <i class="fas fa-comments" title="Message"></i>
+        {% endif %}
       {% endif %}
       {% if log.userName %}
         <i class="fas fa-user-tag" title="User info"></i>

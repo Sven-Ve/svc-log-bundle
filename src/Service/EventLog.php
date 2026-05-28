@@ -28,6 +28,9 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class EventLog
 {
+    /** Message tag for redirects served by Cloudflare Worker (edge redirects). */
+    public const MESSAGE_CF = 'cf';
+
     private const MAX_MESSAGE_LENGTH = 254;
     private const MAX_ERROR_TEXT_LENGTH = 254;
     private const MAX_IP_LENGTH = 100;

@@ -8,6 +8,13 @@ Quick reference for developers integrating with SvcLogBundle.
 
 Primary service for logging events.
 
+#### Constants
+
+| Constant | Value | Description |
+|---|---|---|
+| `EventLog::MESSAGE_CF` | `'cf'` | Message tag for log entries served by a Cloudflare Worker. Renders as an orange cloud icon in the list view and an orange "Cloudflare" badge in the detail view. |
+
+
 ```php
 use Svc\LogBundle\Service\EventLog;
 use Svc\LogBundle\Enum\LogLevel;
