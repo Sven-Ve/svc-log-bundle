@@ -26,7 +26,7 @@
             </span>
           </td>
           <td class="td-bot {% if not log.botName %}td-bot-empty{% endif %}" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Bot: </span>{{ log.botName ?: '-' }}</td>
-          <td class="td-message" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Message: </span>{{ log.message }}</td>
+          <td class="td-message" style="padding: 10px 8px; border-bottom: 1px solid #e8e8e8; font-size: 13px; vertical-align: top;"><span class="mobile-label">Message: </span>{% if log.message == constant('Svc\\LogBundle\\Service\\EventLog::MESSAGE_CF') %}<span style="background-color:#f38020;color:#ffffff;padding:2px 7px;border-radius:3px;font-size:11px;font-weight:bold;display:inline-block;">&#9729; Cloudflare</span>{% else %}{{ log.message }}{% endif %}</td>
         </tr>
       {% endfor %}
     </tbody>

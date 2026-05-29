@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.6.0';
-$message = 'ready for symfony 8.1, add #[Target] attribute to LoggerHelper and define named autowiring alias to fix Symfony 8.1 deprecation';
+$version = '10.6.1';
+$message = 'show Cloudflare badge in daily summary message column';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

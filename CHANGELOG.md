@@ -543,3 +543,8 @@
 ## Version 10.6.0
 *Fri, 29 May 2026 13:09:12 +0000*
 - ready for symfony 8.1, add #[Target] attribute to LoggerHelper and define named autowiring alias to fix Symfony 8.1 deprecation
+
+
+## Version 10.6.1
+*Fri, 29 May 2026 14:10:43 +0000*
+- show Cloudflare badge in daily summary message column
