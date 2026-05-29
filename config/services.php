@@ -29,6 +29,7 @@ use Svc\LogBundle\Service\LoggerHelper;
 use Svc\LogBundle\Service\LogStatistics;
 use Svc\LogBundle\Service\PurgeHelper;
 use Svc\LogBundle\Service\StatsHelper;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -40,6 +41,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure()
         ->private();
+
+    // Named autowiring alias for LoggerHelper – apps with a "svclog" Monolog channel override this automatically
+    $services->alias(LoggerInterface::class . ' $svclogLogger', 'logger');
 
     // Services
     $services->set(EventLog::class);

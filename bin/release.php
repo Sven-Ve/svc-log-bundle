@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.5.0';
-$message = 'add MESSAGE_CF constant to EventLog with Cloudflare icon in log viewer';
+$version = '10.6.0';
+$message = 'ready for symfony 8.1, add #[Target] attribute to LoggerHelper and define named autowiring alias to fix Symfony 8.1 deprecation';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

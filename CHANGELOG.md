@@ -538,3 +538,8 @@
 ## Version 10.5.0
 *Thu, 28 May 2026 18:27:06 +0000*
 - add MESSAGE_CF constant to EventLog with Cloudflare icon in log viewer
+
+
+## Version 10.6.0
+*Fri, 29 May 2026 13:09:12 +0000*
+- ready for symfony 8.1, add #[Target] attribute to LoggerHelper and define named autowiring alias to fix Symfony 8.1 deprecation

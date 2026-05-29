@@ -15,6 +15,7 @@ namespace Svc\LogBundle\Service;
 
 use Psr\Log\LoggerInterface;
 use Svc\LogBundle\Entity\SvcLog;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Svc\LogBundle\Enum\LogLevel;
 
 /**
@@ -25,6 +26,7 @@ use Svc\LogBundle\Enum\LogLevel;
 class LoggerHelper
 {
     public function __construct(
+        #[Target('svclogLogger')]
         private readonly LoggerInterface $svclogLogger,
     ) {
     }

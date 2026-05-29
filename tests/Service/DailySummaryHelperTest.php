@@ -249,12 +249,12 @@ class DailySummaryHelperTest extends TestCase
             ->method('getDailyLogDataList')
             ->willReturn([$mockLog]);
 
-        $this->dataProvider->expects($this->any())
+        $this->dataProvider->expects($this->atLeastOnce())
             ->method('getSourceTypeText')
             ->with(1)
             ->willReturn('Test Type');
 
-        $this->dataProvider->expects($this->any())
+        $this->dataProvider->expects($this->atLeastOnce())
             ->method('getSourceIDText')
             ->with(1, 1)
             ->willReturn('Test ID');
