@@ -548,3 +548,8 @@
 ## Version 10.6.1
 *Fri, 29 May 2026 14:10:43 +0000*
 - show Cloudflare badge in daily summary message column
+
+
+## Version 10.7.0
+*Sun, 04 Oct 2026 18:58:13 +0000*
+- update settings-bundle version constraint to include 4 and 5

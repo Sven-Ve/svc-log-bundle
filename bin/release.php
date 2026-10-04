@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.6.1';
-$message = 'show Cloudflare badge in daily summary message column';
+$version = '10.7.0';
+$message = 'update settings-bundle version constraint to include 4 and 5';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
