@@ -6,7 +6,6 @@ parameters:
     - src/
     - tests/
   ignoreErrors:
-    - '#Method Svc\\LogBundle\\Tests\\SvcLogTestingKernel::configureRoutes\(\) is unused.#'
     - identifier: doctrine.columnType
     - identifier: missingType.iterableValue
     - identifier: missingType.generics

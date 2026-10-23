@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.7.0';
-$message = 'update settings-bundle version constraint to include 4 and 5';
+$version = '10.8.0';
+$message = 'update dependencies to doctrine/orm 3.7';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

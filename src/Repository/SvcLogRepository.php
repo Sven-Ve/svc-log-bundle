@@ -42,7 +42,7 @@ class SvcLogRepository extends ServiceEntityRepository
     public function getLogPaginator(int $offset, int $sourceID, ?int $sourceType = 0, ?LogLevel $logLevel = null): Paginator
     {
         $query = $this->createQueryBuilder('s')
-          ->orderBy('s.id', 'DESC')
+          ->orderBy('s.id', \SortDirection::Descending)
           ->setMaxResults(self::PAGINATOR_PER_PAGE)
           ->setFirstResult($offset)
           ->where('s.sourceID = :sourceID')
@@ -64,7 +64,7 @@ class SvcLogRepository extends ServiceEntityRepository
     public function getLogPaginatorForViewer(int $offset, ?int $sourceID, ?int $sourceIDC, ?int $sourceType, ?int $sourceTypeC, ?LogLevel $logLevel, ?int $logLevelC, ?string $country): Paginator
     {
         $query = $this->createQueryBuilder('s')
-          ->orderBy('s.id', 'DESC')
+          ->orderBy('s.id', \SortDirection::Descending)
           ->setMaxResults(self::PAGINATOR_PER_PAGE)
           ->setFirstResult($offset);
 
@@ -125,7 +125,7 @@ class SvcLogRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s')
           ->select('s.country, count(s) as cntCountry')
           ->groupBy('s.country')
-          ->orderBy('cntCountry', 'DESC')
+          ->orderBy('cntCountry', \SortDirection::Descending)
           ->where('s.sourceID = :sourceID')
           ->andWhere('s.sourceType = :sourceType')
           ->setParameter('sourceID', $sourceID)
@@ -246,7 +246,7 @@ class SvcLogRepository extends ServiceEntityRepository
         ?ComparisonOperator $logLevelC = null,
     ): array {
         $query = $this->createQueryBuilder('s')
-          ->orderBy('s.id', 'ASC');
+          ->orderBy('s.id', \SortDirection::Ascending);
 
         $query->add('where', $query->expr()->between('s.logDate', ':from', ':to'))
           ->setParameter('from', $startDate)
@@ -285,7 +285,7 @@ class SvcLogRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s')
           ->select('count(s.id) AS logLevelCount, s.logLevel')
           ->addGroupBy('s.logLevel')
-          ->orderBy('s.logLevel', 'ASC');
+          ->orderBy('s.logLevel', \SortDirection::Ascending);
 
         $query->add('where', $query->expr()->between('s.logDate', ':from', ':to'))
         ->setParameter('from', $startDate)

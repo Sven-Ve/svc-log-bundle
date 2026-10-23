@@ -553,3 +553,8 @@
 ## Version 10.7.0
 *Sun, 04 Oct 2026 18:58:13 +0000*
 - update settings-bundle version constraint to include 4 and 5
+
+
+## Version 10.8.0
+*Fri, 23 Oct 2026 19:16:56 +0000*
+- update dependencies to doctrine/orm 3.7
