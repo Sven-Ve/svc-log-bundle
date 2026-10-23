@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '10.8.0';
-$message = 'update dependencies to doctrine/orm 3.7';
+$version = '10.8.1';
+$message = 'fix github actions workflow';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

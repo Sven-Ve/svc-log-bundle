@@ -558,3 +558,8 @@
 ## Version 10.8.0
 *Fri, 23 Oct 2026 19:16:56 +0000*
 - update dependencies to doctrine/orm 3.7
+
+
+## Version 10.8.1
+*Fri, 23 Oct 2026 19:22:43 +0000*
+- fix github actions workflow
